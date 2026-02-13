@@ -1,0 +1,559 @@
+{
+  "adamathome": [
+    "humor",
+    "family"
+  ],
+  "agnes": [
+    "humor",
+    "kids"
+  ],
+  "alley-oop": [
+    "adventure",
+    "classic"
+  ],
+  "andycapp": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "animalcrackers": [
+    "humor",
+    "animals"
+  ],
+  "archie": [
+    "humor",
+    "kids",
+    "classic",
+    "newspaper"
+  ],
+  "arloandjanis": [
+    "humor",
+    "family"
+  ],
+  "babyblues": [
+    "humor",
+    "family",
+    "kids"
+  ],
+  "baldo": [
+    "humor",
+    "family"
+  ],
+  "ballardstreet": [
+    "humor",
+    "slice-of-life"
+  ],
+  "barneyandclyde": [
+    "humor",
+    "family"
+  ],
+  "bc": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "bignate": [
+    "humor",
+    "kids"
+  ],
+  "blondie": [
+    "humor",
+    "family",
+    "classic",
+    "newspaper"
+  ],
+  "bloom-county": [
+    "political",
+    "satire",
+    "humor",
+    "classic"
+  ],
+  "bloomcounty": [
+    "political",
+    "satire",
+    "humor",
+    "classic"
+  ],
+  "boondocks": [
+    "political",
+    "satire",
+    "humor"
+  ],
+  "boundandgagged": [
+    "humor",
+    "satire"
+  ],
+  "breaking-cat-news": [
+    "humor",
+    "animals"
+  ],
+  "brevity": [
+    "humor",
+    "satire"
+  ],
+  "broomhilda": [
+    "humor",
+    "classic"
+  ],
+  "calvinandhobbes": [
+    "humor",
+    "kids",
+    "family",
+    "classic"
+  ],
+  "calvinandhobbesespanol": [
+    "humor",
+    "kids",
+    "family",
+    "classic",
+    "en-espanol"
+  ],
+  "cathy": [
+    "humor",
+    "workplace",
+    "classic"
+  ],
+  "cats-cafe": [
+    "humor",
+    "animals",
+    "web-comic"
+  ],
+  "closetohome": [
+    "humor",
+    "satire"
+  ],
+  "crabgrass": [
+    "humor",
+    "kids"
+  ],
+  "crankshaft": [
+    "humor",
+    "family",
+    "classic"
+  ],
+  "culdesac": [
+    "humor",
+    "kids",
+    "family"
+  ],
+  "dennisthemenace": [
+    "humor",
+    "kids",
+    "classic",
+    "newspaper"
+  ],
+  "dicktracy": [
+    "adventure",
+    "drama",
+    "classic",
+    "newspaper"
+  ],
+  "dilbert": [
+    "humor",
+    "office",
+    "satire",
+    "classic"
+  ],
+  "dinosaur-comics": [
+    "humor",
+    "web-comic"
+  ],
+  "doonesbury": [
+    "political",
+    "satire",
+    "classic"
+  ],
+  "drabble": [
+    "humor",
+    "family"
+  ],
+  "familycircus": [
+    "humor",
+    "family",
+    "kids",
+    "classic",
+    "newspaper"
+  ],
+  "farcus": [
+    "humor",
+    "satire"
+  ],
+  "floandfriends": [
+    "humor",
+    "family",
+    "slice-of-life"
+  ],
+  "forbetterorforworse": [
+    "humor",
+    "family",
+    "classic"
+  ],
+  "fowl-language": [
+    "humor",
+    "family"
+  ],
+  "foxtrot": [
+    "humor",
+    "family",
+    "classic"
+  ],
+  "foxtrotespanol": [
+    "humor",
+    "family",
+    "classic",
+    "en-espanol"
+  ],
+  "frank-and-ernest": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "frazz": [
+    "humor",
+    "kids"
+  ],
+  "fredbasset": [
+    "humor",
+    "animals",
+    "classic"
+  ],
+  "funky-winkerbean": [
+    "humor",
+    "drama"
+  ],
+  "garfield": [
+    "humor",
+    "animals",
+    "classic",
+    "newspaper"
+  ],
+  "garfieldespanol": [
+    "humor",
+    "animals",
+    "classic",
+    "newspaper",
+    "en-espanol"
+  ],
+  "getfuzzy": [
+    "humor",
+    "animals"
+  ],
+  "grand-avenue": [
+    "humor",
+    "kids"
+  ],
+  "hagarthehorrible": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "heartofthecity": [
+    "humor",
+    "kids"
+  ],
+  "heathcliff": [
+    "humor",
+    "animals",
+    "classic",
+    "newspaper"
+  ],
+  "heathcliffespanol": [
+    "humor",
+    "animals",
+    "classic",
+    "newspaper",
+    "en-espanol"
+  ],
+  "herman": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "inthebleachers": [
+    "humor",
+    "slice-of-life"
+  ],
+  "jake-likes-onions": [
+    "humor",
+    "web-comic"
+  ],
+  "jim-benton-cartoons": [
+    "humor",
+    "web-comic"
+  ],
+  "jumpstart": [
+    "humor",
+    "family"
+  ],
+  "lacucaracha": [
+    "humor",
+    "political",
+    "satire"
+  ],
+  "lio": [
+    "humor",
+    "kids"
+  ],
+  "liz-climo-cartoons": [
+    "humor",
+    "animals",
+    "web-comic"
+  ],
+  "lola": [
+    "humor",
+    "family"
+  ],
+  "luann": [
+    "humor",
+    "family",
+    "kids"
+  ],
+  "luannspanish": [
+    "humor",
+    "family",
+    "kids",
+    "en-espanol"
+  ],
+  "lunarbaboon": [
+    "humor",
+    "family",
+    "web-comic"
+  ],
+  "marmaduke": [
+    "humor",
+    "animals",
+    "classic",
+    "newspaper"
+  ],
+  "moderately-confused": [
+    "humor",
+    "satire"
+  ],
+  "monty": [
+    "humor",
+    "satire"
+  ],
+  "mother-goose-and-grimm": [
+    "humor",
+    "animals"
+  ],
+  "nancy": [
+    "humor",
+    "kids",
+    "classic"
+  ],
+  "nonsequitur": [
+    "humor",
+    "political",
+    "satire"
+  ],
+  "offthemark": [
+    "humor",
+    "satire"
+  ],
+  "onebighappy": [
+    "humor",
+    "family",
+    "kids"
+  ],
+  "overboard": [
+    "humor",
+    "adventure"
+  ],
+  "overthehedge": [
+    "humor",
+    "animals"
+  ],
+  "peanuts": [
+    "humor",
+    "kids",
+    "classic",
+    "newspaper"
+  ],
+  "peanuts-espanol": [
+    "humor",
+    "kids",
+    "classic",
+    "newspaper",
+    "en-espanol"
+  ],
+  "pearlsbeforeswine": [
+    "humor",
+    "satire"
+  ],
+  "perry-bible-fellowship": [
+    "humor",
+    "satire",
+    "web-comic"
+  ],
+  "phoebe-and-her-unicorn": [
+    "humor",
+    "kids",
+    "fantasy"
+  ],
+  "pickles": [
+    "humor",
+    "family",
+    "slice-of-life",
+    "newspaper"
+  ],
+  "pluggers": [
+    "humor",
+    "slice-of-life",
+    "newspaper"
+  ],
+  "poochcafe": [
+    "humor",
+    "animals"
+  ],
+  "poorly-drawn-lines": [
+    "humor",
+    "web-comic"
+  ],
+  "realitycheck": [
+    "humor",
+    "satire"
+  ],
+  "reallifeadventures": [
+    "humor",
+    "slice-of-life"
+  ],
+  "redandrover": [
+    "humor",
+    "animals",
+    "kids"
+  ],
+  "roseisrose": [
+    "humor",
+    "family"
+  ],
+  "rubes": [
+    "humor",
+    "animals"
+  ],
+  "sarahs-scribbles": [
+    "humor",
+    "slice-of-life",
+    "web-comic"
+  ],
+  "saturday-morning-breakfast-cereal": [
+    "humor",
+    "sci-fi",
+    "web-comic"
+  ],
+  "scarygary": [
+    "humor",
+    "fantasy"
+  ],
+  "shermanslagoon": [
+    "humor",
+    "animals"
+  ],
+  "shoe": [
+    "humor",
+    "political",
+    "newspaper"
+  ],
+  "speedbump": [
+    "humor",
+    "satire"
+  ],
+  "stonesoup": [
+    "humor",
+    "family"
+  ],
+  "strangebrew": [
+    "humor",
+    "satire"
+  ],
+  "the-adventures-of-business-cat": [
+    "humor",
+    "animals",
+    "workplace",
+    "web-comic"
+  ],
+  "the-awkward-yeti": [
+    "humor",
+    "slice-of-life",
+    "web-comic"
+  ],
+  "theargylesweater": [
+    "humor",
+    "satire"
+  ],
+  "thebarn": [
+    "humor",
+    "animals"
+  ],
+  "thebuckets": [
+    "humor",
+    "family"
+  ],
+  "theflyingmccoys": [
+    "humor",
+    "satire"
+  ],
+  "thegrizzwells": [
+    "humor",
+    "animals"
+  ],
+  "thenorm": [
+    "humor",
+    "workplace"
+  ],
+  "tomthedancingbug": [
+    "humor",
+    "political",
+    "satire"
+  ],
+  "wallace-the-brave": [
+    "humor",
+    "kids",
+    "adventure"
+  ],
+  "wizardofid": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "wizardofidespanol": [
+    "humor",
+    "classic",
+    "newspaper",
+    "en-espanol"
+  ],
+  "wondermark": [
+    "humor",
+    "web-comic"
+  ],
+  "working-daze": [
+    "humor",
+    "workplace"
+  ],
+  "wumo": [
+    "humor",
+    "satire"
+  ],
+  "wumoespanol": [
+    "humor",
+    "satire",
+    "en-espanol"
+  ],
+  "xkcd": [
+    "humor",
+    "nerd",
+    "science",
+    "webcomic"
+  ],
+  "ziggy": [
+    "humor",
+    "classic",
+    "newspaper"
+  ],
+  "ziggyespanol": [
+    "humor",
+    "classic",
+    "newspaper",
+    "en-espanol"
+  ]
+}

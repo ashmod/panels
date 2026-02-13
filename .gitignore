@@ -1,0 +1,18 @@
+# Rust build artifacts
+/target/
+
+# Environment and local overrides
+.env
+.env.*
+!.env.example
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

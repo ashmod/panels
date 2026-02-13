@@ -1,0 +1,2864 @@
+[
+  {
+    "endpoint": "1-and-done",
+    "title": "1 and Done",
+    "author": "Scaduto",
+    "available": true,
+    "startDate": "2015-08-24"
+  },
+  {
+    "endpoint": "9-chickweed-lane",
+    "title": "9 Chickweed Lane",
+    "author": "Brooke McEldowney",
+    "available": true,
+    "startDate": "1993-07-12"
+  },
+  {
+    "endpoint": "9to5",
+    "title": "9 to 5",
+    "author": "Harley Schwadron",
+    "available": true,
+    "startDate": "2001-04-13"
+  },
+  {
+    "endpoint": "a-problem-like-jamal",
+    "title": "A Problem Like Jamal",
+    "author": "Keith Miller",
+    "available": true,
+    "startDate": "2018-06-08"
+  },
+  {
+    "endpoint": "aaggghhh",
+    "title": "Aaggghhh",
+    "author": "Dave Whamond",
+    "available": true,
+    "startDate": "2017-10-10"
+  },
+  {
+    "endpoint": "adamathome",
+    "title": "Adam@Home",
+    "author": "Rob Harrell",
+    "available": true,
+    "startDate": "1995-06-20"
+  },
+  {
+    "endpoint": "adult-children",
+    "title": "Adult Children",
+    "author": "Stephen Beals",
+    "available": true,
+    "startDate": "2014-04-14"
+  },
+  {
+    "endpoint": "agnes",
+    "title": "Agnes",
+    "author": "Tony Cochran",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "aj-and-magnus",
+    "title": "AJ and Magnus",
+    "author": "Jeff Adams",
+    "available": true,
+    "startDate": "2014-08-08"
+  },
+  {
+    "endpoint": "alis-house",
+    "title": "Ali's House",
+    "author": "R. E. Stevens",
+    "available": true,
+    "startDate": "2016-08-01"
+  },
+  {
+    "endpoint": "alley-oop",
+    "title": "Alley Oop",
+    "author": "Jonathan Lemon and Joey Alison Sayers",
+    "available": true,
+    "startDate": "1939-01-03"
+  },
+  {
+    "endpoint": "amanda-the-great",
+    "title": "Amanda the Great",
+    "author": "Matthew Weaver and Maritza Campos",
+    "available": true,
+    "startDate": "2016-11-03"
+  },
+  {
+    "endpoint": "andertoons",
+    "title": "Andertoons",
+    "author": "Mark Anderson",
+    "available": true,
+    "startDate": "2011-09-01"
+  },
+  {
+    "endpoint": "andycapp",
+    "title": "Andy Capp",
+    "author": "Reg Smythe",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "angry-little-girls",
+    "title": "Angry Little Girls",
+    "author": "Lela Lee",
+    "available": true,
+    "startDate": "2011-08-08"
+  },
+  {
+    "endpoint": "animalcrackers",
+    "title": "Animal Crackers",
+    "author": "Mike Osbun",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "annie",
+    "title": "Annie",
+    "author": "Harold Gray",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "archie",
+    "title": "Archie",
+    "author": "Craig Boldman",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
+    "endpoint": "arloandjanis",
+    "title": "Arlo and Janis",
+    "author": "Jimmy Johnson",
+    "available": true,
+    "startDate": "1994-05-02"
+  },
+  {
+    "endpoint": "artbymoga",
+    "title": "Art by Moga",
+    "author": "Moga",
+    "available": true,
+    "startDate": "2022-05-25"
+  },
+  {
+    "endpoint": "askshagg",
+    "title": "Ask Shagg",
+    "author": "Peter Gaffney",
+    "available": true,
+    "startDate": "2002-08-12"
+  },
+  {
+    "endpoint": "aunty-acid",
+    "title": "Aunty Acid",
+    "author": "Ged Backland",
+    "available": true,
+    "startDate": "2013-05-06"
+  },
+  {
+    "endpoint": "babyblues",
+    "title": "Baby Blues",
+    "author": "Rick Kirkman and Jerry Scott",
+    "available": true,
+    "startDate": "1990-01-07"
+  },
+  {
+    "endpoint": "back-to-bc",
+    "title": "Back to B.C.",
+    "author": "Mason Mastroianni",
+    "available": true,
+    "startDate": "2015-08-31"
+  },
+  {
+    "endpoint": "backintheday",
+    "title": "Ike",
+    "author": "Norm Hathaway",
+    "available": true,
+    "startDate": "2010-03-08"
+  },
+  {
+    "endpoint": "bacon",
+    "title": "bacon",
+    "author": "Nick Seman",
+    "available": true,
+    "startDate": "2016-07-17"
+  },
+  {
+    "endpoint": "bad-machinery",
+    "title": "Bad Machinery: Solver",
+    "author": "John Allison",
+    "available": true,
+    "startDate": "2016-04-11"
+  },
+  {
+    "endpoint": "baldo",
+    "title": "Baldo",
+    "author": "Hector Cant\u00fa and Carlos Castellanos",
+    "available": true,
+    "startDate": "2000-04-17"
+  },
+  {
+    "endpoint": "baldoespanol",
+    "title": "Baldo en Espa\u00f1ol",
+    "author": "Hector Cant\u00fa and Carlos Castellanos",
+    "available": true,
+    "startDate": "2000-04-17"
+  },
+  {
+    "endpoint": "ballardstreet",
+    "title": "Ballard Street",
+    "author": "Jerry Van Amerongen",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "banana-triangle",
+    "title": "Banana Triangle",
+    "author": "Ray Billingsley",
+    "available": true,
+    "startDate": "2011-07-18"
+  },
+  {
+    "endpoint": "barkeaterlake",
+    "title": "Barkeater Lake",
+    "author": "Corey Pandolph",
+    "available": true,
+    "startDate": "2007-04-17"
+  },
+  {
+    "endpoint": "barneyandclyde",
+    "title": "Barney & Clyde",
+    "author": "Gene Weingarten, Dan Weingarten and David Clark",
+    "available": true,
+    "startDate": "2010-01-01"
+  },
+  {
+    "endpoint": "basicinstructions",
+    "title": "Basic Instructions",
+    "author": "Scott Meyer",
+    "available": true,
+    "startDate": "2003-02-25"
+  },
+  {
+    "endpoint": "batch-rejection",
+    "title": "Batch Rejection",
+    "author": "Chris Browne",
+    "available": true,
+    "startDate": "2018-08-27"
+  },
+  {
+    "endpoint": "bc",
+    "title": "B.C.",
+    "author": "Mastroianni and Hart",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "beardo",
+    "title": "Beardo",
+    "author": "Dan Dougherty",
+    "available": true,
+    "startDate": "2011-03-01"
+  },
+  {
+    "endpoint": "ben",
+    "title": "Ben",
+    "author": "Daniel Shelton",
+    "available": true,
+    "startDate": "2009-01-01"
+  },
+  {
+    "endpoint": "berger-and-wyse",
+    "title": "Berger & Wyse",
+    "author": "Joe Berger",
+    "available": true,
+    "startDate": "2012-07-20"
+  },
+  {
+    "endpoint": "berkeley-mews",
+    "title": "Berkeley Mews",
+    "author": "Ben Zaehringer",
+    "available": true,
+    "startDate": "2014-11-24"
+  },
+  {
+    "endpoint": "betty",
+    "title": "Betty",
+    "author": "Gary Delainey and Gerry Rasmussen",
+    "available": true,
+    "startDate": "1996-01-01"
+  },
+  {
+    "endpoint": "bfgf-syndrome",
+    "title": "BFGF Syndrome",
+    "author": "Stan Waling",
+    "available": true,
+    "startDate": "2017-07-10"
+  },
+  {
+    "endpoint": "bignate",
+    "title": "Big Nate",
+    "author": "Lincoln Peirce",
+    "available": true,
+    "startDate": "1991-01-07"
+  },
+  {
+    "endpoint": "bigtop",
+    "title": "Big Top",
+    "author": "Rob Harrell",
+    "available": true,
+    "startDate": "2002-04-22"
+  },
+  {
+    "endpoint": "bird-and-moon",
+    "title": "Bird and Moon",
+    "author": "Rosemary Mosco",
+    "available": true,
+    "startDate": "2018-08-13"
+  },
+  {
+    "endpoint": "birdbrains",
+    "title": "Birdbrains",
+    "author": "Thom Bluemel",
+    "available": true,
+    "startDate": "2007-01-01"
+  },
+  {
+    "endpoint": "bleeker",
+    "title": "Bleeker: The Rechargeable Dog",
+    "author": "Jonathan Mahood",
+    "available": true,
+    "startDate": "2006-07-27"
+  },
+  {
+    "endpoint": "bliss",
+    "title": "Bliss",
+    "author": "Harry Bliss",
+    "available": true,
+    "startDate": "2004-09-01"
+  },
+  {
+    "endpoint": "blondie",
+    "title": "Blondie",
+    "author": "Dean Young and John Marshall",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
+    "endpoint": "bloom-county",
+    "title": "Bloom County Continues",
+    "author": "Berke Breathed",
+    "available": true,
+    "startDate": "2015-07-20"
+  },
+  {
+    "endpoint": "bloomcounty",
+    "title": "Bloom County",
+    "author": "Berke Breathed",
+    "available": true,
+    "startDate": "1980-12-08"
+  },
+  {
+    "endpoint": "bob-the-angry-flower",
+    "title": "Bob the Angry Flower",
+    "author": "Stephen Notley",
+    "available": true,
+    "startDate": "2022-10-24"
+  },
+  {
+    "endpoint": "bobthesquirrel",
+    "title": "Bob the Squirrel",
+    "author": "Frank Page",
+    "available": true,
+    "startDate": "2004-01-01"
+  },
+  {
+    "endpoint": "bonanas",
+    "title": "Bo Nanas",
+    "author": "John Kovaleski",
+    "available": true,
+    "startDate": "2004-01-01"
+  },
+  {
+    "endpoint": "boomerangs",
+    "title": "Boomerangs",
+    "author": "Mike Lester",
+    "available": true,
+    "startDate": "2008-06-09"
+  },
+  {
+    "endpoint": "boondocks",
+    "title": "The Boondocks",
+    "author": "Aaron McGruder",
+    "available": true,
+    "startDate": "1999-04-19"
+  },
+  {
+    "endpoint": "bottomliners",
+    "title": "Bottomliners",
+    "author": "Eric and Bill Teitelbaum",
+    "available": true,
+    "startDate": "2001-04-18"
+  },
+  {
+    "endpoint": "boundandgagged",
+    "title": "Bound and Gagged",
+    "author": "Dana Summers",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "bozo",
+    "title": "Bozo",
+    "author": "Foxo Reardon",
+    "available": true,
+    "startDate": "1945-12-17"
+  },
+  {
+    "endpoint": "breaking-cat-news",
+    "title": "Breaking Cat News",
+    "author": "Georgia Dunn",
+    "available": true,
+    "startDate": "2014-10-20"
+  },
+  {
+    "endpoint": "brevity",
+    "title": "Brevity",
+    "author": "Guy Endore-Kaiser and Rodd Perry",
+    "available": true,
+    "startDate": "2005-01-03"
+  },
+  {
+    "endpoint": "brewsterrockit",
+    "title": "Brewster Rockit",
+    "author": "Tim Rickard",
+    "available": true,
+    "startDate": "2004-07-05"
+  },
+  {
+    "endpoint": "broomhilda",
+    "title": "Broom Hilda",
+    "author": "Russell Myers",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "buckles",
+    "title": "Buckles",
+    "author": "David Gilbert",
+    "available": true,
+    "startDate": "2021-05-09"
+  },
+  {
+    "endpoint": "bully",
+    "title": "Bully",
+    "author": "Samson",
+    "available": true,
+    "startDate": "2014-05-05"
+  },
+  {
+    "endpoint": "buni",
+    "title": "Buni",
+    "author": "Ryan Pagelow",
+    "available": true,
+    "startDate": "2007-03-23"
+  },
+  {
+    "endpoint": "calvinandhobbes",
+    "title": "Calvin and Hobbes",
+    "author": "Bill Watterson",
+    "available": true,
+    "startDate": "1985-11-18"
+  },
+  {
+    "endpoint": "calvinandhobbesespanol",
+    "title": "Calvin and Hobbes en Espa\u00f1ol",
+    "author": "Bill Watterson",
+    "available": true,
+    "startDate": "2004-03-01"
+  },
+  {
+    "endpoint": "cathy",
+    "title": "Cathy",
+    "author": "Cathy Guisewite",
+    "available": true,
+    "startDate": "1976-11-22"
+  },
+  {
+    "endpoint": "cathy-commiserations",
+    "title": "Cathy Commiserations",
+    "author": "Cathy Guisewite",
+    "available": true,
+    "startDate": "2018-03-20"
+  },
+  {
+    "endpoint": "cats-cafe",
+    "title": "Cat's Cafe",
+    "author": "Matt Tarpley",
+    "available": true,
+    "startDate": "2019-05-20"
+  },
+  {
+    "endpoint": "cattitude-doggonit",
+    "title": "Cattitude \u2014 Doggonit",
+    "author": "Marty Riskin",
+    "available": true,
+    "startDate": "2016-05-16"
+  },
+  {
+    "endpoint": "cestlavie",
+    "title": "C'est la Vie",
+    "author": "Pascal Wyse",
+    "available": true,
+    "startDate": "2003-11-11"
+  },
+  {
+    "endpoint": "cheer-up-emo-kid",
+    "title": "Cheer Up, Emo Kid",
+    "author": "Enzo",
+    "available": true,
+    "startDate": "2017-03-20"
+  },
+  {
+    "endpoint": "chuckdrawsthings",
+    "title": "Chuck Draws Things",
+    "author": "Chuck Mullins",
+    "available": true,
+    "startDate": "2019-11-18"
+  },
+  {
+    "endpoint": "chucklebros",
+    "title": "Chuckle Bros",
+    "author": "Brian and Ron Boychuk",
+    "available": true,
+    "startDate": "2009-02-02"
+  },
+  {
+    "endpoint": "citizendog",
+    "title": "Citizen Dog",
+    "author": "Mark O'Hare",
+    "available": true,
+    "startDate": "1995-05-15"
+  },
+  {
+    "endpoint": "claw",
+    "title": "Claw",
+    "author": "Bud Blake",
+    "available": true,
+    "startDate": "2008-02-12"
+  },
+  {
+    "endpoint": "cleats",
+    "title": "Cleats",
+    "author": "Bill Hinds",
+    "available": true,
+    "startDate": "2001-11-26"
+  },
+  {
+    "endpoint": "closetohome",
+    "title": "Close to Home",
+    "author": "John McPherson",
+    "available": true,
+    "startDate": "1992-12-07"
+  },
+  {
+    "endpoint": "compu-toon",
+    "title": "Compu-toon",
+    "author": "Charles Boyce",
+    "available": true,
+    "startDate": "2001-04-23"
+  },
+  {
+    "endpoint": "cornered",
+    "title": "Cornered",
+    "author": "Mike Baldwin",
+    "available": true,
+    "startDate": "1997-09-01"
+  },
+  {
+    "endpoint": "cowandboy",
+    "title": "Cow and Boy Classics",
+    "author": "Mark Leiknes",
+    "available": true,
+    "startDate": "2006-01-02"
+  },
+  {
+    "endpoint": "cowtown",
+    "title": "CowTown",
+    "author": "Charlie Podrebarac",
+    "available": true,
+    "startDate": "2010-12-13"
+  },
+  {
+    "endpoint": "crabgrass",
+    "title": "Crabgrass",
+    "author": "Tauhid Bondia",
+    "available": true,
+    "startDate": "2019-04-05"
+  },
+  {
+    "endpoint": "crankshaft",
+    "title": "Crankshaft",
+    "author": "Tom Batiuk and Dan Davis",
+    "available": true,
+    "startDate": "2003-03-17"
+  },
+  {
+    "endpoint": "crumb",
+    "title": "Crumb",
+    "author": "Vickie Craig",
+    "available": true,
+    "startDate": "2008-09-24"
+  },
+  {
+    "endpoint": "culdesac",
+    "title": "Cul de Sac",
+    "author": "Richard Thompson",
+    "available": true,
+    "startDate": "2007-09-10"
+  },
+  {
+    "endpoint": "curses",
+    "title": "Curses!",
+    "author": "Doug Bratton",
+    "available": true,
+    "startDate": "2022-10-31"
+  },
+  {
+    "endpoint": "daddyshome",
+    "title": "Daddy's Home",
+    "author": "Tony Cochran",
+    "available": true,
+    "startDate": "2008-03-23"
+  },
+  {
+    "endpoint": "darksideofthehorse",
+    "title": "Dark Side of the Horse",
+    "author": "Samson",
+    "available": true,
+    "startDate": "2010-06-25"
+  },
+  {
+    "endpoint": "day-by-dave",
+    "title": "Day by Dave",
+    "author": "Dave Whamond",
+    "available": true,
+    "startDate": "2022-12-12"
+  },
+  {
+    "endpoint": "deep-dark-fears",
+    "title": "Deep Dark Fears",
+    "author": "Fran Krause",
+    "available": true,
+    "startDate": "2014-04-14"
+  },
+  {
+    "endpoint": "deflocked",
+    "title": "DeFlocked",
+    "author": "Jeff Corriveau",
+    "available": true,
+    "startDate": "2008-05-05"
+  },
+  {
+    "endpoint": "dennisthemenace",
+    "title": "Dennis the Menace",
+    "author": "Hank Ketcham",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
+    "endpoint": "diamondlil",
+    "title": "Diamond Lil",
+    "author": "Brett Koth",
+    "available": true,
+    "startDate": "2002-06-12"
+  },
+  {
+    "endpoint": "dicktracy",
+    "title": "Dick Tracy",
+    "author": "Joe Staton and Mike Curtis",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "dilbert",
+    "title": "Dilbert",
+    "author": "Scott Adams",
+    "available": true,
+    "startDate": "1989-04-16",
+    "source": "dilbert"
+  },
+  {
+    "endpoint": "dinetteset",
+    "title": "The Dinette Set",
+    "author": "Julie Larson",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "dinosaur-comics",
+    "title": "Dinosaur Comics",
+    "author": "Ryan North",
+    "available": true,
+    "startDate": "2014-08-04"
+  },
+  {
+    "endpoint": "dogeatdoug",
+    "title": "Dog Eat Doug",
+    "author": "Brian Anderson",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "dogsofckennel",
+    "title": "Dogs of C-Kennel",
+    "author": "Mick Mastroianni and Mason Mastroianni",
+    "available": true,
+    "startDate": "2010-10-04"
+  },
+  {
+    "endpoint": "domesticabuse",
+    "title": "Domestic Abuse",
+    "author": "Dave Blazek",
+    "available": true,
+    "startDate": "2004-11-10"
+  },
+  {
+    "endpoint": "don-brutus",
+    "title": "Don Brutus",
+    "author": "Rudy Park",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "doodle-for-food",
+    "title": "Doodle for Food",
+    "author": "Megan McKay",
+    "available": true,
+    "startDate": "2016-11-21"
+  },
+  {
+    "endpoint": "doodle-town",
+    "title": "Doodle Town",
+    "author": "Greg Kearney",
+    "available": true,
+    "startDate": "2014-02-17"
+  },
+  {
+    "endpoint": "doonesbury",
+    "title": "Doonesbury",
+    "author": "Garry Trudeau",
+    "available": true,
+    "startDate": "1970-10-26"
+  },
+  {
+    "endpoint": "drabble",
+    "title": "Drabble",
+    "author": "Kevin Fagan",
+    "available": true,
+    "startDate": "1990-01-11"
+  },
+  {
+    "endpoint": "drewlitton",
+    "title": "Win, Lose, Drew",
+    "author": "Drew Litton",
+    "available": true,
+    "startDate": "2011-05-19"
+  },
+  {
+    "endpoint": "duplex",
+    "title": "The Duplex",
+    "author": "Glenn McCoy and Gary McCoy",
+    "available": true,
+    "startDate": "1996-08-12"
+  },
+  {
+    "endpoint": "edge-city",
+    "title": "Edge City",
+    "author": "Terry and Patty LaBan",
+    "available": true,
+    "startDate": "2016-05-02"
+  },
+  {
+    "endpoint": "eek",
+    "title": "Eek!",
+    "author": "Matt Groening",
+    "available": true,
+    "startDate": "2007-09-10"
+  },
+  {
+    "endpoint": "el-cafe-de-poncho",
+    "title": "El Caf\u00e9 de Poncho",
+    "author": "Paul Gilligan",
+    "available": true,
+    "startDate": "2004-02-23"
+  },
+  {
+    "endpoint": "emmy-lou",
+    "title": "Emmy Lou",
+    "author": "Marty Links",
+    "available": true,
+    "startDate": "2013-02-04"
+  },
+  {
+    "endpoint": "endtown",
+    "title": "Endtown",
+    "author": "Aaron Neathery",
+    "available": true,
+    "startDate": "2009-01-19"
+  },
+  {
+    "endpoint": "eyebeam",
+    "title": "Eyebeam",
+    "author": "Sam Hurt",
+    "available": true,
+    "startDate": "1978-10-05"
+  },
+  {
+    "endpoint": "false-knees",
+    "title": "False Knees",
+    "author": "Joshua Barkman",
+    "available": true,
+    "startDate": "2017-08-28"
+  },
+  {
+    "endpoint": "familycircus",
+    "title": "Family Circus",
+    "author": "Bil Keane and Jeff Keane",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
+    "endpoint": "familytree",
+    "title": "Family Tree",
+    "author": "Signe Wilkinson",
+    "available": true,
+    "startDate": "2008-01-07"
+  },
+  {
+    "endpoint": "farcus",
+    "title": "Farcus",
+    "author": "David Waisglass and Gordon Coulthart",
+    "available": true,
+    "startDate": "1991-12-02"
+  },
+  {
+    "endpoint": "fat-cats",
+    "title": "Fat Cats",
+    "author": "Charlie Podrebarac",
+    "available": true,
+    "startDate": "1998-06-29"
+  },
+  {
+    "endpoint": "floandfriends",
+    "title": "Flo and Friends",
+    "author": "Jenny Campbell",
+    "available": true,
+    "startDate": "2001-11-03"
+  },
+  {
+    "endpoint": "fminus",
+    "title": "F Minus",
+    "author": "Tony Carrillo",
+    "available": true,
+    "startDate": "2005-05-10"
+  },
+  {
+    "endpoint": "foolish-mortals",
+    "title": "Foolish Mortals",
+    "author": "Scott Kauffman",
+    "available": true,
+    "startDate": "2012-09-17"
+  },
+  {
+    "endpoint": "forbetterorforworse",
+    "title": "For Better or For Worse",
+    "author": "Lynn Johnston",
+    "available": true,
+    "startDate": "1979-09-10"
+  },
+  {
+    "endpoint": "forheavenssake",
+    "title": "For Heaven's Sake",
+    "author": "Allison Barrows",
+    "available": true,
+    "startDate": "2002-08-12"
+  },
+  {
+    "endpoint": "four-eyes",
+    "title": "Four Eyes",
+    "author": "Wes Molebash",
+    "available": true,
+    "startDate": "2003-10-14"
+  },
+  {
+    "endpoint": "fowl-language",
+    "title": "Fowl Language",
+    "author": "Brian Gordon",
+    "available": true,
+    "startDate": "2015-11-09"
+  },
+  {
+    "endpoint": "foxtrot",
+    "title": "FoxTrot",
+    "author": "Bill Amend",
+    "available": true,
+    "startDate": "1988-04-11"
+  },
+  {
+    "endpoint": "foxtrotclassics",
+    "title": "FoxTrot Classics",
+    "author": "Bill Amend",
+    "available": true,
+    "startDate": "2007-01-01"
+  },
+  {
+    "endpoint": "foxtrotespanol",
+    "title": "FoxTrot en Espa\u00f1ol",
+    "author": "Bill Amend",
+    "available": true,
+    "startDate": "2004-02-16"
+  },
+  {
+    "endpoint": "francis",
+    "title": "Francis",
+    "author": "Harry Bliss",
+    "available": true,
+    "startDate": "2014-03-30"
+  },
+  {
+    "endpoint": "frank-and-ernest",
+    "title": "Frank and Ernest",
+    "author": "Bob Thaves and Tom Thaves",
+    "available": true,
+    "startDate": "1990-03-10"
+  },
+  {
+    "endpoint": "frazz",
+    "title": "Frazz",
+    "author": "Jef Mallett",
+    "available": true,
+    "startDate": "2001-04-02"
+  },
+  {
+    "endpoint": "fredbasset",
+    "title": "Fred Basset",
+    "author": "Alex Graham",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "fredbassetespanol",
+    "title": "Fred Basset en Espa\u00f1ol",
+    "author": "Alex Graham",
+    "available": true,
+    "startDate": "2004-02-23"
+  },
+  {
+    "endpoint": "freerange",
+    "title": "Free Range",
+    "author": "Bill Whitehead",
+    "available": true,
+    "startDate": "2007-02-03"
+  },
+  {
+    "endpoint": "freshlysqueezed",
+    "title": "Freshly Squeezed",
+    "author": "Ed Stein",
+    "available": true,
+    "startDate": "2010-09-20"
+  },
+  {
+    "endpoint": "frogapplause",
+    "title": "Frog Applause",
+    "author": "Teresa Burritt",
+    "available": true,
+    "startDate": "2006-12-20"
+  },
+  {
+    "endpoint": "funky-winkerbean",
+    "title": "Funky Winkerbean",
+    "author": "Tom Batiuk",
+    "available": true,
+    "startDate": "1972-03-27"
+  },
+  {
+    "endpoint": "furbabies",
+    "title": "FurBabies",
+    "author": "Joe Martin",
+    "available": true,
+    "startDate": "2023-06-05"
+  },
+  {
+    "endpoint": "g-man-webcomics",
+    "title": "G-Man Webcomics",
+    "author": "Chris Giarrusso",
+    "available": true,
+    "startDate": "2015-07-20"
+  },
+  {
+    "endpoint": "garfield",
+    "title": "Garfield",
+    "author": "Jim Davis",
+    "available": true,
+    "startDate": "1978-06-19"
+  },
+  {
+    "endpoint": "garfieldespanol",
+    "title": "Garfield en Espa\u00f1ol",
+    "author": "Jim Davis",
+    "available": true,
+    "startDate": "1999-12-06"
+  },
+  {
+    "endpoint": "gasolinealley",
+    "title": "Gasoline Alley",
+    "author": "Jim Scancarelli",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "gaturro",
+    "title": "Gaturro",
+    "author": "Nik",
+    "available": true,
+    "startDate": "2004-03-20"
+  },
+  {
+    "endpoint": "geech",
+    "title": "Geech",
+    "author": "Jerry Bittle",
+    "available": true,
+    "startDate": "2000-01-01"
+  },
+  {
+    "endpoint": "getalife",
+    "title": "Get a Life",
+    "author": "Rick Detorie",
+    "available": true,
+    "startDate": "2010-04-01"
+  },
+  {
+    "endpoint": "getfuzzy",
+    "title": "Get Fuzzy",
+    "author": "Darby Conley",
+    "available": true,
+    "startDate": "1999-09-06"
+  },
+  {
+    "endpoint": "gil",
+    "title": "Gil",
+    "author": "Norm Feuti",
+    "available": true,
+    "startDate": "2016-01-04"
+  },
+  {
+    "endpoint": "gilthorp",
+    "title": "Gil Thorp",
+    "author": "Henry Barajas and Rod Whigham",
+    "available": true,
+    "startDate": "2001-04-18"
+  },
+  {
+    "endpoint": "gingermeggs",
+    "title": "Ginger Meggs",
+    "author": "Jason Chatfield",
+    "available": true,
+    "startDate": "2004-04-01"
+  },
+  {
+    "endpoint": "gingermeggs-espanol",
+    "title": "Ginger Meggs en Espa\u00f1ol",
+    "author": "Jason Chatfield",
+    "available": true,
+    "startDate": "2004-02-13"
+  },
+  {
+    "endpoint": "glasbergen-cartoons",
+    "title": "Glasbergen Cartoons",
+    "author": "Randy Glasbergen",
+    "available": true,
+    "startDate": "2014-07-28"
+  },
+  {
+    "endpoint": "globetrotter",
+    "title": "Globetrotter",
+    "author": "Nathan Cooper",
+    "available": true,
+    "startDate": "2022-04-11"
+  },
+  {
+    "endpoint": "goats",
+    "title": "Goats",
+    "author": "Jonathan Rosenberg",
+    "available": true,
+    "startDate": "2015-09-24"
+  },
+  {
+    "endpoint": "grand-avenue",
+    "title": "Grand Avenue",
+    "author": "Steve Breen and Mike Thompson",
+    "available": true,
+    "startDate": "1999-04-05"
+  },
+  {
+    "endpoint": "gray-matters",
+    "title": "Gray Matters",
+    "author": "Peter Kohlsaat",
+    "available": true,
+    "startDate": "2012-04-02"
+  },
+  {
+    "endpoint": "green-humour",
+    "title": "Green Humour",
+    "author": "Rohan Chakravarty",
+    "available": true,
+    "startDate": "2013-12-02"
+  },
+  {
+    "endpoint": "hagarthehorrible",
+    "title": "Hagar the Horrible",
+    "author": "Chris Browne",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
+    "endpoint": "haircut-practice",
+    "title": "Haircut Practice",
+    "author": "Meg Humphrey",
+    "available": true,
+    "startDate": "2020-01-20"
+  },
+  {
+    "endpoint": "half-full",
+    "title": "Half Full",
+    "author": "Maria Scrivan",
+    "available": true,
+    "startDate": "2013-09-16"
+  },
+  {
+    "endpoint": "harley",
+    "title": "Harley",
+    "author": "Dan Panosian",
+    "available": true,
+    "startDate": "2017-03-06"
+  },
+  {
+    "endpoint": "heartofthecity",
+    "title": "Heart of the City",
+    "author": "Steenz",
+    "available": true,
+    "startDate": "1999-07-01"
+  },
+  {
+    "endpoint": "heathcliff",
+    "title": "Heathcliff",
+    "author": "Peter Gallagher",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "heathcliffespanol",
+    "title": "Heathcliff en Espa\u00f1ol",
+    "author": "Peter Gallagher",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "herbandjamaal",
+    "title": "Herb and Jamaal",
+    "author": "Stephen Bentley",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "herman",
+    "title": "Herman",
+    "author": "Jim Unger",
+    "available": true,
+    "startDate": "1997-06-02"
+  },
+  {
+    "endpoint": "homeandaway",
+    "title": "Home and Away",
+    "author": "Joey Alison Sayers",
+    "available": true,
+    "startDate": "2008-06-23"
+  },
+  {
+    "endpoint": "homefree",
+    "title": "Home Free",
+    "author": "Jeff Corriveau",
+    "available": true,
+    "startDate": "2022-07-25"
+  },
+  {
+    "endpoint": "hot-comics-for-cool-people",
+    "title": "Hot Comics for Cool People",
+    "author": "Saeed Jones",
+    "available": true,
+    "startDate": "2015-12-14"
+  },
+  {
+    "endpoint": "humble-stumble",
+    "title": "The Humble Stumble",
+    "author": "Zach Weinersmith",
+    "available": true,
+    "startDate": "2005-08-15"
+  },
+  {
+    "endpoint": "hutch-owen",
+    "title": "Hutch Owen",
+    "author": "Tom Hart",
+    "available": true,
+    "startDate": "2013-01-28"
+  },
+  {
+    "endpoint": "imaginethis",
+    "title": "Imagine This",
+    "author": "Lucas Turnbloom",
+    "available": true,
+    "startDate": "2009-04-08"
+  },
+  {
+    "endpoint": "imogen-quest",
+    "title": "Imogen Quest",
+    "author": "Rod Perez",
+    "available": true,
+    "startDate": "2017-03-27"
+  },
+  {
+    "endpoint": "in-security",
+    "title": "In Security",
+    "author": "Michael Fry",
+    "available": true,
+    "startDate": "2017-01-02"
+  },
+  {
+    "endpoint": "inkpen",
+    "title": "Ink Pen",
+    "author": "Phil Dunlap",
+    "available": true,
+    "startDate": "2005-11-07"
+  },
+  {
+    "endpoint": "inthebleachers",
+    "title": "In the Bleachers",
+    "author": "Steve Moore",
+    "available": true,
+    "startDate": "1986-04-10"
+  },
+  {
+    "endpoint": "inthesticks",
+    "title": "In the Sticks",
+    "author": "Ed McLachlan",
+    "available": true,
+    "startDate": "2009-10-11"
+  },
+  {
+    "endpoint": "invisible-bread",
+    "title": "Invisible Bread",
+    "author": "Justin Boyd",
+    "available": true,
+    "startDate": "2013-03-11"
+  },
+  {
+    "endpoint": "itsallaboutyou",
+    "title": "It's All About You",
+    "author": "Chris Seery",
+    "available": true,
+    "startDate": "2007-12-31"
+  },
+  {
+    "endpoint": "jake-likes-onions",
+    "title": "Jake Likes Onions",
+    "author": "Jake Thompson",
+    "available": true,
+    "startDate": "2017-08-14"
+  },
+  {
+    "endpoint": "janesworld",
+    "title": "Jane's World",
+    "author": "Paige Braddock",
+    "available": true,
+    "startDate": "2002-04-01"
+  },
+  {
+    "endpoint": "jerry-king-comics",
+    "title": "Jerry King Comics",
+    "author": "Jerry King",
+    "available": true,
+    "startDate": "2022-10-03"
+  },
+  {
+    "endpoint": "jim-benton-cartoons",
+    "title": "Jim Benton Cartoons",
+    "author": "Jim Benton",
+    "available": true,
+    "startDate": "2011-11-23"
+  },
+  {
+    "endpoint": "jumpstart",
+    "title": "JumpStart",
+    "author": "Robb Armstrong",
+    "available": true,
+    "startDate": "1996-01-01"
+  },
+  {
+    "endpoint": "junk-drawer",
+    "title": "Junk Drawer",
+    "author": "Ellis Rosen",
+    "available": true,
+    "startDate": "2019-09-23"
+  },
+  {
+    "endpoint": "justo-y-franco",
+    "title": "Justo y Franco",
+    "author": "Dossi",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "kid-beowulf",
+    "title": "Kid Beowulf",
+    "author": "Alexis Fajardo",
+    "available": true,
+    "startDate": "2014-07-07"
+  },
+  {
+    "endpoint": "kitchen-capers",
+    "title": "Kitchen Capers",
+    "author": "Jim Whiting",
+    "available": true,
+    "startDate": "2001-08-18"
+  },
+  {
+    "endpoint": "kliban",
+    "title": "Kliban",
+    "author": "B. Kliban",
+    "available": true,
+    "startDate": "2010-04-08"
+  },
+  {
+    "endpoint": "klibans-cats",
+    "title": "Kliban's Cats",
+    "author": "B. Kliban",
+    "available": true,
+    "startDate": "2012-03-27"
+  },
+  {
+    "endpoint": "la-cucaracha-en-espanol",
+    "title": "La Cucaracha en Espa\u00f1ol",
+    "author": "Lalo Alcaraz",
+    "available": true,
+    "startDate": "2013-11-11"
+  },
+  {
+    "endpoint": "lacucaracha",
+    "title": "La Cucaracha",
+    "author": "Lalo Alcaraz",
+    "available": true,
+    "startDate": "2002-11-25"
+  },
+  {
+    "endpoint": "lards-world-peace-tips",
+    "title": "Lard's World Peace Tips",
+    "author": "Lard",
+    "available": true,
+    "startDate": "2014-04-07"
+  },
+  {
+    "endpoint": "lastkiss",
+    "title": "Last Kiss",
+    "author": "John Lustig",
+    "available": true,
+    "startDate": "2009-01-19"
+  },
+  {
+    "endpoint": "laughing-redhead-comics",
+    "title": "Laughing Redhead Comics",
+    "author": "Rebecca Burg",
+    "available": true,
+    "startDate": "2017-06-26"
+  },
+  {
+    "endpoint": "lay-lines",
+    "title": "Lay Lines",
+    "author": "Mike Witmer",
+    "available": true,
+    "startDate": "2015-01-26"
+  },
+  {
+    "endpoint": "learn-to-speak-cat",
+    "title": "Learn to Speak Cat",
+    "author": "Anthony Smith",
+    "available": true,
+    "startDate": "2015-02-02"
+  },
+  {
+    "endpoint": "libertymeadows",
+    "title": "Liberty Meadows",
+    "author": "Frank Cho",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "life-on-earth",
+    "title": "Life on Earth",
+    "author": "Matt Bors",
+    "available": true,
+    "startDate": "2017-10-10"
+  },
+  {
+    "endpoint": "lil-abner",
+    "title": "Li'l Abner",
+    "author": "Al Capp",
+    "available": true,
+    "startDate": "1934-08-19"
+  },
+  {
+    "endpoint": "lio",
+    "title": "Lio",
+    "author": "Mark Tatulli",
+    "available": true,
+    "startDate": "2006-05-15"
+  },
+  {
+    "endpoint": "lioespanol",
+    "title": "Lio en Espa\u00f1ol",
+    "author": "Mark Tatulli",
+    "available": true,
+    "startDate": "2007-01-01"
+  },
+  {
+    "endpoint": "little-fried-chicken-and-sushi",
+    "title": "Little Fried Chicken and Sushi",
+    "author": "Keith Knight",
+    "available": true,
+    "startDate": "2014-05-26"
+  },
+  {
+    "endpoint": "little-moments-of-love",
+    "title": "Catana Comics",
+    "author": "Catana Chetwynd",
+    "available": true,
+    "startDate": "2018-09-24"
+  },
+  {
+    "endpoint": "little-nemo",
+    "title": "Little Nemo",
+    "author": "Winsor McCay",
+    "available": true,
+    "startDate": "2014-10-15"
+  },
+  {
+    "endpoint": "littledoglost",
+    "title": "Little Dog Lost",
+    "author": "Steve Boreman",
+    "available": true,
+    "startDate": "2007-03-26"
+  },
+  {
+    "endpoint": "liz-climo-cartoons",
+    "title": "Liz Climo Cartoons",
+    "author": "Liz Climo",
+    "available": true,
+    "startDate": "2018-03-26"
+  },
+  {
+    "endpoint": "lockhorns",
+    "title": "The Lockhorns",
+    "author": "Bunny Hoest and John Reiner",
+    "available": true,
+    "startDate": "2002-11-25"
+  },
+  {
+    "endpoint": "lola",
+    "title": "Lola",
+    "author": "Todd Clark",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "lola-en-espanol",
+    "title": "Lola en Espa\u00f1ol",
+    "author": "Todd Clark",
+    "available": true,
+    "startDate": "2005-05-02"
+  },
+  {
+    "endpoint": "long-story-short",
+    "title": "Long Story Short",
+    "author": "Bill Whitehead",
+    "available": true,
+    "startDate": "2017-11-20"
+  },
+  {
+    "endpoint": "looks-good-on-paper",
+    "title": "Looks Good on Paper",
+    "author": "Steve Watkins",
+    "available": true,
+    "startDate": "2015-04-13"
+  },
+  {
+    "endpoint": "looseparts",
+    "title": "Loose Parts",
+    "author": "Dave Blazek",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "los-osorios",
+    "title": "Los Osorios",
+    "author": "John Kovaleski",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "lostsheep",
+    "title": "Lost Sheep",
+    "author": "Scott Nickel",
+    "available": true,
+    "startDate": "2003-07-30"
+  },
+  {
+    "endpoint": "luann",
+    "title": "Luann",
+    "author": "Greg Evans",
+    "available": true,
+    "startDate": "1985-03-17"
+  },
+  {
+    "endpoint": "luann-againn",
+    "title": "Luann Againn",
+    "author": "Greg Evans",
+    "available": true,
+    "startDate": "2013-03-17"
+  },
+  {
+    "endpoint": "luannspanish",
+    "title": "Luann en Espa\u00f1ol",
+    "author": "Greg Evans",
+    "available": true,
+    "startDate": "2014-06-23"
+  },
+  {
+    "endpoint": "luckycow",
+    "title": "Lucky Cow",
+    "author": "Mark Pett",
+    "available": true,
+    "startDate": "2003-04-21"
+  },
+  {
+    "endpoint": "lug-nuts",
+    "title": "Lug Nuts",
+    "author": "Steve Skelton",
+    "available": true,
+    "startDate": "2014-09-01"
+  },
+  {
+    "endpoint": "lunarbaboon",
+    "title": "Lunarbaboon",
+    "author": "Christopher Grady",
+    "available": true,
+    "startDate": "2015-10-05"
+  },
+  {
+    "endpoint": "maintaining",
+    "title": "Maintaining",
+    "author": "Nate Fakes",
+    "available": true,
+    "startDate": "2007-05-07"
+  },
+  {
+    "endpoint": "mannequin-on-the-moon",
+    "title": "Mannequin on the Moon",
+    "author": "Michael J. West",
+    "available": true,
+    "startDate": "2021-02-22"
+  },
+  {
+    "endpoint": "marias-day",
+    "title": "Maria's Day",
+    "author": "Jose Garrido",
+    "available": true,
+    "startDate": "2012-03-21"
+  },
+  {
+    "endpoint": "marmaduke",
+    "title": "Marmaduke",
+    "author": "Paul Anderson",
+    "available": true,
+    "startDate": "1996-12-30"
+  },
+  {
+    "endpoint": "meaningoflila",
+    "title": "The Meaning of Lila",
+    "author": "John Forgetta and L. A. Rose",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "medium-large",
+    "title": "Medium Large",
+    "author": "Francesco Marciuliano",
+    "available": true,
+    "startDate": "2003-01-17"
+  },
+  {
+    "endpoint": "messy-cow",
+    "title": "Messycow Comics",
+    "author": "Robb Allen",
+    "available": true,
+    "startDate": "2018-06-04"
+  },
+  {
+    "endpoint": "mexikid-stories",
+    "title": "Mexikid Stories",
+    "author": "Pedro Martin",
+    "available": true,
+    "startDate": "2012-01-20"
+  },
+  {
+    "endpoint": "mike-du-jour",
+    "title": "Mike du Jour",
+    "author": "Mike Lester",
+    "available": true,
+    "startDate": "2012-01-01"
+  },
+  {
+    "endpoint": "miss-peach",
+    "title": "Miss Peach",
+    "author": "Mell Lazarus",
+    "available": true,
+    "startDate": "1988-03-21"
+  },
+  {
+    "endpoint": "moderately-confused",
+    "title": "Moderately Confused",
+    "author": "Jeff Stahler",
+    "available": true,
+    "startDate": "2003-03-03"
+  },
+  {
+    "endpoint": "molly-and-the-bear",
+    "title": "Molly and the Bear",
+    "author": "Bob Scott",
+    "available": true,
+    "startDate": "2009-01-19"
+  },
+  {
+    "endpoint": "momma",
+    "title": "Momma",
+    "author": "Mell Lazarus",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "monty",
+    "title": "Monty",
+    "author": "Jim Meddick",
+    "available": true,
+    "startDate": "2001-04-02"
+  },
+  {
+    "endpoint": "monty-diaros",
+    "title": "Monty Diaros",
+    "author": "Jim Meddick",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "mother-goose-and-grimm",
+    "title": "Mother Goose and Grimm",
+    "author": "Mike Peters",
+    "available": true,
+    "startDate": "2002-11-25"
+  },
+  {
+    "endpoint": "motley-classics",
+    "title": "Motley Classics",
+    "author": "Ben Templeton",
+    "available": true,
+    "startDate": "2000-01-01"
+  },
+  {
+    "endpoint": "mr-lowe",
+    "title": "Mr. Lowe",
+    "author": "Mike Lowe",
+    "available": true,
+    "startDate": "2015-05-18"
+  },
+  {
+    "endpoint": "muttandjeff",
+    "title": "Mutt & Jeff",
+    "author": "Bud Fisher",
+    "available": true,
+    "startDate": "2003-01-06"
+  },
+  {
+    "endpoint": "muttandjeffespanol",
+    "title": "Benitin y Eneas",
+    "author": "Bud Fisher",
+    "available": true,
+    "startDate": "2004-03-20"
+  },
+  {
+    "endpoint": "my-dad-is-dracula",
+    "title": "My Dad is Dracula",
+    "author": "Lonnie Easterling",
+    "available": true,
+    "startDate": "2005-08-23"
+  },
+  {
+    "endpoint": "mythtickle",
+    "title": "MythTickle",
+    "author": "Justin Thompson",
+    "available": true,
+    "startDate": "2007-11-15"
+  },
+  {
+    "endpoint": "nancy",
+    "title": "Nancy",
+    "author": "Olivia Jaimes",
+    "available": true,
+    "startDate": "1948-01-05"
+  },
+  {
+    "endpoint": "nancy-classics",
+    "title": "Nancy Classics",
+    "author": "Ernie Bushmiller",
+    "available": true,
+    "startDate": "2015-02-23"
+  },
+  {
+    "endpoint": "nate-el-grande",
+    "title": "Nate el Grande",
+    "author": "Lincoln Peirce",
+    "available": true,
+    "startDate": "2011-06-06"
+  },
+  {
+    "endpoint": "nestheads",
+    "title": "Nest Heads",
+    "author": "Jay Parker",
+    "available": true,
+    "startDate": "2003-05-30"
+  },
+  {
+    "endpoint": "neurotica",
+    "title": "NEUROTICA",
+    "author": "Jonathan Ian Mathers",
+    "available": true,
+    "startDate": "2003-12-21"
+  },
+  {
+    "endpoint": "next-door-neighbors",
+    "title": "Next Door Neighbors",
+    "author": "Chris Browne",
+    "available": true,
+    "startDate": "2001-01-21"
+  },
+  {
+    "endpoint": "nick-and-zuzu",
+    "title": "Nick and Zuzu",
+    "author": "Rachel Dukes",
+    "available": true,
+    "startDate": "2013-07-01"
+  },
+  {
+    "endpoint": "nonsequitur",
+    "title": "Non Sequitur",
+    "author": "Wiley Miller",
+    "available": true,
+    "startDate": "1992-02-16"
+  },
+  {
+    "endpoint": "not-invented-here",
+    "title": "Not Invented Here",
+    "author": "Bill Barnes and Paul Roman Martinez",
+    "available": true,
+    "startDate": "2015-12-28"
+  },
+  {
+    "endpoint": "nothing-is-not-something",
+    "title": "Nothing is Not Something",
+    "author": "Grant Scheurnbrand",
+    "available": true,
+    "startDate": "2012-11-12"
+  },
+  {
+    "endpoint": "now-recharging",
+    "title": "Now Recharging",
+    "author": "Randy Glasbergen",
+    "available": true,
+    "startDate": "2016-09-26"
+  },
+  {
+    "endpoint": "offthemark",
+    "title": "Off the Mark",
+    "author": "Mark Parisi",
+    "available": true,
+    "startDate": "2002-09-02"
+  },
+  {
+    "endpoint": "oh-brother",
+    "title": "Oh, Brother!",
+    "author": "Bob Weber Jr.",
+    "available": true,
+    "startDate": "2012-04-16"
+  },
+  {
+    "endpoint": "ollie-and-quentin",
+    "title": "Ollie and Quentin",
+    "author": "Piers Baker",
+    "available": true,
+    "startDate": "2012-07-30"
+  },
+  {
+    "endpoint": "onaclaireday",
+    "title": "On A Claire Day",
+    "author": "Carla Ventresca and Henry Beckett",
+    "available": true,
+    "startDate": "2006-06-18"
+  },
+  {
+    "endpoint": "onebighappy",
+    "title": "One Big Happy",
+    "author": "Rick Detorie",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "ordinary-bill",
+    "title": "Ordinary Bill",
+    "author": "Scott Ketcham",
+    "available": true,
+    "startDate": "2012-02-26"
+  },
+  {
+    "endpoint": "origins-of-the-sunday-comics",
+    "title": "Origins of the Sunday Comics",
+    "author": "Peter Maresca",
+    "available": true,
+    "startDate": "2013-07-15"
+  },
+  {
+    "endpoint": "our-super-adventure",
+    "title": "Our Super Adventure",
+    "author": "Sarah Graley",
+    "available": true,
+    "startDate": "2019-07-08"
+  },
+  {
+    "endpoint": "outland",
+    "title": "Outland",
+    "author": "Berke Breathed",
+    "available": true,
+    "startDate": "1989-09-03"
+  },
+  {
+    "endpoint": "outofthegenepool",
+    "title": "Out of the Gene Pool",
+    "author": "Matt Janz",
+    "available": true,
+    "startDate": "2001-12-31"
+  },
+  {
+    "endpoint": "overboard",
+    "title": "Overboard",
+    "author": "Chip Dunham",
+    "available": true,
+    "startDate": "1990-08-20"
+  },
+  {
+    "endpoint": "overboardespanol",
+    "title": "Overboard en Espa\u00f1ol",
+    "author": "Chip Dunham",
+    "available": true,
+    "startDate": "2004-02-23"
+  },
+  {
+    "endpoint": "overthehedge",
+    "title": "Over the Hedge",
+    "author": "Michael Fry and T Lewis",
+    "available": true,
+    "startDate": "1995-06-12"
+  },
+  {
+    "endpoint": "ozy-and-millie",
+    "title": "Ozy and Millie",
+    "author": "D. C. Simpson",
+    "available": true,
+    "startDate": "2013-03-04"
+  },
+  {
+    "endpoint": "peanuts",
+    "title": "Peanuts",
+    "author": "Charles Schulz",
+    "available": true,
+    "startDate": "1950-10-02"
+  },
+  {
+    "endpoint": "peanuts-begins",
+    "title": "Peanuts Begins",
+    "author": "Charles Schulz",
+    "available": true,
+    "startDate": "1950-10-02"
+  },
+  {
+    "endpoint": "peanuts-espanol",
+    "title": "Peanuts en Espa\u00f1ol",
+    "author": "Charles Schulz",
+    "available": true,
+    "startDate": "2011-02-11"
+  },
+  {
+    "endpoint": "pearlsbeforeswine",
+    "title": "Pearls Before Swine",
+    "author": "Stephan Pastis",
+    "available": true,
+    "startDate": "2002-01-07"
+  },
+  {
+    "endpoint": "periquita",
+    "title": "Periquita",
+    "author": "Fran",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "perlas-para-los-cerdos",
+    "title": "Perlas Para Los Cerdos",
+    "author": "Stephan Pastis",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "perry-bible-fellowship",
+    "title": "Perry Bible Fellowship",
+    "author": "Nicholas Gurewitch",
+    "available": true,
+    "startDate": "2014-11-07"
+  },
+  {
+    "endpoint": "phoebe-and-her-unicorn",
+    "title": "Phoebe and Her Unicorn",
+    "author": "Dana Simpson",
+    "available": true,
+    "startDate": "2012-01-15"
+  },
+  {
+    "endpoint": "pibgorn",
+    "title": "Pibgorn",
+    "author": "Brooke McEldowney",
+    "available": true,
+    "startDate": "2002-03-11"
+  },
+  {
+    "endpoint": "pibgornsketches",
+    "title": "Pibgorn Sketches",
+    "author": "Brooke McEldowney",
+    "available": true,
+    "startDate": "2008-07-14"
+  },
+  {
+    "endpoint": "pickles",
+    "title": "Pickles",
+    "author": "Brian Crane",
+    "available": true,
+    "startDate": "2003-01-01"
+  },
+  {
+    "endpoint": "please-listen-to-me",
+    "title": "Please Listen to Me",
+    "author": "Livy Long",
+    "available": true,
+    "startDate": "2015-12-21"
+  },
+  {
+    "endpoint": "pluggers",
+    "title": "Pluggers",
+    "author": "Gary Brookins and Jeff Harris",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "poochcafe",
+    "title": "Pooch Cafe",
+    "author": "Paul Gilligan",
+    "available": true,
+    "startDate": "2003-04-27"
+  },
+  {
+    "endpoint": "poorcraft",
+    "title": "Poorcraft",
+    "author": "C. Spike Trotman and Diana Nock",
+    "available": true,
+    "startDate": "2016-09-12"
+  },
+  {
+    "endpoint": "poorly-drawn-lines",
+    "title": "Poorly Drawn Lines",
+    "author": "Reza Farazmand",
+    "available": true,
+    "startDate": "2013-09-18"
+  },
+  {
+    "endpoint": "pot-shots",
+    "title": "Pot-Shots",
+    "author": "Ashleigh Brilliant",
+    "available": true,
+    "startDate": "2015-05-11"
+  },
+  {
+    "endpoint": "preteena",
+    "title": "PreTeena",
+    "author": "Allison Barrows",
+    "available": true,
+    "startDate": "2001-04-23"
+  },
+  {
+    "endpoint": "pricklycity",
+    "title": "Prickly City",
+    "author": "Scott Stantis",
+    "available": true,
+    "startDate": "2004-07-11"
+  },
+  {
+    "endpoint": "questionable-quotebook",
+    "title": "Questionable Quotebook",
+    "author": "Dave Blazek",
+    "available": true,
+    "startDate": "2016-02-01"
+  },
+  {
+    "endpoint": "rabbitsagainstmagic",
+    "title": "Rabbits Against Magic",
+    "author": "Keith Tutt",
+    "available": true,
+    "startDate": "2008-05-31"
+  },
+  {
+    "endpoint": "raising-duncan",
+    "title": "Raising Duncan",
+    "author": "Chris Browne",
+    "available": true,
+    "startDate": "2000-07-17"
+  },
+  {
+    "endpoint": "randolphitch",
+    "title": "Randolph Itch, 2 a.m.",
+    "author": "Norm Feuti",
+    "available": true,
+    "startDate": "2000-01-03"
+  },
+  {
+    "endpoint": "realitycheck",
+    "title": "Reality Check",
+    "author": "Dave Whamond",
+    "available": true,
+    "startDate": "1997-01-01"
+  },
+  {
+    "endpoint": "reallifeadventures",
+    "title": "Real Life Adventures",
+    "author": "Gary Wise and Lance Aldrich",
+    "available": true,
+    "startDate": "2010-01-01"
+  },
+  {
+    "endpoint": "redandrover",
+    "title": "Red and Rover",
+    "author": "Brian Basset",
+    "available": true,
+    "startDate": "2000-05-07"
+  },
+  {
+    "endpoint": "redmeat",
+    "title": "Red Meat",
+    "author": "Max Cannon",
+    "available": true,
+    "startDate": "2002-03-19"
+  },
+  {
+    "endpoint": "richards-poor-almanac",
+    "title": "Richard's Poor Almanac",
+    "author": "Richard Thompson",
+    "available": true,
+    "startDate": "2010-12-16"
+  },
+  {
+    "endpoint": "riphaywire",
+    "title": "Rip Haywire",
+    "author": "Dan Thompson",
+    "available": true,
+    "startDate": "2009-01-05"
+  },
+  {
+    "endpoint": "ripleys-en-espanol",
+    "title": "Ripley\u2019s \u00a1Aunque Usted no lo Crea!",
+    "author": "Kieran Casta\u00f1o",
+    "available": true,
+    "startDate": "2011-06-27"
+  },
+  {
+    "endpoint": "ripleysbelieveitornot",
+    "title": "Ripley's Believe It or Not",
+    "author": "Kieran Casta\u00f1o",
+    "available": true,
+    "startDate": "1996-01-01"
+  },
+  {
+    "endpoint": "robbie-and-bobby",
+    "title": "Robbie and Bobby",
+    "author": "John Zakour and Scott Roberts",
+    "available": true,
+    "startDate": "2013-06-24"
+  },
+  {
+    "endpoint": "roseisrose",
+    "title": "Rose Is Rose",
+    "author": "Don Wimmer and Pat Brady",
+    "available": true,
+    "startDate": "1986-01-01"
+  },
+  {
+    "endpoint": "rubes",
+    "title": "Rubes",
+    "author": "Leigh Rubin",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "sarahs-scribbles",
+    "title": "Sarah's Scribbles",
+    "author": "Sarah Andersen",
+    "available": true,
+    "startDate": "2014-01-02"
+  },
+  {
+    "endpoint": "saturday-morning-breakfast-cereal",
+    "title": "Saturday Morning Breakfast Cereal",
+    "author": "Zach Weinersmith",
+    "available": true,
+    "startDate": "2014-07-14"
+  },
+  {
+    "endpoint": "savage-chickens",
+    "title": "Savage Chickens",
+    "author": "Doug Savage",
+    "available": true,
+    "startDate": "2012-06-25"
+  },
+  {
+    "endpoint": "scarygary",
+    "title": "Scary Gary",
+    "author": "Mark Buford",
+    "available": true,
+    "startDate": "2009-02-02"
+  },
+  {
+    "endpoint": "scenes-from-a-multiverse",
+    "title": "Scenes from a Multiverse",
+    "author": "Jon Rosenberg",
+    "available": true,
+    "startDate": "2015-08-31"
+  },
+  {
+    "endpoint": "shen-comix",
+    "title": "Shen Comix",
+    "author": "Shen",
+    "available": true,
+    "startDate": "2009-12-16"
+  },
+  {
+    "endpoint": "shermanslagoon",
+    "title": "Sherman's Lagoon",
+    "author": "Jim Toomey",
+    "available": true,
+    "startDate": "2002-12-09"
+  },
+  {
+    "endpoint": "shirley-and-son-classics",
+    "title": "Shirley and Son Classics",
+    "author": "Jerry Bittle",
+    "available": true,
+    "startDate": "2000-10-02"
+  },
+  {
+    "endpoint": "shoe",
+    "title": "Shoe",
+    "author": "Chris Cassatt and Gary Brookins",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "sketchshark-comics",
+    "title": "Sketchshark Comics",
+    "author": "Steve Witt",
+    "available": true,
+    "startDate": "2016-08-29"
+  },
+  {
+    "endpoint": "skinhorse",
+    "title": "Skin Horse",
+    "author": "Shaenon Garrity and Jeffrey Wells",
+    "available": true,
+    "startDate": "2007-12-31"
+  },
+  {
+    "endpoint": "skippy",
+    "title": "Skippy",
+    "author": "Percy Crosby",
+    "available": true,
+    "startDate": "1925-06-22"
+  },
+  {
+    "endpoint": "small-potatoes",
+    "title": "Small Potatoes",
+    "author": "Bob Vojtko",
+    "available": true,
+    "startDate": "2016-10-03"
+  },
+  {
+    "endpoint": "snow-sez",
+    "title": "Snow Sez",
+    "author": "Jeff Stahler",
+    "available": true,
+    "startDate": "2015-10-12"
+  },
+  {
+    "endpoint": "speedbump",
+    "title": "Speed Bump",
+    "author": "Dave Coverly",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "spirit-of-the-staircase",
+    "title": "Spirit of the Staircase",
+    "author": "David Malki",
+    "available": true,
+    "startDate": "2016-07-28"
+  },
+  {
+    "endpoint": "spot-the-frog",
+    "title": "Spot the Frog",
+    "author": "Mark Heath",
+    "available": true,
+    "startDate": "2004-01-05"
+  },
+  {
+    "endpoint": "sticky-comics",
+    "title": "Sticky Comics",
+    "author": "Karina Farek",
+    "available": true,
+    "startDate": "2016-03-14"
+  },
+  {
+    "endpoint": "stonesoup",
+    "title": "Stone Soup",
+    "author": "Jan Eliot",
+    "available": true,
+    "startDate": "1995-11-20"
+  },
+  {
+    "endpoint": "stonesoup_espanol",
+    "title": "Las Hermanas Stone",
+    "author": "Jan Eliot",
+    "available": true,
+    "startDate": "2010-09-19"
+  },
+  {
+    "endpoint": "strangebrew",
+    "title": "Strange Brew",
+    "author": "John Deering",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "street-scene",
+    "title": "Street Scene",
+    "author": "Peter Kuper",
+    "available": true
+  },
+  {
+    "endpoint": "studio-jantze",
+    "title": "Studio Jantze",
+    "author": "Michael Jantze",
+    "available": true,
+    "startDate": "2021-01-01"
+  },
+  {
+    "endpoint": "sunny-street",
+    "title": "Sunny Street",
+    "author": "Max Garcia",
+    "available": true,
+    "startDate": "2005-02-14"
+  },
+  {
+    "endpoint": "super-fun-pak-comix",
+    "title": "Super-Fun-Pak Comix",
+    "author": "Ruben Bolling",
+    "available": true,
+    "startDate": "2014-05-12"
+  },
+  {
+    "endpoint": "swan-eaters",
+    "title": "Swan Eaters",
+    "author": "Rob Harrell",
+    "available": true,
+    "startDate": "2018-10-01"
+  },
+  {
+    "endpoint": "sweet-and-sour-pork",
+    "title": "Sweet and Sour Pork",
+    "author": "Andrew Fitzpatrick",
+    "available": true,
+    "startDate": "2013-08-19"
+  },
+  {
+    "endpoint": "sylvia",
+    "title": "Sylvia",
+    "author": "Nicole Hollander",
+    "available": true,
+    "startDate": "2001-04-18"
+  },
+  {
+    "endpoint": "tankmcnamara",
+    "title": "Tank McNamara",
+    "author": "Bill Hinds",
+    "available": true,
+    "startDate": "1998-01-01"
+  },
+  {
+    "endpoint": "tarzan",
+    "title": "Tarzan",
+    "author": "Edgar Rice Burroughs",
+    "available": true,
+    "startDate": "1996-01-01"
+  },
+  {
+    "endpoint": "tarzan-en-espanol",
+    "title": "Tarz\u00e1n en Espa\u00f1ol",
+    "author": "Edgar Rice Burroughs",
+    "available": true,
+    "startDate": "2007-01-07"
+  },
+  {
+    "endpoint": "tavicat",
+    "title": "@Tavicat",
+    "author": "Tavis Maiden",
+    "available": true,
+    "startDate": "2016-07-11"
+  },
+  {
+    "endpoint": "ten-cats",
+    "title": "Ten Cats",
+    "author": "Graham Harrop",
+    "available": true,
+    "startDate": "2003-04-08"
+  },
+  {
+    "endpoint": "tex",
+    "title": "Tex",
+    "author": "Juan Padr\u00f3n",
+    "available": true,
+    "startDate": "2022-09-19"
+  },
+  {
+    "endpoint": "texts-from-mittens",
+    "title": "Texts From Mittens",
+    "author": "Angie Bailey",
+    "available": true,
+    "startDate": "2010-06-29"
+  },
+  {
+    "endpoint": "that-is-priceless",
+    "title": "That is Priceless",
+    "author": "Chris Ware",
+    "available": true,
+    "startDate": "2011-10-31"
+  },
+  {
+    "endpoint": "that-new-carl-smell",
+    "title": "That New Carl Smell",
+    "author": "Michael J. West",
+    "available": true,
+    "startDate": "2012-12-19"
+  },
+  {
+    "endpoint": "thatababy",
+    "title": "Thatababy",
+    "author": "Paul Trap",
+    "available": true,
+    "startDate": "2010-09-13"
+  },
+  {
+    "endpoint": "the-academia-waltz",
+    "title": "The Academia Waltz",
+    "author": "Berke Breathed",
+    "available": true,
+    "startDate": "2003-12-08"
+  },
+  {
+    "endpoint": "the-adventures-of-business-cat",
+    "title": "The Adventures of Business Cat",
+    "author": "Tom Fonder",
+    "available": true,
+    "startDate": "2015-04-27"
+  },
+  {
+    "endpoint": "the-ancients",
+    "title": "The Ancients",
+    "author": "Dana Summers and Jay Stephens",
+    "available": true
+  },
+  {
+    "endpoint": "the-awkward-yeti",
+    "title": "The Awkward Yeti",
+    "author": "Nick Seluk",
+    "available": true,
+    "startDate": "2014-09-08"
+  },
+  {
+    "endpoint": "the-born-loser",
+    "title": "The Born Loser",
+    "author": "Art and Chip Sansom",
+    "available": true,
+    "startDate": "1994-07-14"
+  },
+  {
+    "endpoint": "the-comic-strip-that-has-a-finale-every-day",
+    "title": "The Comic Strip That Has A Finale Every Day",
+    "author": "Drew Fairweather",
+    "available": true,
+    "startDate": "2015-01-01"
+  },
+  {
+    "endpoint": "the-daily-drawing",
+    "title": "The Daily Drawing",
+    "author": "Nate Fakes",
+    "available": true,
+    "startDate": "2015-01-19"
+  },
+  {
+    "endpoint": "the-martian-confederacy",
+    "title": "The Martian Confederacy",
+    "author": "Jason McNamara and Paige Braddock",
+    "available": true,
+    "startDate": "2014-06-23"
+  },
+  {
+    "endpoint": "the-middle-age",
+    "title": "The Middle Age",
+    "author": "Agesilaus",
+    "available": true,
+    "startDate": "2017-06-19"
+  },
+  {
+    "endpoint": "the-wandering-melon",
+    "title": "The Wandering Melon",
+    "author": "Bob Scott",
+    "available": true,
+    "startDate": "2014-06-30"
+  },
+  {
+    "endpoint": "the-worried-well",
+    "title": "The Worried Well",
+    "author": "Fred Maroon",
+    "available": true,
+    "startDate": "2016-01-04"
+  },
+  {
+    "endpoint": "theargylesweater",
+    "title": "The Argyle Sweater",
+    "author": "Scott Hilburn",
+    "available": true,
+    "startDate": "2006-11-29"
+  },
+  {
+    "endpoint": "thebarn",
+    "title": "The Barn",
+    "author": "Ralph Hagen",
+    "available": true,
+    "startDate": "2009-02-02"
+  },
+  {
+    "endpoint": "thebigpicture",
+    "title": "The Big Picture",
+    "author": "Lennie Peterson",
+    "available": true,
+    "startDate": "1999-08-24"
+  },
+  {
+    "endpoint": "thebuckets",
+    "title": "The Buckets",
+    "author": "Scott Stantis and Greg Cravens",
+    "available": true,
+    "startDate": "1996-02-19"
+  },
+  {
+    "endpoint": "thecity",
+    "title": "The City",
+    "author": "Derf Backderf",
+    "available": true,
+    "startDate": "2003-03-05"
+  },
+  {
+    "endpoint": "thedoozies",
+    "title": "The Doozies",
+    "author": "John Hambrock",
+    "available": true,
+    "startDate": "2008-12-01"
+  },
+  {
+    "endpoint": "theelderberries",
+    "title": "The Elderberries",
+    "author": "Phil Frank and Joe Troise",
+    "available": true,
+    "startDate": "2004-12-06"
+  },
+  {
+    "endpoint": "theflyingmccoys",
+    "title": "The Flying McCoys",
+    "author": "Glenn McCoy and Gary McCoy",
+    "available": true,
+    "startDate": "2005-05-09"
+  },
+  {
+    "endpoint": "thefuscobrothers",
+    "title": "The Fusco Brothers",
+    "author": "J.C. Duffy",
+    "available": true,
+    "startDate": "1998-01-01"
+  },
+  {
+    "endpoint": "thegrizzwells",
+    "title": "The Grizzwells",
+    "author": "Bill Schorr",
+    "available": true,
+    "startDate": "1994-03-14"
+  },
+  {
+    "endpoint": "thekchronicles",
+    "title": "The K Chronicles",
+    "author": "Keith Knight",
+    "available": true,
+    "startDate": "2003-07-01"
+  },
+  {
+    "endpoint": "theknightlife",
+    "title": "The Knight Life",
+    "author": "Keith Knight",
+    "available": true,
+    "startDate": "2008-05-05"
+  },
+  {
+    "endpoint": "themiddletons",
+    "title": "The Middletons",
+    "author": "Ralph Dunagin and Dana Summers",
+    "available": true,
+    "startDate": "2001-04-08"
+  },
+  {
+    "endpoint": "thenewadventuresofqueenvictoria",
+    "title": "New Adventures of Queen Victoria",
+    "author": "Pab Sungenis",
+    "available": true,
+    "startDate": "2006-02-08"
+  },
+  {
+    "endpoint": "thenorm",
+    "title": "The Norm Classics",
+    "author": "Michael Jantze",
+    "available": true,
+    "startDate": "2009-01-01"
+  },
+  {
+    "endpoint": "theothercoast",
+    "title": "The Other Coast",
+    "author": "Adrian Raeside",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "thinlines",
+    "title": "Thin Lines",
+    "author": "George Gately",
+    "available": true,
+    "startDate": "2010-04-26"
+  },
+  {
+    "endpoint": "tinysepuku",
+    "title": "Tiny Sepuku",
+    "author": "Jonathan Lemon",
+    "available": true,
+    "startDate": "2003-04-03"
+  },
+  {
+    "endpoint": "todays-szep",
+    "title": "Today's Szep",
+    "author": "Paul Szep",
+    "available": true,
+    "startDate": "2020-08-31"
+  },
+  {
+    "endpoint": "tomthedancingbug",
+    "title": "Tom the Dancing Bug",
+    "author": "Ruben Bolling",
+    "available": true,
+    "startDate": "1998-01-04"
+  },
+  {
+    "endpoint": "toomuchcoffeeman",
+    "title": "Too Much Coffee Man",
+    "author": "Shannon Wheeler",
+    "available": true,
+    "startDate": "2003-05-18"
+  },
+  {
+    "endpoint": "trucutu",
+    "title": "Trucut\u00fa",
+    "author": "Matador",
+    "available": true,
+    "startDate": "2011-02-28"
+  },
+  {
+    "endpoint": "tutelandia",
+    "title": "Tutelandia",
+    "author": "Fernando Retes",
+    "available": true,
+    "startDate": "2004-06-04"
+  },
+  {
+    "endpoint": "ufo",
+    "title": "UFO",
+    "author": "Brian Basset",
+    "available": true,
+    "startDate": "2023-04-15"
+  },
+  {
+    "endpoint": "underpants-and-overbites",
+    "title": "Underpants and Overbites",
+    "author": "Jim Unger",
+    "available": true,
+    "startDate": "2018-04-11"
+  },
+  {
+    "endpoint": "understanding-chaos",
+    "title": "Understanding Chaos",
+    "author": "Michael J. West",
+    "available": true,
+    "startDate": "2013-11-25"
+  },
+  {
+    "endpoint": "unstrange-phenomena",
+    "title": "Unstrange Phenomena",
+    "author": "Jack Turnbull",
+    "available": true,
+    "startDate": "2011-06-01"
+  },
+  {
+    "endpoint": "upside-down-world-of-gustave-verbeek",
+    "title": "The Upside Down World of Gustave Verbeek",
+    "author": "Gustave Verbeek",
+    "available": true,
+    "startDate": "2016-12-19"
+  },
+  {
+    "endpoint": "viivi-and-wagner",
+    "title": "Viivi & Wagner",
+    "author": "Juba",
+    "available": true,
+    "startDate": "2012-07-02"
+  },
+  {
+    "endpoint": "wallace-the-brave",
+    "title": "Wallace the Brave",
+    "author": "Will Henry",
+    "available": true,
+    "startDate": "2015-06-29"
+  },
+  {
+    "endpoint": "warped",
+    "title": "Warped",
+    "author": "Mike Cavna",
+    "available": true,
+    "startDate": "2016-09-19"
+  },
+  {
+    "endpoint": "watchyourhead",
+    "title": "Watch Your Head",
+    "author": "Cory Thomas",
+    "available": true,
+    "startDate": "2006-03-27"
+  },
+  {
+    "endpoint": "wawawiwa",
+    "title": "Wawawiwa",
+    "author": "Andres J. Colmenares",
+    "available": true,
+    "startDate": "2020-02-10"
+  },
+  {
+    "endpoint": "waynovision",
+    "title": "WaynoVision",
+    "author": "Wayno",
+    "available": true,
+    "startDate": "2014-12-01"
+  },
+  {
+    "endpoint": "weepals",
+    "title": "Wee Pals",
+    "author": "Morrie Turner",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "widdershins",
+    "title": "Widdershins",
+    "author": "Kate Ashwin",
+    "available": true,
+    "startDate": "2016-08-08"
+  },
+  {
+    "endpoint": "wide-open",
+    "title": "Wide Open!",
+    "author": "Jeff Corriveau",
+    "available": true,
+    "startDate": "2001-02-20"
+  },
+  {
+    "endpoint": "wizard-of-id-classics",
+    "title": "Wizard of Id Classics",
+    "author": "Brant Parker and Johnny Hart",
+    "available": true,
+    "startDate": "2014-11-17"
+  },
+  {
+    "endpoint": "wizardofid",
+    "title": "Wizard of Id",
+    "author": "Brant Parker and Johnny Hart",
+    "available": true,
+    "startDate": "2002-01-01"
+  },
+  {
+    "endpoint": "wizardofidespanol",
+    "title": "Wizard of Id en Espa\u00f1ol",
+    "author": "Brant Parker and Johnny Hart",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "wondermark",
+    "title": "Wondermark",
+    "author": "David Malki",
+    "available": true,
+    "startDate": "2016-06-27"
+  },
+  {
+    "endpoint": "working-daze",
+    "title": "Working Daze",
+    "author": "John Zakour and Scott Roberts",
+    "available": true,
+    "startDate": "2002-02-11"
+  },
+  {
+    "endpoint": "workingitout",
+    "title": "Working It Out",
+    "author": "Jan Eliot",
+    "available": true,
+    "startDate": "2005-01-02"
+  },
+  {
+    "endpoint": "worry-lines",
+    "title": "Worry Lines",
+    "author": "Oliver Christianson",
+    "available": true,
+    "startDate": "2021-12-31"
+  },
+  {
+    "endpoint": "wrong-hands",
+    "title": "Wrong Hands",
+    "author": "John Atkinson",
+    "available": true,
+    "startDate": "2015-02-20"
+  },
+  {
+    "endpoint": "wtduck",
+    "title": "W.T. Duck",
+    "author": "Aaron Johnson",
+    "available": true,
+    "startDate": "2009-01-05"
+  },
+  {
+    "endpoint": "wumo",
+    "title": "WuMo",
+    "author": "Wulff & Morgenthaler",
+    "available": true,
+    "startDate": "2013-10-13"
+  },
+  {
+    "endpoint": "wumoespanol",
+    "title": "WuMo en Espa\u00f1ol",
+    "author": "Wulff & Morgenthaler",
+    "available": true,
+    "startDate": "2014-01-01"
+  },
+  {
+    "endpoint": "xkcd",
+    "title": "xkcd",
+    "author": "Randall Munroe",
+    "available": true,
+    "startDate": "2006-01-01",
+    "source": "xkcd"
+  },
+  {
+    "endpoint": "yaffle",
+    "title": "Yaffle",
+    "author": "Graham Higgins",
+    "available": true,
+    "startDate": "2018-04-02"
+  },
+  {
+    "endpoint": "yeah-its-chill",
+    "title": "Yeah It\u2019s Chill",
+    "available": true,
+    "startDate": "2023-10-02"
+  },
+  {
+    "endpoint": "yesimhotinthis",
+    "title": "Yes, I'm Hot in This",
+    "author": "Huda Fahmy",
+    "available": true,
+    "startDate": "2020-01-11"
+  },
+  {
+    "endpoint": "zackhill",
+    "title": "Zack Hill",
+    "author": "John Deering",
+    "available": true,
+    "startDate": "2003-01-01"
+  },
+  {
+    "endpoint": "zen-pencils",
+    "title": "Zen Pencils",
+    "author": "Gavin Aung Than",
+    "available": true,
+    "startDate": "2013-07-09"
+  },
+  {
+    "endpoint": "ziggy",
+    "title": "Ziggy",
+    "author": "Tom Wilson and Tom Wilson II",
+    "available": true,
+    "startDate": "1971-06-27"
+  },
+  {
+    "endpoint": "ziggyespanol",
+    "title": "Ziggy en Espa\u00f1ol",
+    "author": "Tom Wilson and Tom Wilson II",
+    "available": true,
+    "startDate": "2004-02-09"
+  }
+]
