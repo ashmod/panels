@@ -8,7 +8,7 @@
 <div align="center">
 
 [![Rust](https://img.shields.io/badge/Rust-stable-000000?logo=rust)](https://www.rust-lang.org/)
-[![CI](https://github.com/ashmod/panels/actions/workflows/ci.yml/badge.svg)](https://github.com/ashmod/panels/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/ashmod/panels/ci.yml?branch=main&label=CI&logo=github&style=flat-square)](https://github.com/ashmod/panels/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/ashmod/panels/tests.yml?branch=main&label=Tests&logo=github&style=flat-square)](https://github.com/ashmod/panels/actions/workflows/tests.yml)
 [![Deployment](https://img.shields.io/website?url=https%3A%2F%2Fpanels.ashmod.dev%2Fapi%2Fhealth&label=Deployment&logo=heroku&style=flat-square)](https://panels.ashmod.dev)
 
@@ -17,7 +17,7 @@
 Panels is a simple Rust based web server for delivering the Sunday Funnies anytime, anywhere. It provides over 400 comics; select your favorites, and get random strips immediately. Panels also has a recommendation engine to help you discover new comics based on your preferences.
 
 > [!NOTE]
-Panels is a personal project and not affiliated with any comic publishers. All comics are sourced from publicly available data and is intended for personal use and enjoyment. All comics are the property of their respective creators and publishers.
+Panels is a personal project and is not affiliated with any comic publishers. All comics are sourced from publicly available data and are intended for personal use and enjoyment. All comics are property of their respective creators and publishers.
 
 ## Quick Start
 

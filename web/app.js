@@ -47,8 +47,8 @@
 
   function sidebarArrow(collapsed) {
     return mobileQuery.matches
-      ? (collapsed ? '\u2227' : '\u2228')
-      : (collapsed ? '\u00AB' : '\u00BB');
+      ? (collapsed ? '<i class="fa-solid fa-chevron-up"></i>' : '<i class="fa-solid fa-chevron-down"></i>')
+      : (collapsed ? '<i class="fa-solid fa-chevron-left"></i>' : '<i class="fa-solid fa-chevron-right"></i>');
   }
 
   const els = {
@@ -108,12 +108,12 @@
     const theme = localStorage.getItem(LS_THEME);
     if (theme) document.documentElement.setAttribute('data-theme', theme);
 
-    const collapsed = localStorage.getItem(LS_SIDEBAR);
-    if (collapsed === 'true') {
+    const collapsed = localStorage.getItem(LS_SIDEBAR) === 'true';
+    if (collapsed) {
       els.selectionPanel.classList.add('collapsed');
       els.sidebarToggle.classList.add('collapsed');
-      els.sidebarToggle.textContent = sidebarArrow(true);
     }
+    els.sidebarToggle.innerHTML = sidebarArrow(collapsed);
   }
 
   function saveSelected() {
@@ -150,13 +150,13 @@
     els.sidebarToggle.addEventListener('click', () => {
       const isCollapsed = els.selectionPanel.classList.toggle('collapsed');
       els.sidebarToggle.classList.toggle('collapsed', isCollapsed);
-      els.sidebarToggle.textContent = sidebarArrow(isCollapsed);
+      els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
       saveSidebar(isCollapsed);
     });
 
     mobileQuery.addEventListener('change', () => {
       const isCollapsed = els.selectionPanel.classList.contains('collapsed');
-      els.sidebarToggle.textContent = sidebarArrow(isCollapsed);
+      els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
     });
   }
 

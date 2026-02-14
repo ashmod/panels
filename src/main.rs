@@ -36,7 +36,7 @@ async fn main() -> anyhow::Result<()> {
     let caches = Caches::new(config.strip_cache_max, config.strip_cache_ttl_secs);
 
     let gocomics = GoComicsSource::new(client.clone(), comics.clone(), caches.clone());
-    let dilbert = DilbertSource::new(client.clone(), caches.clone());
+    let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
     let xkcd = XkcdSource::new(client.clone(), caches.clone());
     let comicsrss = ComicsRssSource::new(client.clone(), comics.clone(), caches);
     let sources = SourceRegistry::new(vec![
