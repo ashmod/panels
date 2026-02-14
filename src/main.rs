@@ -1,33 +1,18 @@
-mod cache;
-mod config;
-mod data;
-mod error;
-mod http_client;
-mod models;
-mod routes;
-mod sources;
-
-use std::collections::HashMap;
 use std::sync::Arc;
 
 use clap::Parser;
+use panels::AppState;
+use panels::cache::Caches;
+use panels::config::PanelsConfig;
+use panels::data;
+use panels::http_client;
+use panels::routes;
+use panels::sources::SourceRegistry;
+use panels::sources::comicsrss::ComicsRssSource;
+use panels::sources::dilbert::DilbertSource;
+use panels::sources::gocomics::GoComicsSource;
+use panels::sources::xkcd::XkcdSource;
 use tracing::info;
-
-use cache::Caches;
-use config::PanelsConfig;
-use models::Comic;
-use sources::comicsrss::ComicsRssSource;
-use sources::dilbert::DilbertSource;
-use sources::gocomics::GoComicsSource;
-use sources::xkcd::XkcdSource;
-use sources::SourceRegistry;
-
-pub struct AppState {
-    pub config: PanelsConfig,
-    pub comics: Vec<Comic>,
-    pub tags: HashMap<String, Vec<String>>,
-    pub sources: SourceRegistry,
-}
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

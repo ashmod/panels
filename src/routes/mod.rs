@@ -3,8 +3,8 @@ pub mod proxy;
 pub mod recommendations;
 pub mod strips;
 
-use axum::routing::get;
 use axum::Router;
+use axum::routing::get;
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 use tower_http::services::ServeDir;
