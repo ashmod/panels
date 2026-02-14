@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>panels</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <span class="logo">panels</span>
+      <span class="selected-count" id="selectedCount">[ 0 selected ]</span>
+    </div>
+    <div class="header-right">
+      <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="comic-panel" id="comicPanel">
+      <div class="comic-empty" id="comicEmpty">
+        <span>[ select comics &gt;&gt; ]</span>
+      </div>
+      <div class="comic-loading hidden" id="comicLoading">
+        <div class="loading-spinner"></div>
+        <span>[ loading strip... ]</span>
+      </div>
+      <div class="comic-display hidden" id="comicDisplay">
+        <div class="comic-meta" id="comicMeta"></div>
+        <div class="comic-image-wrap">
+          <img id="comicImage" alt="Comic strip" draggable="false">
+        </div>
+      </div>
+      <div class="comic-nav-bar hidden" id="comicNavBar">
+        <button class="nav-btn shuffle-btn" id="btnNextPanel"><i class="fa-solid fa-shuffle"></i> NEXT PANEL</button>
+        <button class="nav-btn today-btn hidden" id="btnToday">[ LATEST ]</button>
+      </div>
+    </section>
+
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&raquo;</button>
+
+    <aside class="selection-panel" id="selectionPanel">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="[ search comics... ]" autocomplete="off" spellcheck="false">
+        <button class="search-clear hidden" id="searchClear" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="collapsible-header" id="tagHeader">[ tags ] <span class="collapse-arrow">&#9660;</span></button>
+        <div class="collapsible-body">
+          <div class="tag-filters" id="tagFilters"></div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="collapsible-header" id="alphaHeader">[ A-Z ] <span class="collapse-arrow">&#9660;</span></button>
+        <div class="collapsible-body">
+          <div class="alpha-bar-inner" id="alphaBar"></div>
+        </div>
+      </div>
+
+      <div class="recommend-toggle">
+        <label>
+          <input type="checkbox" id="recommendToggle">
+          <span>[ recommendations ]</span>
+        </label>
+        <button class="lucky-btn" id="luckyBtn">I'm feeling lucky</button>
+      </div>
+
+      <div class="badge-grid" id="badgeGrid"></div>
+    </aside>
+  </main>
+
+  <div class="zoom-overlay hidden" id="zoomOverlay">
+    <div class="zoom-backdrop"></div>
+    <button class="zoom-close" aria-label="Close">&times;</button>
+    <div class="zoom-container">
+      <div class="zoom-image-wrap">
+        <img id="zoomImage" alt="Zoomed comic" draggable="false">
+      </div>
+    </div>
+    <div class="zoom-toolbar">
+      <button class="zoom-btn" data-action="zoom-out" aria-label="Zoom out">&minus;</button>
+      <button class="zoom-btn" data-action="reset" aria-label="Reset zoom">&#8634;</button>
+      <button class="zoom-btn" data-action="zoom-in" aria-label="Zoom in">&plus;</button>
+      <span class="zoom-level" id="zoomLevel">100%</span>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
