@@ -295,7 +295,9 @@
     });
 
     els.luckyBtn.addEventListener('click', () => {
-      const available = state.allComics.filter((c) => c.available);
+      const available = state.allComics.filter(
+        (c) => c.available && !c.tags.some((t) => t === 'en-espanol')
+      );
       if (available.length === 0) return;
       const count = Math.floor(Math.random() * 5) + 3;
       const shuffled = available.sort(() => Math.random() - 0.5);
@@ -599,6 +601,7 @@
   }
 
   function openZoom(src) {
+    clearSelection();
     state.zoom = { active: true, scale: 1, offset: { x: 0, y: 0 }, dragging: false };
     els.zoomImage.src = src;
     els.zoomOverlay.classList.remove('hidden');
@@ -607,6 +610,7 @@
   }
 
   function closeZoom() {
+    clearSelection();
     state.zoom.active = false;
     els.zoomOverlay.classList.add('hidden');
     document.body.style.overflow = '';
@@ -641,11 +645,16 @@
     }, { passive: false });
 
     els.zoomImage.addEventListener('mousedown', (e) => {
-      if (state.zoom.scale <= 1) return;
       e.preventDefault();
+      clearSelection();
+      if (state.zoom.scale <= 1) return;
       state.zoom.dragging = true;
       dragStart = { x: e.clientX, y: e.clientY };
       updateZoomTransform();
+    });
+
+    els.zoomImage.addEventListener('dragstart', (e) => {
+      e.preventDefault();
     });
 
     wrap.addEventListener('mousemove', (e) => {
@@ -669,6 +678,7 @@
     });
 
     wrap.addEventListener('touchstart', (e) => {
+      clearSelection();
       if (e.touches.length === 2) {
         const t1 = e.touches[0];
         const t2 = e.touches[1];
@@ -763,6 +773,13 @@
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function clearSelection() {
+    const sel = window.getSelection ? window.getSelection() : null;
+    if (sel && sel.rangeCount > 0) {
+      sel.removeAllRanges();
+    }
   }
 
   async function init() {
