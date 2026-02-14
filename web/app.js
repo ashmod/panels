@@ -39,6 +39,7 @@
   const LS_SELECTED = 'panels_selected';
   const LS_THEME = 'panels_theme';
   const LS_SIDEBAR = 'panels_sidebar_collapsed';
+  const LS_COLLAPSIBLES = 'panels_collapsibles';
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
@@ -95,7 +96,6 @@
     return res.json();
   }
 
-  // ── Persistence ────────────────────────────────────────────────────
   function loadState() {
     try {
       const saved = localStorage.getItem(LS_SELECTED);
@@ -103,7 +103,7 @@
         const arr = JSON.parse(saved);
         arr.forEach((ep) => state.selectedEndpoints.add(ep));
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {} 
 
     const theme = localStorage.getItem(LS_THEME);
     if (theme) document.documentElement.setAttribute('data-theme', theme);
@@ -161,9 +161,32 @@
   }
 
   function initCollapsibles() {
+    let saved = {};
+    try {
+      const raw = localStorage.getItem(LS_COLLAPSIBLES);
+      if (raw) saved = JSON.parse(raw) || {};
+    } catch (e) {}
+
+    const saveCollapsibles = () => {
+      const next = {};
+      document.querySelectorAll('.collapsible-header').forEach((h) => {
+        if (!h.id) return;
+        const section = h.closest('.collapsible-section');
+        next[h.id] = section ? section.classList.contains('collapsed') : false;
+      });
+      localStorage.setItem(LS_COLLAPSIBLES, JSON.stringify(next));
+    };
+
     document.querySelectorAll('.collapsible-header').forEach((header) => {
+      const section = header.closest('.collapsible-section');
+      if (section && saved[header.id] === true) {
+        section.classList.add('collapsed');
+      }
+
       header.addEventListener('click', () => {
-        header.closest('.collapsible-section').classList.toggle('collapsed');
+        if (!section) return;
+        section.classList.toggle('collapsed');
+        saveCollapsibles();
       });
     });
   }
@@ -274,7 +297,7 @@
     els.luckyBtn.addEventListener('click', () => {
       const available = state.allComics.filter((c) => c.available);
       if (available.length === 0) return;
-      const count = Math.floor(Math.random() * 5) + 3; // 3–7 random comics
+      const count = Math.floor(Math.random() * 5) + 3;
       const shuffled = available.sort(() => Math.random() - 0.5);
       state.selectedEndpoints.clear();
       shuffled.slice(0, count).forEach((c) => state.selectedEndpoints.add(c.endpoint));
