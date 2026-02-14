@@ -10,28 +10,19 @@ use crate::models::ComicStrip;
 use crate::sources::ComicSource;
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct XkcdComic {
     num: u32,
     title: String,
     img: String,
-    year: String,
-    month: String,
-    day: String,
 }
 
 impl XkcdComic {
-    fn date_str(&self) -> String {
-        format!(
-            "{}-{:0>2}-{:0>2}",
-            self.year, self.month, self.day
-        )
-    }
-
     fn to_strip(&self) -> ComicStrip {
         ComicStrip {
             endpoint: "xkcd".to_string(),
             title: self.title.clone(),
-            date: self.date_str(),
+            date: format!("#{}", self.num),
             image_url: self.img.clone(),
             source_url: format!("https://xkcd.com/{}/", self.num),
             prev_date: if self.num > 1 {
