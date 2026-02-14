@@ -3,7 +3,7 @@
   <img src="assets/panels.svg" alt="Panels logo">
 </picture>
 
-<br>
+<br><br>
 
 <div align="center">
 
