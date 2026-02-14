@@ -1,10 +1,10 @@
-use axum::extract::{Path, State};
 use axum::Json;
+use axum::extract::{Path, State};
 use std::sync::Arc;
 
+use crate::AppState;
 use crate::error::{PanelsError, Result};
 use crate::models::ComicStrip;
-use crate::AppState;
 
 pub async fn get_strip(
     State(state): State<Arc<AppState>>,

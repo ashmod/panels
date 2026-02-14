@@ -1,12 +1,12 @@
-use axum::extract::{Query, State};
 use axum::Json;
+use axum::extract::{Query, State};
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use crate::AppState;
 use crate::error::Result;
 use crate::models::ComicWithTags;
-use crate::AppState;
 
 #[derive(Deserialize)]
 pub struct RecommendationsQuery {
@@ -59,11 +59,7 @@ pub async fn get_recommendations(
         .iter()
         .filter(|c| c.available && !selected_endpoints.contains(&c.endpoint.as_str()))
         .filter_map(|comic| {
-            let tags = state
-                .tags
-                .get(&comic.endpoint)
-                .cloned()
-                .unwrap_or_default();
+            let tags = state.tags.get(&comic.endpoint).cloned().unwrap_or_default();
 
             // Skip espanol comics unless user has one selected
             if !has_espanol && tags.iter().any(|t| t == "en-espanol") {
@@ -78,10 +74,10 @@ pub async fn get_recommendations(
                 }
             }
 
-            if let Some(ref author) = comic.author {
-                if selected_authors.contains(&author.as_str()) {
-                    score += 2.0;
-                }
+            if let Some(ref author) = comic.author
+                && selected_authors.contains(&author.as_str())
+            {
+                score += 2.0;
             }
 
             if selected_sources.contains(&comic.source.as_str()) {

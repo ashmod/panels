@@ -1,11 +1,11 @@
-use axum::extract::{Query, State};
 use axum::Json;
+use axum::extract::{Query, State};
 use serde::Deserialize;
 use std::sync::Arc;
 
+use crate::AppState;
 use crate::error::Result;
 use crate::models::ComicWithTags;
-use crate::AppState;
 
 #[derive(Deserialize)]
 pub struct ComicsQuery {
@@ -21,11 +21,7 @@ pub async fn list_comics(
         .comics
         .iter()
         .map(|comic| {
-            let tags = state
-                .tags
-                .get(&comic.endpoint)
-                .cloned()
-                .unwrap_or_default();
+            let tags = state.tags.get(&comic.endpoint).cloned().unwrap_or_default();
             ComicWithTags {
                 comic: comic.clone(),
                 tags,

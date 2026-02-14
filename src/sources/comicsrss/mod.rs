@@ -27,9 +27,7 @@ fn parse_rss_items(xml: &str, endpoint: &str) -> Vec<ComicStrip> {
     for item_match in item_re.captures_iter(xml) {
         let item_xml = &item_match[1];
 
-        let image_url = img_re
-            .captures(item_xml)
-            .map(|c| c[1].to_string());
+        let image_url = img_re.captures(item_xml).map(|c| c[1].to_string());
 
         let Some(image_url) = image_url else {
             continue;
@@ -103,8 +101,7 @@ fn extract_date_from_rss(
             return Some(parsed.format("%Y-%m-%d").to_string());
         }
         let months = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
         ];
         let date_parts_re = Regex::new(r"(\d{1,2})\s+(\w{3})\s+(\d{4})").ok()?;
         if let Some(date_caps) = date_parts_re.captures(pub_date) {
@@ -213,9 +210,10 @@ impl ComicSource for ComicsRssSource {
             .unwrap_or("image/gif")
             .to_string();
 
-        let bytes = response.bytes().await.map_err(|e| {
-            PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e))
-        })?;
+        let bytes = response
+            .bytes()
+            .await
+            .map_err(|e| PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e)))?;
 
         Ok((bytes.to_vec(), content_type))
     }

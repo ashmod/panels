@@ -28,37 +28,35 @@ fn extract_image_url(document: &Html) -> Option<String> {
     if let Ok(sel) = Selector::parse(r#"script[type="application/ld+json"]"#) {
         for script in document.select(&sel) {
             let raw = script.inner_html();
-            if let Ok(data) = serde_json::from_str::<serde_json::Value>(&raw) {
-                if data.get("@type").and_then(|t| t.as_str()) == Some("ImageObject") {
-                    let url = data
-                        .get("contentUrl")
-                        .or_else(|| data.get("url"))
-                        .and_then(|v| v.as_str())
-                        .unwrap_or("");
-                    if url.contains(ASSETS) {
-                        return Some(url.to_string());
-                    }
+            if let Ok(data) = serde_json::from_str::<serde_json::Value>(&raw)
+                && data.get("@type").and_then(|t| t.as_str()) == Some("ImageObject")
+            {
+                let url = data
+                    .get("contentUrl")
+                    .or_else(|| data.get("url"))
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                if url.contains(ASSETS) {
+                    return Some(url.to_string());
                 }
             }
         }
     }
 
-    if let Ok(sel) = Selector::parse(r#"meta[property="og:image"]"#) {
-        if let Some(el) = document.select(&sel).next() {
-            if let Some(content) = el.value().attr("content") {
-                if content.contains(ASSETS) {
-                    return Some(content.to_string());
-                }
-            }
-        }
+    if let Ok(sel) = Selector::parse(r#"meta[property="og:image"]"#)
+        && let Some(el) = document.select(&sel).next()
+        && let Some(content) = el.value().attr("content")
+        && content.contains(ASSETS)
+    {
+        return Some(content.to_string());
     }
 
     if let Ok(sel) = Selector::parse("img") {
         for el in document.select(&sel) {
-            if let Some(src) = el.value().attr("src") {
-                if src.contains(ASSETS) {
-                    return Some(src.to_string());
-                }
+            if let Some(src) = el.value().attr("src")
+                && src.contains(ASSETS)
+            {
+                return Some(src.to_string());
             }
         }
     }
@@ -66,12 +64,49 @@ fn extract_image_url(document: &Html) -> Option<String> {
     None
 }
 
-pub fn parse_comic_page(html: &str, endpoint: &str, date_str: &str, title: &str) -> Option<ComicStrip> {
+pub fn extract_date_links(html: &str, endpoint: &str) -> Vec<String> {
+    let mut dates = Vec::new();
+
+    let url_pattern = format!(
+        r"/{}/(\d{{4}})/(\d{{2}})/(\d{{2}})",
+        regex::escape(endpoint)
+    );
+    if let Ok(re) = Regex::new(&url_pattern) {
+        for caps in re.captures_iter(html) {
+            let date = format!("{}-{}-{}", &caps[1], &caps[2], &caps[3]);
+            if !dates.contains(&date) {
+                dates.push(date);
+            }
+        }
+    }
+
+    if let Ok(re) = Regex::new(r"(20[0-3]\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])") {
+        for caps in re.captures_iter(html) {
+            let date = format!("{}-{}-{}", &caps[1], &caps[2], &caps[3]);
+            if !dates.contains(&date) {
+                dates.push(date);
+            }
+        }
+    }
+
+    dates
+}
+
+pub fn parse_comic_page(
+    html: &str,
+    endpoint: &str,
+    date_str: &str,
+    title: &str,
+) -> Option<ComicStrip> {
     let document = Html::parse_document(html);
 
     let image_url = extract_image_url(&document)?;
 
-    let clean_url = image_url.split('?').next().unwrap_or(&image_url).to_string();
+    let clean_url = image_url
+        .split('?')
+        .next()
+        .unwrap_or(&image_url)
+        .to_string();
 
     Some(ComicStrip {
         endpoint: endpoint.to_string(),
@@ -128,7 +163,10 @@ mod tests {
         </head><body></body></html>
         "#;
         let strip = parse_comic_page(html, "garfield", "2024-01-15", "Garfield").unwrap();
-        assert_eq!(strip.image_url, "https://featureassets.gocomics.com/img.gif");
+        assert_eq!(
+            strip.image_url,
+            "https://featureassets.gocomics.com/img.gif"
+        );
         assert_eq!(strip.title, "Garfield");
     }
 
@@ -140,7 +178,10 @@ mod tests {
         </head><body></body></html>
         "#;
         let strip = parse_comic_page(html, "garfield", "2024-01-15", "Garfield").unwrap();
-        assert_eq!(strip.image_url, "https://featureassets.gocomics.com/img.gif");
+        assert_eq!(
+            strip.image_url,
+            "https://featureassets.gocomics.com/img.gif"
+        );
     }
 
     #[test]
@@ -152,7 +193,10 @@ mod tests {
         </body></html>
         "#;
         let strip = parse_comic_page(html, "garfield", "2024-01-15", "Garfield").unwrap();
-        assert_eq!(strip.image_url, "https://featureassets.gocomics.com/strip.gif");
+        assert_eq!(
+            strip.image_url,
+            "https://featureassets.gocomics.com/strip.gif"
+        );
     }
 
     #[test]

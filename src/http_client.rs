@@ -28,7 +28,6 @@ pub struct PageResponse {
     pub final_url: String,
 }
 
-
 pub async fn fetch_page(
     client: &Client,
     url: &str,
@@ -46,7 +45,15 @@ pub async fn fetch_page_with_options(
     suppress_errors: bool,
     silent_statuses: &[u16],
 ) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(client, url, retries, timeout_ms, suppress_errors, silent_statuses).await
+    fetch_page_inner(
+        client,
+        url,
+        retries,
+        timeout_ms,
+        suppress_errors,
+        silent_statuses,
+    )
+    .await
 }
 
 async fn fetch_page_inner(
@@ -106,7 +113,12 @@ async fn fetch_page_inner(
                         warn!("Error fetching {} (attempt {}): {}", url, attempt + 1, e);
                     }
                 } else {
-                    debug!("Suppressed error fetching {} (attempt {}): {}", url, attempt + 1, e);
+                    debug!(
+                        "Suppressed error fetching {} (attempt {}): {}",
+                        url,
+                        attempt + 1,
+                        e
+                    );
                 }
                 if attempt < retries {
                     tokio::time::sleep(Duration::from_secs(1)).await;

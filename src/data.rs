@@ -28,7 +28,11 @@ mod tests {
     #[test]
     fn load_comics_from_data_dir() {
         let comics = load_comics("data").expect("should load comics.json");
-        assert!(comics.len() > 100, "expected 100+ comics, got {}", comics.len());
+        assert!(
+            comics.len() > 100,
+            "expected 100+ comics, got {}",
+            comics.len()
+        );
 
         let first = &comics[0];
         assert!(!first.endpoint.is_empty());

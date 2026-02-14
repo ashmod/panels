@@ -11,7 +11,9 @@ use crate::http_client::{fetch_page, fetch_page_with_options, random_user_agent}
 use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
-use self::scraper::{extract_nav_date, extract_page_date_from_html, parse_comic_page};
+use self::scraper::{
+    extract_date_links, extract_nav_date, extract_page_date_from_html, parse_comic_page,
+};
 
 const BASE_URL: &str = "https://www.gocomics.com";
 
@@ -79,10 +81,7 @@ impl GoComicsSource {
 
         if let Some(ref s) = strip {
             let strip_cache_key = format!("{}:{}", endpoint, s.date);
-            self.caches
-                .strips
-                .insert(strip_cache_key, s.clone())
-                .await;
+            self.caches.strips.insert(strip_cache_key, s.clone()).await;
         }
 
         Ok(strip)
@@ -137,7 +136,52 @@ impl ComicSource for GoComicsSource {
         let random_date = Local::now().date_naive() - chrono::Duration::days(days_back);
         let date_str = random_date.format("%Y-%m-%d").to_string();
         info!(endpoint, date = %date_str, "fetching random strip");
-        self.fetch_strip_inner(endpoint, &date_str, 1, 12000, false, &[])
+
+        let result = self
+            .fetch_strip_inner(endpoint, &date_str, 0, 12000, true, &[404])
+            .await;
+
+        if let Ok(Some(strip)) = result {
+            return Ok(Some(strip));
+        }
+
+        let random_month_url = format!(
+            "{}/{}/{}/01",
+            BASE_URL,
+            endpoint,
+            random_date.format("%Y/%m")
+        );
+        info!(endpoint, url = %random_month_url, "random date missed, trying month page");
+
+        let page = fetch_page_with_options(&self.client, &random_month_url, 0, 12000, true, &[404])
+            .await?;
+
+        let page = match page {
+            Some(p) => p,
+            None => {
+                info!(endpoint, "month page missed, falling back to latest");
+                let url = format!("{}/{}", BASE_URL, endpoint);
+                match fetch_page(&self.client, &url, 1, 12000).await? {
+                    Some(p) => p,
+                    None => return Ok(None),
+                }
+            }
+        };
+
+        let dates = extract_date_links(&page.html, endpoint);
+        if dates.is_empty() {
+            let today = Local::now().date_naive().format("%Y-%m-%d").to_string();
+            let resolved = extract_nav_date(&page.final_url, endpoint)
+                .or_else(|| extract_page_date_from_html(&page.html, endpoint))
+                .unwrap_or(today);
+            let title = find_title(&self.comics, endpoint);
+            return Ok(parse_comic_page(&page.html, endpoint, &resolved, title));
+        }
+
+        let idx = rand::thread_rng().gen_range(0..dates.len());
+        let picked = &dates[idx];
+        info!(endpoint, date = %picked, count = dates.len(), "picked from calendar dates");
+        self.fetch_strip_inner(endpoint, picked, 1, 12000, false, &[])
             .await
     }
 

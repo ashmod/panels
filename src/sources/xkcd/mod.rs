@@ -84,10 +84,7 @@ impl XkcdSource {
 
         if let Some(comic) = comic {
             let strip = comic.to_strip();
-            self.caches
-                .strips
-                .insert(cache_key, strip.clone())
-                .await;
+            self.caches.strips.insert(cache_key, strip.clone()).await;
             Ok(Some(strip))
         } else {
             Ok(None)
@@ -103,11 +100,12 @@ impl ComicSource for XkcdSource {
 
     async fn fetch_strip(&self, _endpoint: &str, date: &str) -> Result<Option<ComicStrip>> {
         let num_str = date.strip_prefix('#').unwrap_or(date);
-        let num: u32 = num_str
-            .parse()
-            .map_err(|_| PanelsError::InvalidParam(format!(
-                "xkcd uses comic numbers (e.g. #123), not dates. Got: {}", date
-            )))?;
+        let num: u32 = num_str.parse().map_err(|_| {
+            PanelsError::InvalidParam(format!(
+                "xkcd uses comic numbers (e.g. #123), not dates. Got: {}",
+                date
+            ))
+        })?;
         self.fetch_by_number(num).await
     }
 
@@ -123,10 +121,7 @@ impl ComicSource for XkcdSource {
 
         if let Some(comic) = comic {
             let strip = comic.to_strip();
-            self.caches
-                .strips
-                .insert(cache_key, strip.clone())
-                .await;
+            self.caches.strips.insert(cache_key, strip.clone()).await;
             let num_key = format!("xkcd:#{}", comic.num);
             self.caches.strips.insert(num_key, strip.clone()).await;
             Ok(Some(strip))
@@ -174,9 +169,10 @@ impl ComicSource for XkcdSource {
             .unwrap_or("image/png")
             .to_string();
 
-        let bytes = response.bytes().await.map_err(|e| {
-            PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e))
-        })?;
+        let bytes = response
+            .bytes()
+            .await
+            .map_err(|e| PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e)))?;
 
         Ok((bytes.to_vec(), content_type))
     }

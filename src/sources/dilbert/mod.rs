@@ -100,18 +100,18 @@ fn parse_dilbert_page(html: &str, date_str: &str) -> Option<ComicStrip> {
             .select(&sel)
             .next()
             .and_then(|el| el.value().attr("src"))
-            .map(|src| normalize_url(src));
+            .map(normalize_url);
     }
 
-    if image_url.is_none() {
-        if let Ok(sel) = Selector::parse("img") {
-            for el in document.select(&sel) {
-                if let Some(src) = el.value().attr("src") {
-                    if src.contains("assets.amuniversal.com") {
-                        image_url = Some(normalize_url(src));
-                        break;
-                    }
-                }
+    if image_url.is_none()
+        && let Ok(sel) = Selector::parse("img")
+    {
+        for el in document.select(&sel) {
+            if let Some(src) = el.value().attr("src")
+                && src.contains("assets.amuniversal.com")
+            {
+                image_url = Some(normalize_url(src));
+                break;
             }
         }
     }
@@ -203,9 +203,10 @@ impl ComicSource for DilbertSource {
             .unwrap_or("image/gif")
             .to_string();
 
-        let bytes = response.bytes().await.map_err(|e| {
-            PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e))
-        })?;
+        let bytes = response
+            .bytes()
+            .await
+            .map_err(|e| PanelsError::ScrapeFailed(format!("failed to read image bytes: {}", e)))?;
 
         Ok((bytes.to_vec(), content_type))
     }

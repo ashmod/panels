@@ -40,10 +40,7 @@ mod tests {
             .strips
             .insert("garfield:2024-01-15".into(), strip.clone())
             .await;
-        let cached = caches
-            .strips
-            .get(&"garfield:2024-01-15".to_string())
-            .await;
+        let cached = caches.strips.get(&"garfield:2024-01-15".to_string()).await;
         assert!(cached.is_some());
         assert_eq!(cached.unwrap().date, "2024-01-15");
     }
