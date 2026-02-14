@@ -2003,6 +2003,13 @@
     "startDate": "2013-09-18"
   },
   {
+    "endpoint": "popeye",
+    "title": "Popeye",
+    "author": "Randy Milholland",
+    "available": true,
+    "source": "comicsrss"
+  },
+  {
     "endpoint": "pot-shots",
     "title": "Pot-Shots",
     "author": "Ashleigh Brilliant",
