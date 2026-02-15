@@ -62,7 +62,9 @@ body {
   background: var(--bg);
   color: var(--text);
   height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -152,6 +154,7 @@ header {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 
 .comic-meta {
@@ -165,7 +168,7 @@ header {
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px), ((hover: none) and (pointer: coarse)) {
   .comic-meta {
     overflow-x: auto;
     text-overflow: unset;
@@ -277,6 +280,7 @@ header {
   padding: 12px 16px;
   background: var(--nav-bg);
   border-top: var(--border-thick);
+  flex-shrink: 0;
 }
 
 .nav-btn {
@@ -819,10 +823,16 @@ header {
   display: none !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px), ((hover: none) and (pointer: coarse)) {
   body {
     height: 100vh;
     height: 100dvh;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  body.drawer-open {
     overflow: hidden;
   }
 
@@ -841,7 +851,7 @@ header {
     border-bottom: none;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    touch-action: auto;
   }
 
   .comic-zoom-bar {
@@ -901,14 +911,19 @@ header {
     min-height: auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    touch-action: auto;
+    overscroll-behavior: contain;
     box-shadow: -14px 0 24px rgba(0, 0, 0, 0.35);
-    transform: translateX(0);
-    transition: transform 0.25s ease;
+    transition: right 0.25s ease;
+  }
+
+  .selection-panel .badge-grid {
+    flex: 0 0 auto;
+    overflow: visible;
   }
 
   .selection-panel.collapsed {
-    transform: translateX(100%);
+    right: calc(-1 * min(86vw, 380px));
     pointer-events: none;
   }
 

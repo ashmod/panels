@@ -43,7 +43,7 @@
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
-  const mobileQuery = window.matchMedia('(max-width: 768px)');
+  const mobileQuery = window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)');
 
   function sidebarArrow(collapsed) {
     return collapsed
@@ -116,6 +116,7 @@
     const collapsed = savedSidebar === null ? mobileQuery.matches : savedSidebar === 'true';
     els.selectionPanel.classList.toggle('collapsed', collapsed);
     els.sidebarToggle.classList.toggle('collapsed', collapsed);
+    document.body.classList.toggle('drawer-open', mobileQuery.matches && !collapsed);
     els.sidebarToggle.innerHTML = sidebarArrow(collapsed);
   }
 
@@ -153,6 +154,7 @@
     const applySidebarState = (isCollapsed, persist) => {
       els.selectionPanel.classList.toggle('collapsed', isCollapsed);
       els.sidebarToggle.classList.toggle('collapsed', isCollapsed);
+      document.body.classList.toggle('drawer-open', mobileQuery.matches && !isCollapsed);
       els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
       if (persist) saveSidebar(isCollapsed);
     };
@@ -168,6 +170,7 @@
         isCollapsed = e.matches;
         applySidebarState(isCollapsed, false);
       }
+      document.body.classList.toggle('drawer-open', e.matches && !isCollapsed);
       els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
     });
 
@@ -679,6 +682,7 @@
       clearSelection();
       if (e.touches.length === 2) {
         e.preventDefault();
+        state.zoom.dragging = true;
         const t1 = e.touches[0];
         const t2 = e.touches[1];
         pinchStart = {
@@ -688,11 +692,14 @@
           offset: { ...state.zoom.offset },
         };
         touchPanStart = null;
+        updateZoomTransform();
         return;
       }
       if (e.touches.length === 1 && state.zoom.scale > 1) {
         e.preventDefault();
+        state.zoom.dragging = true;
         touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        updateZoomTransform();
       }
     }, { passive: false });
 
@@ -728,8 +735,14 @@
       if (e.touches.length === 0) {
         touchPanStart = null;
         state.zoom.dragging = false;
+        updateZoomTransform();
       } else if (e.touches.length === 1 && state.zoom.scale > 1) {
+        state.zoom.dragging = true;
         touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        updateZoomTransform();
+      } else {
+        state.zoom.dragging = false;
+        updateZoomTransform();
       }
     });
 
