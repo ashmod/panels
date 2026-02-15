@@ -11,7 +11,7 @@
     recommendations: [],
     recommendEnabled: false,
     isLoading: false,
-    zoom: { active: false, scale: 1, offset: { x: 0, y: 0 }, dragging: false },
+    zoom: { scale: 1, offset: { x: 0, y: 0 }, dragging: false },
   };
 
   const BADGE_COLORS = [
@@ -46,9 +46,9 @@
   const mobileQuery = window.matchMedia('(max-width: 768px)');
 
   function sidebarArrow(collapsed) {
-    return mobileQuery.matches
-      ? (collapsed ? '<i class="fa-solid fa-chevron-up"></i>' : '<i class="fa-solid fa-chevron-down"></i>')
-      : (collapsed ? '<i class="fa-solid fa-chevron-left"></i>' : '<i class="fa-solid fa-chevron-right"></i>');
+    return collapsed
+      ? '<i class="fa-solid fa-chevron-left"></i>'
+      : '<i class="fa-solid fa-chevron-right"></i>';
   }
 
   const els = {
@@ -59,10 +59,17 @@
     comicLoading: $('#comicLoading'),
     comicDisplay: $('#comicDisplay'),
     comicMeta: $('#comicMeta'),
+    comicImageWrap: $('.comic-image-wrap'),
     comicImage: $('#comicImage'),
+    comicZoomBar: $('#comicZoomBar'),
     comicNavBar: $('#comicNavBar'),
     btnToday: $('#btnToday'),
     btnNextPanel: $('#btnNextPanel'),
+    zoomOutBtn: $('#zoomOutBtn'),
+    zoomInBtn: $('#zoomInBtn'),
+    zoomResetBtn: $('#zoomResetBtn'),
+    zoomSlider: $('#zoomSlider'),
+    zoomLevel: $('#zoomLevel'),
     sidebarToggle: $('#sidebarToggle'),
     selectionPanel: $('#selectionPanel'),
     searchInput: $('#searchInput'),
@@ -72,9 +79,6 @@
     recommendToggle: $('#recommendToggle'),
     luckyBtn: $('#luckyBtn'),
     badgeGrid: $('#badgeGrid'),
-    zoomOverlay: $('#zoomOverlay'),
-    zoomImage: $('#zoomImage'),
-    zoomLevel: $('#zoomLevel'),
   };
 
   async function fetchComics() {
@@ -108,11 +112,10 @@
     const theme = localStorage.getItem(LS_THEME);
     if (theme) document.documentElement.setAttribute('data-theme', theme);
 
-    const collapsed = localStorage.getItem(LS_SIDEBAR) === 'true';
-    if (collapsed) {
-      els.selectionPanel.classList.add('collapsed');
-      els.sidebarToggle.classList.add('collapsed');
-    }
+    const savedSidebar = localStorage.getItem(LS_SIDEBAR);
+    const collapsed = savedSidebar === null ? mobileQuery.matches : savedSidebar === 'true';
+    els.selectionPanel.classList.toggle('collapsed', collapsed);
+    els.sidebarToggle.classList.toggle('collapsed', collapsed);
     els.sidebarToggle.innerHTML = sidebarArrow(collapsed);
   }
 
@@ -147,16 +150,32 @@
   }
 
   function initSidebar() {
-    els.sidebarToggle.addEventListener('click', () => {
-      const isCollapsed = els.selectionPanel.classList.toggle('collapsed');
+    const applySidebarState = (isCollapsed, persist) => {
+      els.selectionPanel.classList.toggle('collapsed', isCollapsed);
       els.sidebarToggle.classList.toggle('collapsed', isCollapsed);
       els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
-      saveSidebar(isCollapsed);
+      if (persist) saveSidebar(isCollapsed);
+    };
+
+    els.sidebarToggle.addEventListener('click', () => {
+      const isCollapsed = !els.selectionPanel.classList.contains('collapsed');
+      applySidebarState(isCollapsed, true);
     });
 
-    mobileQuery.addEventListener('change', () => {
-      const isCollapsed = els.selectionPanel.classList.contains('collapsed');
+    mobileQuery.addEventListener('change', (e) => {
+      let isCollapsed = els.selectionPanel.classList.contains('collapsed');
+      if (localStorage.getItem(LS_SIDEBAR) === null) {
+        isCollapsed = e.matches;
+        applySidebarState(isCollapsed, false);
+      }
       els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+      if (!mobileQuery.matches) return;
+      if (els.selectionPanel.classList.contains('collapsed')) return;
+      if (els.selectionPanel.contains(e.target) || els.sidebarToggle.contains(e.target)) return;
+      applySidebarState(true, true);
     });
   }
 
@@ -323,11 +342,8 @@
     renderBadgeGrid();
   }
 
-  function getFilteredComics() {
+  function getBaseFilteredComics() {
     return state.allComics.filter((c) => {
-      if (state.searchQuery && !c.title.toLowerCase().includes(state.searchQuery) && !c.endpoint.toLowerCase().includes(state.searchQuery)) {
-        return false;
-      }
       if (state.activeTags.size > 0 && !c.tags.some((t) => state.activeTags.has(t))) return false;
       if (state.activeLetter === '#' && !/^\d/.test(c.title)) return false;
       if (state.activeLetter && state.activeLetter !== '#' && !c.title.toUpperCase().startsWith(state.activeLetter)) return false;
@@ -335,15 +351,20 @@
     });
   }
 
+  function matchesSearch(c) {
+    if (!state.searchQuery) return true;
+    return c.title.toLowerCase().includes(state.searchQuery) || c.endpoint.toLowerCase().includes(state.searchQuery);
+  }
+
   function renderBadgeGrid() {
-    const filtered = getFilteredComics();
+    const filtered = getBaseFilteredComics();
     const selectedComics = filtered.filter((c) => state.selectedEndpoints.has(c.endpoint));
     const recEndpoints = new Set(state.recommendations.map((r) => r.endpoint));
     const recommendedComics = state.recommendEnabled
       ? filtered.filter((c) => recEndpoints.has(c.endpoint) && !state.selectedEndpoints.has(c.endpoint))
       : [];
     const selectedSet = new Set([...state.selectedEndpoints, ...recEndpoints]);
-    const allComics = filtered.filter((c) => !selectedSet.has(c.endpoint));
+    const allComics = filtered.filter((c) => !selectedSet.has(c.endpoint) && matchesSearch(c));
 
     els.badgeGrid.innerHTML = '';
 
@@ -453,6 +474,7 @@
     const author = comic && comic.author ? ` by ${comic.author}` : '';
     els.comicMeta.textContent = `[ ${strip.title} ]${author} — ${strip.date}`;
     els.comicImage.src = `/api/comics/${encodeURIComponent(strip.endpoint)}/${encodeURIComponent(strip.date)}/image`;
+    resetZoom();
 
     updateNavVisibility();
   }
@@ -463,6 +485,7 @@
     els.comicLoading.classList.add('hidden');
     els.comicDisplay.classList.add('hidden');
     els.comicNavBar.classList.add('hidden');
+    resetZoom();
   }
 
   function showLoading() {
@@ -471,6 +494,7 @@
     els.comicLoading.classList.remove('hidden');
     els.comicDisplay.classList.add('hidden');
     els.comicNavBar.classList.add('hidden');
+    resetZoom();
   }
 
   function showError() {
@@ -478,6 +502,7 @@
     els.comicEmpty.classList.remove('hidden');
     els.comicEmpty.querySelector('span').textContent = '[ strip not found — try again ]';
     els.comicDisplay.classList.add('hidden');
+    resetZoom();
     updateNavVisibility();
   }
 
@@ -545,9 +570,6 @@
   function initNav() {
     els.btnNextPanel.addEventListener('click', nextPanel);
     els.btnToday.addEventListener('click', todayPanel);
-    els.comicImage.addEventListener('click', () => {
-      if (state.currentStrip) openZoom(els.comicImage.src);
-    });
   }
 
   function clampScale(s) {
@@ -587,7 +609,7 @@
 
   function updateZoomTransform() {
     const { scale, offset, dragging } = state.zoom;
-    const img = els.zoomImage;
+    const img = els.comicImage;
     img.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${scale})`;
     img.classList.toggle('dragging', dragging);
 
@@ -598,53 +620,28 @@
     }
 
     els.zoomLevel.textContent = `${Math.round(scale * 100)}%`;
-  }
-
-  function openZoom(src) {
-    clearSelection();
-    state.zoom = { active: true, scale: 1, offset: { x: 0, y: 0 }, dragging: false };
-    els.zoomImage.src = src;
-    els.zoomOverlay.classList.remove('hidden');
-    updateZoomTransform();
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeZoom() {
-    clearSelection();
-    state.zoom.active = false;
-    els.zoomOverlay.classList.add('hidden');
-    document.body.style.overflow = '';
+    els.zoomSlider.value = String(Math.round(scale * 100));
   }
 
   function initZoom() {
-    const wrap = els.zoomOverlay.querySelector('.zoom-image-wrap');
+    const wrap = els.comicImageWrap;
 
-    els.zoomOverlay.addEventListener('click', (e) => {
-      if (e.target.closest('.zoom-toolbar') || e.target.closest('.zoom-close')) return;
-      if (e.target.closest('.zoom-image-wrap')) return;
-
-      const isZoomed = state.zoom.scale > 1 || state.zoom.offset.x !== 0 || state.zoom.offset.y !== 0;
-      if (isZoomed) {
-        resetZoom();
-      } else {
-        closeZoom();
-      }
-    });
-
-    els.zoomOverlay.querySelector('.zoom-close').addEventListener('click', () => {
-      closeZoom();
+    els.zoomOutBtn.addEventListener('click', () => applyScale(state.zoom.scale - 0.2));
+    els.zoomInBtn.addEventListener('click', () => applyScale(state.zoom.scale + 0.2));
+    els.zoomResetBtn.addEventListener('click', resetZoom);
+    els.zoomSlider.addEventListener('input', () => {
+      applyScale(Number(els.zoomSlider.value) / 100);
     });
 
     wrap.addEventListener('wheel', (e) => {
+      if (!state.currentStrip) return;
       e.preventDefault();
-      if (e.deltaY > 0) {
-        applyScale(state.zoom.scale - 0.15);
-      } else {
-        applyScale(state.zoom.scale + 0.15);
-      }
+      const delta = e.deltaY > 0 ? -0.12 : 0.12;
+      applyScale(state.zoom.scale + delta);
     }, { passive: false });
 
-    els.zoomImage.addEventListener('mousedown', (e) => {
+    els.comicImage.addEventListener('mousedown', (e) => {
+      if (!state.currentStrip) return;
       e.preventDefault();
       clearSelection();
       if (state.zoom.scale <= 1) return;
@@ -653,7 +650,7 @@
       updateZoomTransform();
     });
 
-    els.zoomImage.addEventListener('dragstart', (e) => {
+    els.comicImage.addEventListener('dragstart', (e) => {
       e.preventDefault();
     });
 
@@ -678,8 +675,10 @@
     });
 
     wrap.addEventListener('touchstart', (e) => {
+      if (!state.currentStrip) return;
       clearSelection();
       if (e.touches.length === 2) {
+        e.preventDefault();
         const t1 = e.touches[0];
         const t2 = e.touches[1];
         pinchStart = {
@@ -692,9 +691,10 @@
         return;
       }
       if (e.touches.length === 1 && state.zoom.scale > 1) {
+        e.preventDefault();
         touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       }
-    }, { passive: true });
+    }, { passive: false });
 
     wrap.addEventListener('touchmove', (e) => {
       if (e.touches.length === 2 && pinchStart) {
@@ -737,35 +737,26 @@
       pinchStart = null;
       touchPanStart = null;
       state.zoom.dragging = false;
+      updateZoomTransform();
     });
 
-    els.zoomOverlay.querySelector('.zoom-toolbar').addEventListener('click', (e) => {
-      e.stopPropagation();
-      const btn = e.target.closest('[data-action]');
-      if (!btn) return;
-      const action = btn.dataset.action;
-      switch (action) {
-        case 'zoom-in': applyScale(state.zoom.scale + 0.25); break;
-        case 'zoom-out': applyScale(state.zoom.scale - 0.25); break;
-        case 'reset': resetZoom(); break;
-      }
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach((eventName) => {
+      wrap.addEventListener(eventName, (e) => {
+        e.preventDefault();
+      }, { passive: false });
     });
+
+    resetZoom();
   }
 
   function initKeyboard() {
     document.addEventListener('keydown', (e) => {
       if (e.target === els.searchInput) return;
 
-      if (state.zoom.active) {
-        if (e.key === 'Escape') { closeZoom(); e.preventDefault(); return; }
-        if (e.key === '+' || e.key === '=') { applyScale(state.zoom.scale + 0.25); e.preventDefault(); return; }
-        if (e.key === '-') { applyScale(state.zoom.scale - 0.25); e.preventDefault(); return; }
-        if (e.key === '0') { resetZoom(); e.preventDefault(); return; }
-        return;
-      }
-
+      if (state.currentStrip && (e.key === '+' || e.key === '=')) { applyScale(state.zoom.scale + 0.2); e.preventDefault(); return; }
+      if (state.currentStrip && e.key === '-') { applyScale(state.zoom.scale - 0.2); e.preventDefault(); return; }
+      if (state.currentStrip && (e.key === '0' || e.key === 'Escape')) { resetZoom(); e.preventDefault(); return; }
       if (e.key === ' ' || e.key === 'ArrowRight') { nextPanel(); e.preventDefault(); }
-      if (e.key === 'Escape') { closeZoom(); }
     });
   }
 

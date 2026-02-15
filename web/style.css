@@ -125,6 +125,7 @@ header {
   flex: 1;
   height: 0;
   min-height: 0;
+  position: relative;
 }
 
 .comic-panel {
@@ -178,14 +179,75 @@ header {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  overflow: auto;
+  overflow: hidden;
   cursor: zoom-in;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03), transparent 65%);
 }
 
 .comic-image-wrap img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  transform-origin: center center;
+  transition: transform 150ms ease;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+.comic-image-wrap img.dragging {
+  transition: none;
+}
+
+.comic-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+
+.zoom-inline-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.zoom-inline-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.zoom-inline-btn:active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+#zoomSlider {
+  flex: 1;
+  min-width: 80px;
+  accent-color: var(--accent);
+}
+
+.zoom-inline-level {
+  min-width: 48px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .comic-loading {
@@ -487,6 +549,10 @@ header {
   cursor: pointer;
 }
 
+.recommend-toggle label span {
+  white-space: nowrap;
+}
+
 .recommend-toggle input[type="checkbox"] {
   accent-color: var(--accent);
 }
@@ -761,7 +827,7 @@ header {
   }
 
   .layout {
-    flex-direction: column;
+    flex-direction: row;
     height: 0;
     flex: 1;
     min-height: 0;
@@ -772,39 +838,102 @@ header {
     flex: 1;
     min-height: 0;
     border-right: none;
-    border-bottom: var(--border-thick);
+    border-bottom: none;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  .comic-zoom-bar {
+    gap: 6px;
+    padding: 7px 10px;
+  }
+
+  .zoom-inline-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .zoom-inline-level {
+    min-width: 42px;
+    font-size: 11px;
   }
 
   .sidebar-toggle {
-    width: 100%;
-    min-width: 100%;
-    height: 28px;
-    min-height: 28px;
-    border-right: none;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    z-index: 31;
+    width: 30px;
+    min-width: 30px;
+    height: 48px;
+    min-height: 48px;
+    border-top: var(--border-thick);
     border-bottom: var(--border-thick);
+    border-left: var(--border-thick);
+    border-right: none;
+    border-radius: 8px 0 0 8px;
     flex-shrink: 0;
+    background: var(--bg-surface);
+    transition: right 0.25s ease, color 0.15s;
   }
 
   .sidebar-toggle.collapsed {
-    border-left: none;
-    border-bottom: var(--border-thick);
+    border-left: var(--border-thick);
+  }
+
+  .sidebar-toggle:not(.collapsed) {
+    right: min(86vw, 380px);
   }
 
   .selection-panel {
-    width: 100%;
-    min-width: 100%;
-    flex: 1;
-    min-height: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(86vw, 380px);
+    min-width: min(86vw, 380px);
+    max-width: 380px;
+    border-left: var(--border-thick);
+    background: var(--bg-surface);
+    z-index: 30;
+    flex: none;
+    min-height: auto;
     overflow-y: auto;
-    transition: max-height 0.25s ease, opacity 0.2s ease;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    box-shadow: -14px 0 24px rgba(0, 0, 0, 0.35);
+    transform: translateX(0);
+    transition: transform 0.25s ease;
   }
 
   .selection-panel.collapsed {
-    width: 100%;
-    min-width: 100%;
-    flex: 0;
-    max-height: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+
+  .recommend-toggle {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .recommend-toggle label {
+    flex: 1;
+    min-width: 0;
     overflow: hidden;
+  }
+
+  .recommend-toggle label span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lucky-btn {
+    margin-left: 0;
+    flex-shrink: 0;
+    padding: 3px 8px;
+    font-size: 10px;
   }
 }
 
