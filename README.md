@@ -7,7 +7,6 @@
 
 <div align="center">
 
-[![Rust](https://img.shields.io/badge/Rust-stable-000000?logo=rust)](https://www.rust-lang.org/)
 [![CI](https://img.shields.io/github/actions/workflow/status/ashmod/panels/ci.yml?branch=main&label=CI&logo=github&style=flat-square)](https://github.com/ashmod/panels/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/ashmod/panels/tests.yml?branch=main&label=Tests&logo=github&style=flat-square)](https://github.com/ashmod/panels/actions/workflows/tests.yml)
 [![Deployment](https://img.shields.io/website?url=https%3A%2F%2Fpanels.ashmod.dev%2Fapi%2Fhealth&label=Deployment&logo=heroku&style=flat-square)](https://panels.ashmod.dev)
@@ -147,7 +146,7 @@ Tests workflow (`.github/workflows/tests.yml`) runs:
 
 ## Contributing
 
-Contributions are welcome. Feel free to open an issue or submit a pull request.
+Contributions are welcome. Feel free to open an issue or submit a pull request. Let me know if a comic you love is missing or if you have ideas for new features!
 
 ### Issue reporting
 

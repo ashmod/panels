@@ -12,6 +12,13 @@
     recommendEnabled: false,
     isLoading: false,
     zoom: { scale: 1, offset: { x: 0, y: 0 }, dragging: false },
+    currentView: 'panel',
+    feed: {
+      strips: [],
+      seenKeys: new Set(),
+      isLoadingBatch: false,
+      lastSelectedSnapshot: null,
+    },
   };
 
   const BADGE_COLORS = [
@@ -33,6 +40,11 @@
   let touchPanStart = null;
   let pinchStart = null;
   let searchTimeout = null;
+
+  const feedZoom = { scale: 1, offset: { x: 0, y: 0 }, dragging: false };
+  let feedDragStart = { x: 0, y: 0 };
+  let feedTouchPanStart = null;
+  let feedPinchStart = null;
   const recentStrips = [];
   const MAX_RECENT = 20;
 
@@ -52,7 +64,6 @@
   }
 
   const els = {
-    selectedCount: $('#selectedCount'),
     themeToggle: $('#themeToggle'),
     comicPanel: $('#comicPanel'),
     comicEmpty: $('#comicEmpty'),
@@ -79,6 +90,22 @@
     recommendToggle: $('#recommendToggle'),
     luckyBtn: $('#luckyBtn'),
     badgeGrid: $('#badgeGrid'),
+    feedContainer: $('#feedContainer'),
+    feedScroll: $('#feedScroll'),
+    feedSentinel: $('#feedSentinel'),
+    feedEmpty: $('#feedEmpty'),
+    navFeedLink: $('#navFeedLink'),
+    logoLink: $('#logoLink'),
+    feedZoomOverlay: $('#feedZoomOverlay'),
+    feedZoomBackdrop: $('#feedZoomBackdrop'),
+    feedZoomClose: $('#feedZoomClose'),
+    feedZoomWrap: $('#feedZoomWrap'),
+    feedZoomImage: $('#feedZoomImage'),
+    feedZoomOut: $('#feedZoomOut'),
+    feedZoomIn: $('#feedZoomIn'),
+    feedZoomReset: $('#feedZoomReset'),
+    feedZoomSlider: $('#feedZoomSlider'),
+    feedZoomLevel: $('#feedZoomLevel'),
   };
 
   async function fetchComics() {
@@ -345,13 +372,11 @@
     renderBadgeGrid();
   }
 
-  function getBaseFilteredComics() {
-    return state.allComics.filter((c) => {
-      if (state.activeTags.size > 0 && !c.tags.some((t) => state.activeTags.has(t))) return false;
-      if (state.activeLetter === '#' && !/^\d/.test(c.title)) return false;
-      if (state.activeLetter && state.activeLetter !== '#' && !c.title.toUpperCase().startsWith(state.activeLetter)) return false;
-      return true;
-    });
+  function matchesTagAndAlphabet(c) {
+    if (state.activeTags.size > 0 && !c.tags.some((t) => state.activeTags.has(t))) return false;
+    if (state.activeLetter === '#' && !/^\d/.test(c.title)) return false;
+    if (state.activeLetter && state.activeLetter !== '#' && !c.title.toUpperCase().startsWith(state.activeLetter)) return false;
+    return true;
   }
 
   function matchesSearch(c) {
@@ -360,14 +385,13 @@
   }
 
   function renderBadgeGrid() {
-    const filtered = getBaseFilteredComics();
-    const selectedComics = filtered.filter((c) => state.selectedEndpoints.has(c.endpoint));
+    const selectedComics = state.allComics.filter((c) => state.selectedEndpoints.has(c.endpoint));
     const recEndpoints = new Set(state.recommendations.map((r) => r.endpoint));
     const recommendedComics = state.recommendEnabled
-      ? filtered.filter((c) => recEndpoints.has(c.endpoint) && !state.selectedEndpoints.has(c.endpoint))
+      ? state.allComics.filter((c) => recEndpoints.has(c.endpoint) && !state.selectedEndpoints.has(c.endpoint))
       : [];
     const selectedSet = new Set([...state.selectedEndpoints, ...recEndpoints]);
-    const allComics = filtered.filter((c) => !selectedSet.has(c.endpoint) && matchesSearch(c));
+    const allComics = state.allComics.filter((c) => !selectedSet.has(c.endpoint) && matchesTagAndAlphabet(c) && matchesSearch(c));
 
     els.badgeGrid.innerHTML = '';
 
@@ -383,7 +407,6 @@
       appendSection(`[ all comics: ${allComics.length} ]`, allComics, '');
     }
 
-    updateSelectedCount();
   }
 
   function appendSection(title, comics, badgeClass, showClear) {
@@ -459,11 +482,15 @@
     renderBadgeGrid();
     updateNavVisibility();
     if (state.recommendEnabled) refreshRecommendations();
-  }
-
-  function updateSelectedCount() {
-    const count = state.selectedEndpoints.size;
-    els.selectedCount.textContent = `[ ${count} selected ]`;
+    if (state.currentView === 'feed') {
+      clearFeed();
+      state.feed.lastSelectedSnapshot = Array.from(state.selectedEndpoints).sort().join(',');
+      if (state.selectedEndpoints.size > 0) {
+        loadFeedBatch();
+      } else {
+        els.feedEmpty.classList.remove('hidden');
+      }
+    }
   }
 
   function showComic(strip) {
@@ -762,14 +789,373 @@
     resetZoom();
   }
 
+  function navigateTo(path) {
+    if (location.pathname !== path) {
+      history.pushState(null, '', path);
+    }
+    handleRoute();
+  }
+
+  function initRouter() {
+    window.addEventListener('popstate', handleRoute);
+
+    els.navFeedLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateTo('/feed');
+    });
+
+    els.logoLink.addEventListener('click', () => {
+      navigateTo('/');
+    });
+
+    handleRoute();
+  }
+
+  function handleRoute() {
+    if (location.pathname === '/feed') {
+      switchToFeed();
+    } else {
+      switchToPanel();
+    }
+  }
+
+  function switchToFeed() {
+    state.currentView = 'feed';
+    document.body.classList.add('view-feed');
+    document.body.classList.remove('view-panel');
+    els.feedContainer.classList.remove('hidden');
+    els.navFeedLink.classList.add('active');
+
+    const snapshot = Array.from(state.selectedEndpoints).sort().join(',');
+    if (state.feed.lastSelectedSnapshot !== snapshot) {
+      clearFeed();
+      state.feed.lastSelectedSnapshot = snapshot;
+    }
+
+    if (state.selectedEndpoints.size === 0) {
+      els.feedEmpty.classList.remove('hidden');
+    } else if (state.feed.strips.length === 0 && !state.feed.isLoadingBatch) {
+      els.feedEmpty.classList.add('hidden');
+      loadFeedBatch();
+    }
+  }
+
+  function switchToPanel() {
+    state.currentView = 'panel';
+    document.body.classList.remove('view-feed');
+    document.body.classList.add('view-panel');
+    els.navFeedLink.classList.remove('active');
+  }
+
+  function createSkeletonCard() {
+    const card = document.createElement('article');
+    card.className = 'feed-card feed-card-skeleton';
+    card.innerHTML =
+      '<div class="feed-card-header">' +
+        '<div class="feed-card-badge skeleton-pulse"></div>' +
+        '<div class="feed-card-info">' +
+          '<div class="skeleton-pulse" style="width:120px;height:14px;"></div>' +
+          '<div class="skeleton-pulse" style="width:80px;height:11px;margin-top:4px;"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="feed-card-image skeleton-pulse"></div>';
+    return card;
+  }
+
+  function renderFeedCard(strip, comic) {
+    const card = document.createElement('article');
+    card.className = 'feed-card';
+
+    const author = comic && comic.author ? comic.author : '';
+    const authorHtml = author ? '<span class="feed-card-sub">by ' + escapeHtml(author) + ' &mdash; ' + escapeHtml(strip.date) + '</span>' : '<span class="feed-card-sub">' + escapeHtml(strip.date) + '</span>';
+    const color = hashColor(strip.endpoint);
+
+    card.innerHTML =
+      '<div class="feed-card-header">' +
+        '<div class="feed-card-badge">' +
+          '<div class="badge-circle-bg" style="background:' + color + ';"></div>' +
+          '<img src="/api/badges/' + encodeURIComponent(strip.endpoint) + '.png" alt="" onerror="this.style.display=\'none\'">' +
+        '</div>' +
+        '<div class="feed-card-info">' +
+          '<span class="feed-card-title">' + escapeHtml(strip.title) + '</span>' +
+          authorHtml +
+        '</div>' +
+      '</div>' +
+      '<div class="feed-card-image">' +
+        '<img src="/api/comics/' + encodeURIComponent(strip.endpoint) + '/' + encodeURIComponent(strip.date) + '/image" alt="' + escapeHtml(strip.title) + '" loading="lazy">' +
+      '</div>';
+
+    const cardImg = card.querySelector('.feed-card-image img');
+    if (cardImg) {
+      cardImg.addEventListener('click', () => openFeedZoom(cardImg.src));
+    }
+
+    return card;
+  }
+
+  async function fetchRandomFeedStrip() {
+    const endpoints = Array.from(state.selectedEndpoints);
+    if (endpoints.length === 0) return null;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
+      try {
+        const strip = await fetchStrip(endpoint, 'random');
+        const key = stripKey(strip);
+        if (attempt < 2 && state.feed.seenKeys.has(key)) continue;
+        state.feed.seenKeys.add(key);
+        return strip;
+      } catch (e) {
+        if (attempt === 2) return null;
+      }
+    }
+    return null;
+  }
+
+  async function loadFeedBatch() {
+    if (state.feed.isLoadingBatch || state.selectedEndpoints.size === 0) return;
+    state.feed.isLoadingBatch = true;
+
+    const skeletons = [];
+    for (let i = 0; i < 6; i++) {
+      const skel = createSkeletonCard();
+      els.feedScroll.appendChild(skel);
+      skeletons.push(skel);
+    }
+
+    const promises = [];
+    for (let i = 0; i < 6; i++) {
+      promises.push(fetchRandomFeedStrip());
+    }
+    const results = await Promise.allSettled(promises);
+
+    let loaded = 0;
+    results.forEach((result, i) => {
+      const strip = result.status === 'fulfilled' ? result.value : null;
+      if (strip) {
+        const comic = state.allComics.find((c) => c.endpoint === strip.endpoint);
+        const card = renderFeedCard(strip, comic);
+        skeletons[i].replaceWith(card);
+        state.feed.strips.push(strip);
+        loaded++;
+      } else {
+        skeletons[i].remove();
+      }
+    });
+
+    if (state.feed.strips.length === 0) {
+      els.feedEmpty.classList.remove('hidden');
+    }
+
+    state.feed.isLoadingBatch = false;
+  }
+
+  function clearFeed() {
+    state.feed.strips = [];
+    state.feed.seenKeys = new Set();
+    state.feed.isLoadingBatch = false;
+    els.feedScroll.innerHTML = '';
+    els.feedEmpty.classList.add('hidden');
+  }
+
+  function initFeedScroll() {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && state.currentView === 'feed') {
+        loadFeedBatch();
+      }
+    }, { root: els.feedContainer, rootMargin: '400px' });
+    observer.observe(els.feedSentinel);
+  }
+
+  function openFeedZoom(imgSrc) {
+    els.feedZoomImage.src = imgSrc;
+    els.feedZoomOverlay.classList.remove('hidden');
+    feedZoomResetState();
+  }
+
+  function closeFeedZoom() {
+    els.feedZoomOverlay.classList.add('hidden');
+    els.feedZoomImage.src = '';
+    feedZoomResetState();
+  }
+
+  function feedZoomApplyScale(nextScale) {
+    const clamped = clampScale(nextScale);
+    feedZoom.scale = clamped;
+    if (clamped <= 1) {
+      feedZoom.offset = { x: 0, y: 0 };
+    }
+    feedZoomUpdateTransform();
+  }
+
+  function feedZoomResetState() {
+    feedZoom.scale = 1;
+    feedZoom.offset = { x: 0, y: 0 };
+    feedZoom.dragging = false;
+    feedZoomUpdateTransform();
+  }
+
+  function feedZoomUpdateTransform() {
+    const { scale, offset, dragging } = feedZoom;
+    const img = els.feedZoomImage;
+    img.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${scale})`;
+    img.classList.toggle('dragging', dragging);
+
+    if (scale > 1) {
+      img.style.cursor = dragging ? 'grabbing' : 'grab';
+    } else {
+      img.style.cursor = 'zoom-in';
+    }
+
+    els.feedZoomLevel.textContent = `${Math.round(scale * 100)}%`;
+    els.feedZoomSlider.value = String(Math.round(scale * 100));
+  }
+
+  function initFeedZoom() {
+    const wrap = els.feedZoomWrap;
+
+    els.feedZoomClose.addEventListener('click', closeFeedZoom);
+    els.feedZoomBackdrop.addEventListener('click', closeFeedZoom);
+
+    $('.feed-zoom-content').addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) closeFeedZoom();
+    });
+
+    els.feedZoomOut.addEventListener('click', () => feedZoomApplyScale(feedZoom.scale - 0.2));
+    els.feedZoomIn.addEventListener('click', () => feedZoomApplyScale(feedZoom.scale + 0.2));
+    els.feedZoomReset.addEventListener('click', feedZoomResetState);
+    els.feedZoomSlider.addEventListener('input', () => {
+      feedZoomApplyScale(Number(els.feedZoomSlider.value) / 100);
+    });
+
+    wrap.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.12 : 0.12;
+      feedZoomApplyScale(feedZoom.scale + delta);
+    }, { passive: false });
+
+    els.feedZoomImage.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      clearSelection();
+      if (feedZoom.scale <= 1) return;
+      feedZoom.dragging = true;
+      feedDragStart = { x: e.clientX, y: e.clientY };
+      feedZoomUpdateTransform();
+    });
+
+    els.feedZoomImage.addEventListener('dragstart', (e) => e.preventDefault());
+
+    wrap.addEventListener('mousemove', (e) => {
+      if (!feedZoom.dragging || feedZoom.scale <= 1) return;
+      feedZoom.offset.x += e.clientX - feedDragStart.x;
+      feedZoom.offset.y += e.clientY - feedDragStart.y;
+      feedDragStart = { x: e.clientX, y: e.clientY };
+      feedZoomUpdateTransform();
+    });
+
+    wrap.addEventListener('mouseup', () => {
+      feedZoom.dragging = false;
+      feedZoomUpdateTransform();
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+      feedZoom.dragging = false;
+      feedZoomUpdateTransform();
+    });
+
+    wrap.addEventListener('touchstart', (e) => {
+      clearSelection();
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        feedZoom.dragging = true;
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        feedPinchStart = {
+          distance: getTouchDistance(t1, t2),
+          scale: feedZoom.scale,
+          center: getTouchCenter(t1, t2),
+          offset: { ...feedZoom.offset },
+        };
+        feedTouchPanStart = null;
+        feedZoomUpdateTransform();
+        return;
+      }
+      if (e.touches.length === 1 && feedZoom.scale > 1) {
+        e.preventDefault();
+        feedZoom.dragging = true;
+        feedTouchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        feedZoomUpdateTransform();
+      }
+    }, { passive: false });
+
+    wrap.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2 && feedPinchStart) {
+        e.preventDefault();
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = getTouchDistance(t1, t2);
+        const currentCenter = getTouchCenter(t1, t2);
+        const ratio = currentDist / feedPinchStart.distance;
+        feedZoom.scale = clampScale(feedPinchStart.scale * ratio);
+        feedZoom.offset = {
+          x: feedPinchStart.offset.x + (currentCenter.x - feedPinchStart.center.x),
+          y: feedPinchStart.offset.y + (currentCenter.y - feedPinchStart.center.y),
+        };
+        feedZoomUpdateTransform();
+        return;
+      }
+      if (e.touches.length === 1 && feedZoom.scale > 1 && feedTouchPanStart) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        feedZoom.offset.x += touch.clientX - feedTouchPanStart.x;
+        feedZoom.offset.y += touch.clientY - feedTouchPanStart.y;
+        feedTouchPanStart = { x: touch.clientX, y: touch.clientY };
+        feedZoomUpdateTransform();
+      }
+    }, { passive: false });
+
+    wrap.addEventListener('touchend', (e) => {
+      if (e.touches.length < 2) feedPinchStart = null;
+      if (e.touches.length === 0) {
+        feedTouchPanStart = null;
+        feedZoom.dragging = false;
+        feedZoomUpdateTransform();
+      } else if (e.touches.length === 1 && feedZoom.scale > 1) {
+        feedZoom.dragging = true;
+        feedTouchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        feedZoomUpdateTransform();
+      } else {
+        feedZoom.dragging = false;
+        feedZoomUpdateTransform();
+      }
+    });
+
+    wrap.addEventListener('touchcancel', () => {
+      feedPinchStart = null;
+      feedTouchPanStart = null;
+      feedZoom.dragging = false;
+      feedZoomUpdateTransform();
+    });
+
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach((eventName) => {
+      wrap.addEventListener(eventName, (e) => e.preventDefault(), { passive: false });
+    });
+  }
+
   function initKeyboard() {
     document.addEventListener('keydown', (e) => {
       if (e.target === els.searchInput) return;
 
+      if (e.key === 'Escape' && !els.feedZoomOverlay.classList.contains('hidden')) {
+        closeFeedZoom();
+        e.preventDefault();
+        return;
+      }
+
       if (state.currentStrip && (e.key === '+' || e.key === '=')) { applyScale(state.zoom.scale + 0.2); e.preventDefault(); return; }
       if (state.currentStrip && e.key === '-') { applyScale(state.zoom.scale - 0.2); e.preventDefault(); return; }
       if (state.currentStrip && (e.key === '0' || e.key === 'Escape')) { resetZoom(); e.preventDefault(); return; }
-      if (e.key === ' ' || e.key === 'ArrowRight') { nextPanel(); e.preventDefault(); }
+      if ((e.key === ' ' || e.key === 'ArrowRight') && state.currentView === 'panel') { nextPanel(); e.preventDefault(); }
     });
   }
 
@@ -796,6 +1182,8 @@
     initNav();
     initZoom();
     initKeyboard();
+    initFeedScroll();
+    initFeedZoom();
 
     try {
       state.allComics = await fetchComics();
@@ -807,6 +1195,8 @@
         updateNavVisibility();
         if (state.recommendEnabled) refreshRecommendations();
       }
+
+      initRouter();
     } catch (e) {
       els.badgeGrid.innerHTML = '<div class="badge-section-header">[ error loading comics ]</div>';
     }

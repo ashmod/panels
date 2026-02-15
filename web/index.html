@@ -26,9 +26,11 @@
 <body>
   <header>
     <div class="header-left">
-      <span class="logo">panels</span>
-      <span class="selected-count" id="selectedCount">[ 0 selected ]</span>
+      <span class="logo" id="logoLink">panels</span>
     </div>
+    <nav class="header-nav">
+      <a class="nav-link" id="navFeedLink" href="/feed">[ FEED ]</a>
+    </nav>
     <div class="header-right">
       <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
       <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
@@ -60,6 +62,14 @@
       <div class="comic-nav-bar hidden" id="comicNavBar">
         <button class="nav-btn shuffle-btn" id="btnNextPanel"><i class="fa-solid fa-shuffle"></i> NEXT PANEL</button>
         <button class="nav-btn today-btn hidden" id="btnToday">[ LATEST ]</button>
+      </div>
+    </section>
+
+    <section class="feed-container hidden" id="feedContainer">
+      <div class="feed-scroll" id="feedScroll"></div>
+      <div class="feed-sentinel" id="feedSentinel"></div>
+      <div class="feed-empty hidden" id="feedEmpty">
+        <span>[ select comics to fill your feed ]</span>
       </div>
     </section>
 
@@ -96,6 +106,23 @@
       <div class="badge-grid" id="badgeGrid"></div>
     </aside>
   </main>
+
+  <div class="feed-zoom-overlay hidden" id="feedZoomOverlay">
+    <div class="zoom-backdrop" id="feedZoomBackdrop"></div>
+    <button class="zoom-close" id="feedZoomClose">&times;</button>
+    <div class="feed-zoom-content">
+      <div class="feed-zoom-image-wrap" id="feedZoomWrap">
+        <img id="feedZoomImage" alt="Comic strip" draggable="false">
+      </div>
+    </div>
+    <div class="comic-zoom-bar feed-zoom-bar">
+      <button class="zoom-inline-btn" id="feedZoomOut" aria-label="Zoom out">&minus;</button>
+      <input type="range" id="feedZoomSlider" min="100" max="500" step="5" value="100" aria-label="Zoom level">
+      <button class="zoom-inline-btn" id="feedZoomIn" aria-label="Zoom in">&plus;</button>
+      <button class="zoom-inline-btn" id="feedZoomReset" aria-label="Reset zoom">&#8634;</button>
+      <span class="zoom-inline-level" id="feedZoomLevel">100%</span>
+    </div>
+  </div>
 
   <script src="/app.js"></script>
 </body>

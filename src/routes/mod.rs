@@ -7,7 +7,7 @@ use axum::Router;
 use axum::routing::get;
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 use tower_http::trace::TraceLayer;
 
 use crate::AppState;
@@ -28,7 +28,8 @@ pub fn build_router(state: Arc<AppState>) -> Router {
             get(proxy::proxy_image),
         )
         .nest_service("/api/badges", ServeDir::new(badges_dir))
-        .fallback_service(ServeDir::new("web"))
+        .route_service("/feed", ServeFile::new("web/index.html"))
+        .fallback_service(ServeDir::new("web").fallback(ServeFile::new("web/index.html")))
         .layer(CorsLayer::permissive())
         .layer(TraceLayer::new_for_http())
         .with_state(state)
