@@ -1940,6 +1940,14 @@
     "startDate": "2014-11-07"
   },
   {
+    "endpoint": "phd",
+    "title": "Piled Higher and Deeper",
+    "author": "Jorge Cham",
+    "available": true,
+    "startDate": "1997-10-27",
+    "source": "phd"
+  },
+  {
     "endpoint": "phoebe-and-her-unicorn",
     "title": "Phoebe and Her Unicorn",
     "author": "Dana Simpson",

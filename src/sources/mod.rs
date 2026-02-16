@@ -1,6 +1,7 @@
 pub mod comicsrss;
 pub mod dilbert;
 pub mod gocomics;
+pub mod phd;
 pub mod xkcd;
 
 use async_trait::async_trait;

@@ -11,6 +11,7 @@ use panels::sources::SourceRegistry;
 use panels::sources::comicsrss::ComicsRssSource;
 use panels::sources::dilbert::DilbertSource;
 use panels::sources::gocomics::GoComicsSource;
+use panels::sources::phd::PhdSource;
 use panels::sources::xkcd::XkcdSource;
 use tracing::info;
 
@@ -38,11 +39,13 @@ async fn main() -> anyhow::Result<()> {
     let gocomics = GoComicsSource::new(client.clone(), comics.clone(), caches.clone());
     let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
     let xkcd = XkcdSource::new(client.clone(), caches.clone());
+    let phd = PhdSource::new(client.clone(), caches.clone());
     let comicsrss = ComicsRssSource::new(client.clone(), comics.clone(), caches);
     let sources = SourceRegistry::new(vec![
         Box::new(gocomics),
         Box::new(dilbert),
         Box::new(xkcd),
+        Box::new(phd),
         Box::new(comicsrss),
     ]);
 
