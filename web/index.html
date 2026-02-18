@@ -30,6 +30,7 @@
     </div>
     <nav class="header-nav">
       <a class="nav-link" id="navFeedLink" href="/feed">[ FEED ]</a>
+      <a class="nav-link fav-nav-link" id="navFavLink" href="/favorites"><i class="fa-solid fa-heart"></i></a>
     </nav>
     <div class="header-right">
       <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -61,6 +62,7 @@
       </div>
       <div class="comic-nav-bar hidden" id="comicNavBar">
         <button class="nav-btn shuffle-btn" id="btnNextPanel"><i class="fa-solid fa-shuffle"></i> NEXT PANEL</button>
+        <button class="nav-btn fav-btn hidden" id="btnFavorite" aria-label="Toggle favorite"><i class="fa-regular fa-heart"></i></button>
         <button class="nav-btn today-btn hidden" id="btnToday">[ LATEST ]</button>
       </div>
     </section>
@@ -70,6 +72,13 @@
       <div class="feed-sentinel" id="feedSentinel"></div>
       <div class="feed-empty hidden" id="feedEmpty">
         <span>[ select comics to fill your feed ]</span>
+      </div>
+    </section>
+
+    <section class="fav-container hidden" id="favContainer">
+      <div class="fav-gallery" id="favGallery"></div>
+      <div class="fav-empty hidden" id="favEmpty">
+        <span>[ no favorites yet — heart some strips! ]</span>
       </div>
     </section>
 

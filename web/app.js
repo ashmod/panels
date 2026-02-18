@@ -13,6 +13,7 @@
     isLoading: false,
     zoom: { scale: 1, offset: { x: 0, y: 0 }, dragging: false },
     currentView: 'panel',
+    favorites: [],
     feed: {
       strips: [],
       seenKeys: new Set(),
@@ -52,6 +53,7 @@
   const LS_THEME = 'panels_theme';
   const LS_SIDEBAR = 'panels_sidebar_collapsed';
   const LS_COLLAPSIBLES = 'panels_collapsibles';
+  const LS_FAVORITES = 'panels_favorites';
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
@@ -106,6 +108,11 @@
     feedZoomReset: $('#feedZoomReset'),
     feedZoomSlider: $('#feedZoomSlider'),
     feedZoomLevel: $('#feedZoomLevel'),
+    btnFavorite: $('#btnFavorite'),
+    navFavLink: $('#navFavLink'),
+    favContainer: $('#favContainer'),
+    favGallery: $('#favGallery'),
+    favEmpty: $('#favEmpty'),
   };
 
   async function fetchComics() {
@@ -127,6 +134,50 @@
     return res.json();
   }
 
+  function loadFavorites() {
+    try {
+      const saved = localStorage.getItem(LS_FAVORITES);
+      if (saved) state.favorites = JSON.parse(saved);
+    } catch (e) {
+      state.favorites = [];
+    }
+  }
+
+  function saveFavorites() {
+    localStorage.setItem(LS_FAVORITES, JSON.stringify(state.favorites));
+  }
+
+  function isFavorited(endpoint, date) {
+    return state.favorites.some((f) => f.endpoint === endpoint && f.date === date);
+  }
+
+  function toggleFavorite() {
+    if (!state.currentStrip) return;
+    const { endpoint, date, title } = state.currentStrip;
+    const idx = state.favorites.findIndex((f) => f.endpoint === endpoint && f.date === date);
+    if (idx >= 0) {
+      state.favorites.splice(idx, 1);
+    } else {
+      state.favorites.push({ endpoint, date, title, added: Date.now() });
+    }
+    saveFavorites();
+    updateFavoriteButton();
+    if (state.currentView === 'favorites') renderFavGallery();
+  }
+
+  function updateFavoriteButton() {
+    if (!state.currentStrip) {
+      els.btnFavorite.classList.add('hidden');
+      return;
+    }
+    els.btnFavorite.classList.remove('hidden');
+    const faved = isFavorited(state.currentStrip.endpoint, state.currentStrip.date);
+    els.btnFavorite.classList.toggle('favorited', faved);
+    els.btnFavorite.innerHTML = faved
+      ? '<i class="fa-solid fa-heart"></i>'
+      : '<i class="fa-regular fa-heart"></i>';
+  }
+
   function loadState() {
     try {
       const saved = localStorage.getItem(LS_SELECTED);
@@ -134,7 +185,8 @@
         const arr = JSON.parse(saved);
         arr.forEach((ep) => state.selectedEndpoints.add(ep));
       }
-    } catch (e) {} 
+    } catch (e) {}
+    loadFavorites();
 
     const theme = localStorage.getItem(LS_THEME);
     if (theme) document.documentElement.setAttribute('data-theme', theme);
@@ -507,6 +559,7 @@
     resetZoom();
 
     updateNavVisibility();
+    updateFavoriteButton();
   }
 
   function showEmpty() {
@@ -540,11 +593,12 @@
     const count = state.selectedEndpoints.size;
     if (count === 0) {
       els.comicNavBar.classList.add('hidden');
+      els.btnToday.classList.add('hidden');
+      els.btnFavorite.classList.add('hidden');
       return;
     }
     els.comicNavBar.classList.remove('hidden');
-
-    if (count === 1) {
+    if (state.currentStrip || count === 1) {
       els.btnToday.classList.remove('hidden');
     } else {
       els.btnToday.classList.add('hidden');
@@ -585,8 +639,11 @@
   }
 
   async function todayPanel() {
-    if (state.selectedEndpoints.size !== 1 || state.isLoading) return;
-    const endpoint = Array.from(state.selectedEndpoints)[0];
+    if (state.isLoading) return;
+    const endpoint = state.currentStrip
+      ? state.currentStrip.endpoint
+      : (state.selectedEndpoints.size === 1 ? Array.from(state.selectedEndpoints)[0] : null);
+    if (!endpoint) return;
     showLoading();
     try {
       const strip = await fetchStrip(endpoint, 'latest');
@@ -804,6 +861,11 @@
       navigateTo('/feed');
     });
 
+    els.navFavLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateTo('/favorites');
+    });
+
     els.logoLink.addEventListener('click', () => {
       navigateTo('/');
     });
@@ -814,6 +876,8 @@
   function handleRoute() {
     if (location.pathname === '/feed') {
       switchToFeed();
+    } else if (location.pathname === '/favorites') {
+      switchToFavorites();
     } else {
       switchToPanel();
     }
@@ -822,9 +886,11 @@
   function switchToFeed() {
     state.currentView = 'feed';
     document.body.classList.add('view-feed');
-    document.body.classList.remove('view-panel');
+    document.body.classList.remove('view-panel', 'view-favorites');
     els.feedContainer.classList.remove('hidden');
+    els.favContainer.classList.add('hidden');
     els.navFeedLink.classList.add('active');
+    els.navFavLink.classList.remove('active');
 
     const snapshot = Array.from(state.selectedEndpoints).sort().join(',');
     if (state.feed.lastSelectedSnapshot !== snapshot) {
@@ -842,9 +908,112 @@
 
   function switchToPanel() {
     state.currentView = 'panel';
-    document.body.classList.remove('view-feed');
+    document.body.classList.remove('view-feed', 'view-favorites');
     document.body.classList.add('view-panel');
     els.navFeedLink.classList.remove('active');
+    els.navFavLink.classList.remove('active');
+    els.favContainer.classList.add('hidden');
+  }
+
+  function switchToFavorites() {
+    state.currentView = 'favorites';
+    document.body.classList.add('view-favorites');
+    document.body.classList.remove('view-panel', 'view-feed');
+    els.favContainer.classList.remove('hidden');
+    els.feedContainer.classList.add('hidden');
+    els.navFavLink.classList.add('active');
+    els.navFeedLink.classList.remove('active');
+    renderFavGallery();
+  }
+
+  function formatFavDate(ts) {
+    const d = new Date(ts);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diff = today - target;
+    if (diff === 0) return 'Today';
+    if (diff === 86400000) return 'Yesterday';
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderFavGallery() {
+    if (state.favorites.length === 0) {
+      els.favEmpty.classList.remove('hidden');
+      els.favGallery.classList.add('hidden');
+      return;
+    }
+    els.favEmpty.classList.add('hidden');
+    els.favGallery.classList.remove('hidden');
+    els.favGallery.innerHTML = '';
+
+    const sorted = [...state.favorites].sort((a, b) => b.added - a.added);
+
+    const groups = [];
+    sorted.forEach((fav) => {
+      const label = formatFavDate(fav.added);
+      const last = groups[groups.length - 1];
+      if (last && last.label === label) {
+        last.items.push(fav);
+      } else {
+        groups.push({ label, items: [fav] });
+      }
+    });
+
+    groups.forEach((group) => {
+      const header = document.createElement('div');
+      header.className = 'fav-group-header';
+      header.textContent = group.label;
+      els.favGallery.appendChild(header);
+
+      const grid = document.createElement('div');
+      grid.className = 'fav-group-grid';
+
+      group.items.forEach((fav) => {
+        const card = document.createElement('div');
+        card.className = 'fav-card';
+
+        const imgSrc = `/api/comics/${encodeURIComponent(fav.endpoint)}/${encodeURIComponent(fav.date)}/image`;
+
+        const img = document.createElement('img');
+        img.className = 'fav-card-img';
+        img.src = imgSrc;
+        img.alt = fav.title;
+        img.loading = 'lazy';
+        img.addEventListener('click', () => {
+          openFeedZoom(imgSrc);
+        });
+
+        const overlay = document.createElement('div');
+        overlay.className = 'fav-card-overlay';
+
+        const info = document.createElement('div');
+        info.className = 'fav-card-info';
+        info.innerHTML = '<span class="fav-card-title">' + escapeHtml(fav.title) + '</span>' +
+          '<span class="fav-card-date">' + escapeHtml(fav.date) + '</span>';
+
+        const unfav = document.createElement('button');
+        unfav.className = 'fav-card-unfav';
+        unfav.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        unfav.title = 'Remove from favorites';
+        unfav.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = state.favorites.findIndex((f) => f.endpoint === fav.endpoint && f.date === fav.date);
+          if (idx >= 0) state.favorites.splice(idx, 1);
+          saveFavorites();
+          updateFavoriteButton();
+          renderFavGallery();
+        });
+
+        overlay.appendChild(info);
+        overlay.appendChild(unfav);
+        card.appendChild(img);
+        card.appendChild(overlay);
+        grid.appendChild(card);
+      });
+
+      els.favGallery.appendChild(grid);
+    });
   }
 
   function createSkeletonCard() {
@@ -870,6 +1039,8 @@
     const authorHtml = author ? '<span class="feed-card-sub">by ' + escapeHtml(author) + ' &mdash; ' + escapeHtml(strip.date) + '</span>' : '<span class="feed-card-sub">' + escapeHtml(strip.date) + '</span>';
     const color = hashColor(strip.endpoint);
 
+    const faved = isFavorited(strip.endpoint, strip.date);
+
     card.innerHTML =
       '<div class="feed-card-header">' +
         '<div class="feed-card-badge">' +
@@ -880,6 +1051,9 @@
           '<span class="feed-card-title">' + escapeHtml(strip.title) + '</span>' +
           authorHtml +
         '</div>' +
+        '<button class="feed-card-fav' + (faved ? ' favorited' : '') + '" aria-label="Toggle favorite">' +
+          '<i class="' + (faved ? 'fa-solid' : 'fa-regular') + ' fa-heart"></i>' +
+        '</button>' +
       '</div>' +
       '<div class="feed-card-image">' +
         '<img src="/api/comics/' + encodeURIComponent(strip.endpoint) + '/' + encodeURIComponent(strip.date) + '/image" alt="' + escapeHtml(strip.title) + '" loading="lazy">' +
@@ -888,6 +1062,24 @@
     const cardImg = card.querySelector('.feed-card-image img');
     if (cardImg) {
       cardImg.addEventListener('click', () => openFeedZoom(cardImg.src));
+    }
+
+    const favBtn = card.querySelector('.feed-card-fav');
+    if (favBtn) {
+      favBtn.addEventListener('click', () => {
+        const idx = state.favorites.findIndex((f) => f.endpoint === strip.endpoint && f.date === strip.date);
+        if (idx >= 0) {
+          state.favorites.splice(idx, 1);
+          favBtn.classList.remove('favorited');
+          favBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+        } else {
+          state.favorites.push({ endpoint: strip.endpoint, date: strip.date, title: strip.title, added: Date.now() });
+          favBtn.classList.add('favorited');
+          favBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        }
+        saveFavorites();
+        updateFavoriteButton();
+      });
     }
 
     return card;
@@ -1156,6 +1348,7 @@
       if (state.currentStrip && e.key === '-') { applyScale(state.zoom.scale - 0.2); e.preventDefault(); return; }
       if (state.currentStrip && (e.key === '0' || e.key === 'Escape')) { resetZoom(); e.preventDefault(); return; }
       if ((e.key === ' ' || e.key === 'ArrowRight') && state.currentView === 'panel') { nextPanel(); e.preventDefault(); }
+      if (e.key === 'f' && state.currentView === 'panel' && state.currentStrip) { toggleFavorite(); e.preventDefault(); }
     });
   }
 
@@ -1172,6 +1365,10 @@
     }
   }
 
+  function initFavorites() {
+    els.btnFavorite.addEventListener('click', toggleFavorite);
+  }
+
   async function init() {
     loadState();
     initTheme();
@@ -1180,6 +1377,7 @@
     initSearch();
     initRecommend();
     initNav();
+    initFavorites();
     initZoom();
     initKeyboard();
     initFeedScroll();
