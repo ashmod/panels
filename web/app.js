@@ -1205,6 +1205,13 @@
 
   function initFeedZoom() {
     const wrap = els.feedZoomWrap;
+    const overlay = els.feedZoomOverlay;
+
+    const preventNativeFeedPinch = (e) => {
+      if (overlay.classList.contains('hidden')) return;
+      if (e.touches && e.touches.length < 2) return;
+      e.preventDefault();
+    };
 
     els.feedZoomClose.addEventListener('click', closeFeedZoom);
     els.feedZoomBackdrop.addEventListener('click', closeFeedZoom);
@@ -1329,8 +1336,12 @@
       feedZoomUpdateTransform();
     });
 
+    overlay.addEventListener('touchstart', preventNativeFeedPinch, { passive: false });
+    overlay.addEventListener('touchmove', preventNativeFeedPinch, { passive: false });
+
     ['gesturestart', 'gesturechange', 'gestureend'].forEach((eventName) => {
       wrap.addEventListener(eventName, (e) => e.preventDefault(), { passive: false });
+      overlay.addEventListener(eventName, preventNativeFeedPinch, { passive: false });
     });
   }
 

@@ -1009,6 +1009,7 @@ body.view-favorites .fav-container { display: flex; }
   z-index: 10;
   padding: 16px;
   min-height: 0;
+  touch-action: none;
 }
 
 .feed-zoom-image-wrap {
