@@ -39,7 +39,13 @@
     "title": "Adam@Home",
     "author": "Rob Harrell",
     "available": true,
-    "startDate": "1995-06-20"
+    "startDate": "1995-06-20",
+    "keywords": [
+      "dad",
+      "stay-at-home",
+      "family",
+      "kids"
+    ]
   },
   {
     "endpoint": "adult-children",
@@ -74,7 +80,13 @@
     "title": "Alley Oop",
     "author": "Jonathan Lemon and Joey Alison Sayers",
     "available": true,
-    "startDate": "1939-01-03"
+    "startDate": "1939-01-03",
+    "keywords": [
+      "caveman",
+      "prehistoric",
+      "dinosaur",
+      "time travel"
+    ]
   },
   {
     "endpoint": "amanda-the-great",
@@ -95,7 +107,16 @@
     "title": "Andy Capp",
     "author": "Reg Smythe",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "british",
+      "pub",
+      "lazy",
+      "wife",
+      "football",
+      "beer",
+      "working class"
+    ]
   },
   {
     "endpoint": "angry-little-girls",
@@ -109,28 +130,56 @@
     "title": "Animal Crackers",
     "author": "Mike Osbun",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "animals",
+      "zoo",
+      "jungle"
+    ]
   },
   {
     "endpoint": "annie",
     "title": "Annie",
     "author": "Harold Gray",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "orphan",
+      "red hair",
+      "daddy warbucks",
+      "sandy",
+      "dog"
+    ]
   },
   {
     "endpoint": "archie",
     "title": "Archie",
     "author": "Craig Boldman",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "riverdale",
+      "betty",
+      "veronica",
+      "jughead",
+      "teenager",
+      "high school",
+      "reggie"
+    ]
   },
   {
     "endpoint": "arloandjanis",
     "title": "Arlo and Janis",
     "author": "Jimmy Johnson",
     "available": true,
-    "startDate": "1994-05-02"
+    "startDate": "1994-05-02",
+    "keywords": [
+      "marriage",
+      "couple",
+      "cat",
+      "ludwig",
+      "romance"
+    ]
   },
   {
     "endpoint": "artbymoga",
@@ -158,7 +207,17 @@
     "title": "Baby Blues",
     "author": "Rick Kirkman and Jerry Scott",
     "available": true,
-    "startDate": "1990-01-07"
+    "startDate": "1990-01-07",
+    "keywords": [
+      "baby",
+      "parenting",
+      "kids",
+      "toddler",
+      "wren",
+      "zoe",
+      "hammie",
+      "family"
+    ]
   },
   {
     "endpoint": "back-to-bc",
@@ -193,14 +252,27 @@
     "title": "Baldo",
     "author": "Hector Cant\u00fa and Carlos Castellanos",
     "available": true,
-    "startDate": "2000-04-17"
+    "startDate": "2000-04-17",
+    "keywords": [
+      "latino",
+      "hispanic",
+      "family",
+      "teenager",
+      "culture"
+    ]
   },
   {
     "endpoint": "baldoespanol",
     "title": "Baldo en Espa\u00f1ol",
     "author": "Hector Cant\u00fa and Carlos Castellanos",
     "available": true,
-    "startDate": "2000-04-17"
+    "startDate": "2000-04-17",
+    "keywords": [
+      "latino",
+      "hispano",
+      "familia",
+      "adolescente"
+    ]
   },
   {
     "endpoint": "ballardstreet",
@@ -228,7 +300,13 @@
     "title": "Barney & Clyde",
     "author": "Gene Weingarten, Dan Weingarten and David Clark",
     "available": true,
-    "startDate": "2010-01-01"
+    "startDate": "2010-01-01",
+    "keywords": [
+      "rich",
+      "poor",
+      "friendship",
+      "odd couple"
+    ]
   },
   {
     "endpoint": "basicinstructions",
@@ -249,7 +327,15 @@
     "title": "B.C.",
     "author": "Mastroianni and Hart",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "caveman",
+      "prehistoric",
+      "dinosaur",
+      "stone age",
+      "ant",
+      "clams"
+    ]
   },
   {
     "endpoint": "beardo",
@@ -298,7 +384,15 @@
     "title": "Big Nate",
     "author": "Lincoln Peirce",
     "available": true,
-    "startDate": "1991-01-07"
+    "startDate": "1991-01-07",
+    "keywords": [
+      "school",
+      "kid",
+      "detention",
+      "middle school",
+      "nate wright",
+      "teacher"
+    ]
   },
   {
     "endpoint": "bigtop",
@@ -312,7 +406,13 @@
     "title": "Bird and Moon",
     "author": "Rosemary Mosco",
     "available": true,
-    "startDate": "2018-08-13"
+    "startDate": "2018-08-13",
+    "keywords": [
+      "bird",
+      "science",
+      "nature",
+      "educational"
+    ]
   },
   {
     "endpoint": "birdbrains",
@@ -333,42 +433,80 @@
     "title": "Bliss",
     "author": "Harry Bliss",
     "available": true,
-    "startDate": "2004-09-01"
+    "startDate": "2004-09-01",
+    "keywords": [
+      "single panel",
+      "art",
+      "sophisticated"
+    ]
   },
   {
     "endpoint": "blondie",
     "title": "Blondie",
     "author": "Dean Young and John Marshall",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "dagwood",
+      "sandwich",
+      "bumstead",
+      "mailman",
+      "boss",
+      "family"
+    ]
   },
   {
     "endpoint": "bloom-county",
     "title": "Bloom County Continues",
     "author": "Berke Breathed",
     "available": true,
-    "startDate": "2015-07-20"
+    "startDate": "2015-07-20",
+    "keywords": [
+      "penguin",
+      "opus",
+      "political",
+      "satire",
+      "bill the cat"
+    ]
   },
   {
     "endpoint": "bloomcounty",
     "title": "Bloom County",
     "author": "Berke Breathed",
     "available": true,
-    "startDate": "1980-12-08"
+    "startDate": "1980-12-08",
+    "keywords": [
+      "penguin",
+      "opus",
+      "political",
+      "satire",
+      "bill the cat"
+    ]
   },
   {
     "endpoint": "bob-the-angry-flower",
     "title": "Bob the Angry Flower",
     "author": "Stephen Notley",
     "available": true,
-    "startDate": "2022-10-24"
+    "startDate": "2022-10-24",
+    "keywords": [
+      "flower",
+      "angry",
+      "absurd",
+      "science"
+    ]
   },
   {
     "endpoint": "bobthesquirrel",
     "title": "Bob the Squirrel",
     "author": "Frank Page",
     "available": true,
-    "startDate": "2004-01-01"
+    "startDate": "2004-01-01",
+    "keywords": [
+      "squirrel",
+      "bob",
+      "pet"
+    ]
   },
   {
     "endpoint": "bonanas",
@@ -389,7 +527,15 @@
     "title": "The Boondocks",
     "author": "Aaron McGruder",
     "available": true,
-    "startDate": "1999-04-19"
+    "startDate": "1999-04-19",
+    "keywords": [
+      "african american",
+      "huey",
+      "riley",
+      "political",
+      "satire",
+      "suburban"
+    ]
   },
   {
     "endpoint": "bottomliners",
@@ -417,35 +563,68 @@
     "title": "Breaking Cat News",
     "author": "Georgia Dunn",
     "available": true,
-    "startDate": "2014-10-20"
+    "startDate": "2014-10-20",
+    "keywords": [
+      "cat",
+      "cats",
+      "news",
+      "lupin",
+      "elvis",
+      "puck",
+      "television"
+    ]
   },
   {
     "endpoint": "brevity",
     "title": "Brevity",
     "author": "Guy Endore-Kaiser and Rodd Perry",
     "available": true,
-    "startDate": "2005-01-03"
+    "startDate": "2005-01-03",
+    "keywords": [
+      "puns",
+      "wordplay",
+      "single panel"
+    ]
   },
   {
     "endpoint": "brewsterrockit",
     "title": "Brewster Rockit",
     "author": "Tim Rickard",
     "available": true,
-    "startDate": "2004-07-05"
+    "startDate": "2004-07-05",
+    "keywords": [
+      "space",
+      "sci-fi",
+      "parody",
+      "spaceship"
+    ]
   },
   {
     "endpoint": "broomhilda",
     "title": "Broom Hilda",
     "author": "Russell Myers",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "witch",
+      "magic",
+      "troll",
+      "irwin",
+      "gaylord",
+      "medieval"
+    ]
   },
   {
     "endpoint": "buckles",
     "title": "Buckles",
     "author": "David Gilbert",
     "available": true,
-    "startDate": "2021-05-09"
+    "startDate": "2021-05-09",
+    "keywords": [
+      "dog",
+      "pet",
+      "golden retriever"
+    ]
   },
   {
     "endpoint": "bully",
@@ -459,42 +638,84 @@
     "title": "Buni",
     "author": "Ryan Pagelow",
     "available": true,
-    "startDate": "2007-03-23"
+    "startDate": "2007-03-23",
+    "keywords": [
+      "bunny",
+      "rabbit",
+      "wordless",
+      "dark humor",
+      "silent"
+    ]
   },
   {
     "endpoint": "calvinandhobbes",
     "title": "Calvin and Hobbes",
     "author": "Bill Watterson",
     "available": true,
-    "startDate": "1985-11-18"
+    "startDate": "1985-11-18",
+    "keywords": [
+      "tiger",
+      "stuffed animal",
+      "imagination",
+      "wagon",
+      "snowmen",
+      "spaceman spiff",
+      "transmogrifier",
+      "philosophical"
+    ]
   },
   {
     "endpoint": "calvinandhobbesespanol",
     "title": "Calvin and Hobbes en Espa\u00f1ol",
     "author": "Bill Watterson",
     "available": true,
-    "startDate": "2004-03-01"
+    "startDate": "2004-03-01",
+    "keywords": [
+      "tigre",
+      "imaginaci\u00f3n",
+      "mu\u00f1eco"
+    ]
   },
   {
     "endpoint": "cathy",
     "title": "Cathy",
     "author": "Cathy Guisewite",
     "available": true,
-    "startDate": "1976-11-22"
+    "startDate": "1976-11-22",
+    "keywords": [
+      "woman",
+      "shopping",
+      "chocolate",
+      "bathing suit",
+      "career",
+      "dating"
+    ]
   },
   {
     "endpoint": "cathy-commiserations",
     "title": "Cathy Commiserations",
     "author": "Cathy Guisewite",
     "available": true,
-    "startDate": "2018-03-20"
+    "startDate": "2018-03-20",
+    "keywords": [
+      "woman",
+      "shopping",
+      "chocolate"
+    ]
   },
   {
     "endpoint": "cats-cafe",
     "title": "Cat's Cafe",
     "author": "Matt Tarpley",
     "available": true,
-    "startDate": "2019-05-20"
+    "startDate": "2019-05-20",
+    "keywords": [
+      "cat",
+      "cafe",
+      "animals",
+      "wholesome",
+      "cute"
+    ]
   },
   {
     "endpoint": "cattitude-doggonit",
@@ -515,7 +736,13 @@
     "title": "Cheer Up, Emo Kid",
     "author": "Enzo",
     "available": true,
-    "startDate": "2017-03-20"
+    "startDate": "2017-03-20",
+    "keywords": [
+      "emo",
+      "goth",
+      "dark",
+      "feelings"
+    ]
   },
   {
     "endpoint": "chuckdrawsthings",
@@ -557,7 +784,13 @@
     "title": "Close to Home",
     "author": "John McPherson",
     "available": true,
-    "startDate": "1992-12-07"
+    "startDate": "1992-12-07",
+    "keywords": [
+      "single panel",
+      "family",
+      "suburban",
+      "dark"
+    ]
   },
   {
     "endpoint": "compu-toon",
@@ -571,7 +804,12 @@
     "title": "Cornered",
     "author": "Mike Baldwin",
     "available": true,
-    "startDate": "1997-09-01"
+    "startDate": "1997-09-01",
+    "keywords": [
+      "single panel",
+      "office",
+      "animals"
+    ]
   },
   {
     "endpoint": "cowandboy",
@@ -592,28 +830,54 @@
     "title": "Crabgrass",
     "author": "Tauhid Bondia",
     "available": true,
-    "startDate": "2019-04-05"
+    "startDate": "2019-04-05",
+    "keywords": [
+      "kids",
+      "friendship",
+      "childhood",
+      "kevin",
+      "miles"
+    ]
   },
   {
     "endpoint": "crankshaft",
     "title": "Crankshaft",
     "author": "Tom Batiuk and Dan Davis",
     "available": true,
-    "startDate": "2003-03-17"
+    "startDate": "2003-03-17",
+    "keywords": [
+      "bus driver",
+      "school bus",
+      "elderly",
+      "garden",
+      "malapropism"
+    ]
   },
   {
     "endpoint": "crumb",
     "title": "Crumb",
     "author": "Vickie Craig",
     "available": true,
-    "startDate": "2008-09-24"
+    "startDate": "2008-09-24",
+    "keywords": [
+      "underground",
+      "alternative",
+      "counterculture"
+    ]
   },
   {
     "endpoint": "culdesac",
     "title": "Cul de Sac",
     "author": "Richard Thompson",
     "available": true,
-    "startDate": "2007-09-10"
+    "startDate": "2007-09-10",
+    "keywords": [
+      "kids",
+      "neighborhood",
+      "alice",
+      "petey",
+      "imagination"
+    ]
   },
   {
     "endpoint": "curses",
@@ -648,7 +912,13 @@
     "title": "Deep Dark Fears",
     "author": "Fran Krause",
     "available": true,
-    "startDate": "2014-04-14"
+    "startDate": "2014-04-14",
+    "keywords": [
+      "fear",
+      "anxiety",
+      "horror",
+      "creepy"
+    ]
   },
   {
     "endpoint": "deflocked",
@@ -662,7 +932,15 @@
     "title": "Dennis the Menace",
     "author": "Hank Ketcham",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "kid",
+      "trouble",
+      "mischief",
+      "mr. wilson",
+      "neighborhood",
+      "joey"
+    ]
   },
   {
     "endpoint": "diamondlil",
@@ -676,7 +954,14 @@
     "title": "Dick Tracy",
     "author": "Joe Staton and Mike Curtis",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "detective",
+      "crime",
+      "police",
+      "mystery",
+      "villain"
+    ]
   },
   {
     "endpoint": "dilbert",
@@ -684,7 +969,17 @@
     "author": "Scott Adams",
     "available": true,
     "startDate": "1989-04-16",
-    "source": "dilbert"
+    "source": "dilbert",
+    "keywords": [
+      "office",
+      "cubicle",
+      "engineer",
+      "dogbert",
+      "pointy-haired boss",
+      "corporate",
+      "workplace",
+      "technology"
+    ]
   },
   {
     "endpoint": "dinetteset",
@@ -698,14 +993,26 @@
     "title": "Dinosaur Comics",
     "author": "Ryan North",
     "available": true,
-    "startDate": "2014-08-04"
+    "startDate": "2014-08-04",
+    "keywords": [
+      "dinosaur",
+      "t-rex",
+      "philosophy",
+      "constrained"
+    ]
   },
   {
     "endpoint": "dogeatdoug",
     "title": "Dog Eat Doug",
     "author": "Brian Anderson",
     "available": true,
-    "startDate": "2005-01-02"
+    "startDate": "2005-01-02",
+    "keywords": [
+      "dog",
+      "baby",
+      "cat",
+      "sophie"
+    ]
   },
   {
     "endpoint": "dogsofckennel",
@@ -733,7 +1040,12 @@
     "title": "Doodle for Food",
     "author": "Megan McKay",
     "available": true,
-    "startDate": "2016-11-21"
+    "startDate": "2016-11-21",
+    "keywords": [
+      "food",
+      "cooking",
+      "relatable"
+    ]
   },
   {
     "endpoint": "doodle-town",
@@ -747,14 +1059,29 @@
     "title": "Doonesbury",
     "author": "Garry Trudeau",
     "available": true,
-    "startDate": "1970-10-26"
+    "startDate": "1970-10-26",
+    "keywords": [
+      "politics",
+      "satire",
+      "political",
+      "liberal",
+      "conservative",
+      "trudeau"
+    ]
   },
   {
     "endpoint": "drabble",
     "title": "Drabble",
     "author": "Kevin Fagan",
     "available": true,
-    "startDate": "1990-01-11"
+    "startDate": "1990-01-11",
+    "keywords": [
+      "family",
+      "dog",
+      "wally",
+      "norman",
+      "oogie"
+    ]
   },
   {
     "endpoint": "drewlitton",
@@ -803,7 +1130,13 @@
     "title": "Endtown",
     "author": "Aaron Neathery",
     "available": true,
-    "startDate": "2009-01-19"
+    "startDate": "2009-01-19",
+    "keywords": [
+      "post-apocalyptic",
+      "animals",
+      "mutation",
+      "sci-fi"
+    ]
   },
   {
     "endpoint": "eyebeam",
@@ -817,14 +1150,31 @@
     "title": "False Knees",
     "author": "Joshua Barkman",
     "available": true,
-    "startDate": "2017-08-28"
+    "startDate": "2017-08-28",
+    "keywords": [
+      "bird",
+      "birds",
+      "nature",
+      "art",
+      "watercolor"
+    ]
   },
   {
     "endpoint": "familycircus",
     "title": "Family Circus",
     "author": "Bil Keane and Jeff Keane",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "kids",
+      "children",
+      "family",
+      "dotted line",
+      "billy",
+      "dolly",
+      "jeffy",
+      "pj"
+    ]
   },
   {
     "endpoint": "familytree",
@@ -859,7 +1209,13 @@
     "title": "F Minus",
     "author": "Tony Carrillo",
     "available": true,
-    "startDate": "2005-05-10"
+    "startDate": "2005-05-10",
+    "keywords": [
+      "single panel",
+      "dark humor",
+      "absurd",
+      "surreal"
+    ]
   },
   {
     "endpoint": "foolish-mortals",
@@ -894,28 +1250,60 @@
     "title": "Fowl Language",
     "author": "Brian Gordon",
     "available": true,
-    "startDate": "2015-11-09"
+    "startDate": "2015-11-09",
+    "keywords": [
+      "duck",
+      "parenting",
+      "kids",
+      "dad"
+    ]
   },
   {
     "endpoint": "foxtrot",
     "title": "FoxTrot",
     "author": "Bill Amend",
     "available": true,
-    "startDate": "1988-04-11"
+    "startDate": "1988-04-11",
+    "keywords": [
+      "jason",
+      "paige",
+      "peter",
+      "roger",
+      "andy",
+      "quincy",
+      "iguana",
+      "nerd",
+      "geek",
+      "math"
+    ]
   },
   {
     "endpoint": "foxtrotclassics",
     "title": "FoxTrot Classics",
     "author": "Bill Amend",
     "available": true,
-    "startDate": "2007-01-01"
+    "startDate": "2007-01-01",
+    "keywords": [
+      "jason",
+      "paige",
+      "peter",
+      "roger",
+      "andy",
+      "quincy",
+      "iguana",
+      "nerd"
+    ]
   },
   {
     "endpoint": "foxtrotespanol",
     "title": "FoxTrot en Espa\u00f1ol",
     "author": "Bill Amend",
     "available": true,
-    "startDate": "2004-02-16"
+    "startDate": "2004-02-16",
+    "keywords": [
+      "jason",
+      "paige"
+    ]
   },
   {
     "endpoint": "francis",
@@ -936,21 +1324,38 @@
     "title": "Frazz",
     "author": "Jef Mallett",
     "available": true,
-    "startDate": "2001-04-02"
+    "startDate": "2001-04-02",
+    "keywords": [
+      "school",
+      "janitor",
+      "kids",
+      "education",
+      "triathlon"
+    ]
   },
   {
     "endpoint": "fredbasset",
     "title": "Fred Basset",
     "author": "Alex Graham",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "dog",
+      "basset hound",
+      "british",
+      "pet"
+    ]
   },
   {
     "endpoint": "fredbassetespanol",
     "title": "Fred Basset en Espa\u00f1ol",
     "author": "Alex Graham",
     "available": true,
-    "startDate": "2004-02-23"
+    "startDate": "2004-02-23",
+    "keywords": [
+      "perro",
+      "basset hound"
+    ]
   },
   {
     "endpoint": "freerange",
@@ -978,7 +1383,13 @@
     "title": "Funky Winkerbean",
     "author": "Tom Batiuk",
     "available": true,
-    "startDate": "1972-03-27"
+    "startDate": "1972-03-27",
+    "keywords": [
+      "school",
+      "teacher",
+      "drama",
+      "batiuk"
+    ]
   },
   {
     "endpoint": "furbabies",
@@ -999,21 +1410,45 @@
     "title": "Garfield",
     "author": "Jim Davis",
     "available": true,
-    "startDate": "1978-06-19"
+    "startDate": "1978-06-19",
+    "keywords": [
+      "cat",
+      "orange",
+      "lasagna",
+      "odie",
+      "jon arbuckle",
+      "monday",
+      "fat cat",
+      "tabby"
+    ]
   },
   {
     "endpoint": "garfieldespanol",
     "title": "Garfield en Espa\u00f1ol",
     "author": "Jim Davis",
     "available": true,
-    "startDate": "1999-12-06"
+    "startDate": "1999-12-06",
+    "keywords": [
+      "gato",
+      "naranja",
+      "lasa\u00f1a",
+      "odie",
+      "jon arbuckle",
+      "lunes"
+    ]
   },
   {
     "endpoint": "gasolinealley",
     "title": "Gasoline Alley",
     "author": "Jim Scancarelli",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "americana",
+      "classic",
+      "family",
+      "nostalgia"
+    ]
   },
   {
     "endpoint": "gaturro",
@@ -1041,7 +1476,15 @@
     "title": "Get Fuzzy",
     "author": "Darby Conley",
     "available": true,
-    "startDate": "1999-09-06"
+    "startDate": "1999-09-06",
+    "keywords": [
+      "cat",
+      "dog",
+      "bucky",
+      "satchel",
+      "rob",
+      "apartment"
+    ]
   },
   {
     "endpoint": "gil",
@@ -1055,21 +1498,40 @@
     "title": "Gil Thorp",
     "author": "Henry Barajas and Rod Whigham",
     "available": true,
-    "startDate": "2001-04-18"
+    "startDate": "2001-04-18",
+    "keywords": [
+      "sports",
+      "high school",
+      "coach",
+      "football",
+      "basketball",
+      "baseball"
+    ]
   },
   {
     "endpoint": "gingermeggs",
     "title": "Ginger Meggs",
     "author": "Jason Chatfield",
     "available": true,
-    "startDate": "2004-04-01"
+    "startDate": "2004-04-01",
+    "keywords": [
+      "australian",
+      "kid",
+      "mischief",
+      "school"
+    ]
   },
   {
     "endpoint": "gingermeggs-espanol",
     "title": "Ginger Meggs en Espa\u00f1ol",
     "author": "Jason Chatfield",
     "available": true,
-    "startDate": "2004-02-13"
+    "startDate": "2004-02-13",
+    "keywords": [
+      "australiano",
+      "ni\u00f1o",
+      "escuela"
+    ]
   },
   {
     "endpoint": "glasbergen-cartoons",
@@ -1111,14 +1573,29 @@
     "title": "Green Humour",
     "author": "Rohan Chakravarty",
     "available": true,
-    "startDate": "2013-12-02"
+    "startDate": "2013-12-02",
+    "keywords": [
+      "environment",
+      "nature",
+      "wildlife",
+      "conservation"
+    ]
   },
   {
     "endpoint": "hagarthehorrible",
     "title": "Hagar the Horrible",
     "author": "Chris Browne",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "viking",
+      "medieval",
+      "warrior",
+      "pillage",
+      "helga",
+      "lucky eddie",
+      "sword"
+    ]
   },
   {
     "endpoint": "haircut-practice",
@@ -1132,7 +1609,13 @@
     "title": "Half Full",
     "author": "Maria Scrivan",
     "available": true,
-    "startDate": "2013-09-16"
+    "startDate": "2013-09-16",
+    "keywords": [
+      "optimism",
+      "single panel",
+      "glass",
+      "positive"
+    ]
   },
   {
     "endpoint": "harley",
@@ -1146,21 +1629,41 @@
     "title": "Heart of the City",
     "author": "Steenz",
     "available": true,
-    "startDate": "1999-07-01"
+    "startDate": "1999-07-01",
+    "keywords": [
+      "girl",
+      "city",
+      "philadelphia",
+      "movies",
+      "pop culture"
+    ]
   },
   {
     "endpoint": "heathcliff",
     "title": "Heathcliff",
     "author": "Peter Gallagher",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "cat",
+      "orange",
+      "garbage",
+      "fish",
+      "dog catcher",
+      "helmet"
+    ]
   },
   {
     "endpoint": "heathcliffespanol",
     "title": "Heathcliff en Espa\u00f1ol",
     "author": "Peter Gallagher",
     "available": true,
-    "startDate": "2005-01-02"
+    "startDate": "2005-01-02",
+    "keywords": [
+      "gato",
+      "naranja",
+      "basura"
+    ]
   },
   {
     "endpoint": "herbandjamaal",
@@ -1174,7 +1677,13 @@
     "title": "Herman",
     "author": "Jim Unger",
     "available": true,
-    "startDate": "1997-06-02"
+    "startDate": "1997-06-02",
+    "keywords": [
+      "single panel",
+      "classic",
+      "prison",
+      "absurd"
+    ]
   },
   {
     "endpoint": "homeandaway",
@@ -1258,7 +1767,12 @@
     "title": "Invisible Bread",
     "author": "Justin Boyd",
     "available": true,
-    "startDate": "2013-03-11"
+    "startDate": "2013-03-11",
+    "keywords": [
+      "absurd",
+      "food",
+      "random"
+    ]
   },
   {
     "endpoint": "itsallaboutyou",
@@ -1272,7 +1786,12 @@
     "title": "Jake Likes Onions",
     "author": "Jake Thompson",
     "available": true,
-    "startDate": "2017-08-14"
+    "startDate": "2017-08-14",
+    "keywords": [
+      "absurd",
+      "onion",
+      "surreal"
+    ]
   },
   {
     "endpoint": "janesworld",
@@ -1300,7 +1819,15 @@
     "title": "JumpStart",
     "author": "Robb Armstrong",
     "available": true,
-    "startDate": "1996-01-01"
+    "startDate": "1996-01-01",
+    "keywords": [
+      "african american",
+      "police",
+      "nurse",
+      "family",
+      "marcy",
+      "joe"
+    ]
   },
   {
     "endpoint": "junk-drawer",
@@ -1342,21 +1869,40 @@
     "title": "Kliban's Cats",
     "author": "B. Kliban",
     "available": true,
-    "startDate": "2012-03-27"
+    "startDate": "2012-03-27",
+    "keywords": [
+      "cat",
+      "cats",
+      "art",
+      "surreal"
+    ]
   },
   {
     "endpoint": "la-cucaracha-en-espanol",
     "title": "La Cucaracha en Espa\u00f1ol",
     "author": "Lalo Alcaraz",
     "available": true,
-    "startDate": "2013-11-11"
+    "startDate": "2013-11-11",
+    "keywords": [
+      "latino",
+      "hispano",
+      "pol\u00edtico",
+      "cucaracha"
+    ]
   },
   {
     "endpoint": "lacucaracha",
     "title": "La Cucaracha",
     "author": "Lalo Alcaraz",
     "available": true,
-    "startDate": "2002-11-25"
+    "startDate": "2002-11-25",
+    "keywords": [
+      "latino",
+      "hispanic",
+      "political",
+      "satire",
+      "cockroach"
+    ]
   },
   {
     "endpoint": "lards-world-peace-tips",
@@ -1391,14 +1937,27 @@
     "title": "Learn to Speak Cat",
     "author": "Anthony Smith",
     "available": true,
-    "startDate": "2015-02-02"
+    "startDate": "2015-02-02",
+    "keywords": [
+      "cat",
+      "pet",
+      "behavior",
+      "funny"
+    ]
   },
   {
     "endpoint": "libertymeadows",
     "title": "Liberty Meadows",
     "author": "Frank Cho",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "animals",
+      "vet",
+      "brandy",
+      "frank",
+      "romance"
+    ]
   },
   {
     "endpoint": "life-on-earth",
@@ -1412,21 +1971,40 @@
     "title": "Li'l Abner",
     "author": "Al Capp",
     "available": true,
-    "startDate": "1934-08-19"
+    "startDate": "1934-08-19",
+    "keywords": [
+      "hillbilly",
+      "satire",
+      "classic",
+      "daisy mae"
+    ]
   },
   {
     "endpoint": "lio",
     "title": "Lio",
     "author": "Mark Tatulli",
     "available": true,
-    "startDate": "2006-05-15"
+    "startDate": "2006-05-15",
+    "keywords": [
+      "dark",
+      "creepy",
+      "monster",
+      "wordless",
+      "silent",
+      "kid"
+    ]
   },
   {
     "endpoint": "lioespanol",
     "title": "Lio en Espa\u00f1ol",
     "author": "Mark Tatulli",
     "available": true,
-    "startDate": "2007-01-01"
+    "startDate": "2007-01-01",
+    "keywords": [
+      "oscuro",
+      "monstruo",
+      "sin palabras"
+    ]
   },
   {
     "endpoint": "little-fried-chicken-and-sushi",
@@ -1440,14 +2018,29 @@
     "title": "Catana Comics",
     "author": "Catana Chetwynd",
     "available": true,
-    "startDate": "2018-09-24"
+    "startDate": "2018-09-24",
+    "keywords": [
+      "couple",
+      "love",
+      "romance",
+      "wholesome",
+      "cute",
+      "catana"
+    ]
   },
   {
     "endpoint": "little-nemo",
     "title": "Little Nemo",
     "author": "Winsor McCay",
     "available": true,
-    "startDate": "2014-10-15"
+    "startDate": "2014-10-15",
+    "keywords": [
+      "dream",
+      "fantasy",
+      "surreal",
+      "classic",
+      "sleep"
+    ]
   },
   {
     "endpoint": "littledoglost",
@@ -1461,28 +2054,52 @@
     "title": "Liz Climo Cartoons",
     "author": "Liz Climo",
     "available": true,
-    "startDate": "2018-03-26"
+    "startDate": "2018-03-26",
+    "keywords": [
+      "animals",
+      "cute",
+      "wholesome",
+      "bear",
+      "bunny"
+    ]
   },
   {
     "endpoint": "lockhorns",
     "title": "The Lockhorns",
     "author": "Bunny Hoest and John Reiner",
     "available": true,
-    "startDate": "2002-11-25"
+    "startDate": "2002-11-25",
+    "keywords": [
+      "marriage",
+      "couple",
+      "fighting",
+      "leroy",
+      "loretta"
+    ]
   },
   {
     "endpoint": "lola",
     "title": "Lola",
     "author": "Todd Clark",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "grandmother",
+      "elderly",
+      "family",
+      "sassy"
+    ]
   },
   {
     "endpoint": "lola-en-espanol",
     "title": "Lola en Espa\u00f1ol",
     "author": "Todd Clark",
     "available": true,
-    "startDate": "2005-05-02"
+    "startDate": "2005-05-02",
+    "keywords": [
+      "abuela",
+      "familia"
+    ]
   },
   {
     "endpoint": "long-story-short",
@@ -1503,7 +2120,12 @@
     "title": "Loose Parts",
     "author": "Dave Blazek",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "single panel",
+      "puns",
+      "absurd"
+    ]
   },
   {
     "endpoint": "los-osorios",
@@ -1524,21 +2146,37 @@
     "title": "Luann",
     "author": "Greg Evans",
     "available": true,
-    "startDate": "1985-03-17"
+    "startDate": "1985-03-17",
+    "keywords": [
+      "teenager",
+      "high school",
+      "bernice",
+      "tiffany",
+      "gunther",
+      "growing up"
+    ]
   },
   {
     "endpoint": "luann-againn",
     "title": "Luann Againn",
     "author": "Greg Evans",
     "available": true,
-    "startDate": "2013-03-17"
+    "startDate": "2013-03-17",
+    "keywords": [
+      "teenager",
+      "high school"
+    ]
   },
   {
     "endpoint": "luannspanish",
     "title": "Luann en Espa\u00f1ol",
     "author": "Greg Evans",
     "available": true,
-    "startDate": "2014-06-23"
+    "startDate": "2014-06-23",
+    "keywords": [
+      "adolescente",
+      "secundaria"
+    ]
   },
   {
     "endpoint": "luckycow",
@@ -1559,7 +2197,14 @@
     "title": "Lunarbaboon",
     "author": "Christopher Grady",
     "available": true,
-    "startDate": "2015-10-05"
+    "startDate": "2015-10-05",
+    "keywords": [
+      "parenting",
+      "dad",
+      "family",
+      "wholesome",
+      "monkey"
+    ]
   },
   {
     "endpoint": "maintaining",
@@ -1587,7 +2232,15 @@
     "title": "Marmaduke",
     "author": "Paul Anderson",
     "available": true,
-    "startDate": "1996-12-30"
+    "startDate": "1996-12-30",
+    "keywords": [
+      "dog",
+      "great dane",
+      "big dog",
+      "owner",
+      "mailman",
+      "yard"
+    ]
   },
   {
     "endpoint": "meaningoflila",
@@ -1657,21 +2310,38 @@
     "title": "Monty",
     "author": "Jim Meddick",
     "available": true,
-    "startDate": "2001-04-02"
+    "startDate": "2001-04-02",
+    "keywords": [
+      "robot",
+      "absurd",
+      "moondog",
+      "adventure"
+    ]
   },
   {
     "endpoint": "monty-diaros",
     "title": "Monty Diaros",
     "author": "Jim Meddick",
     "available": true,
-    "startDate": "2011-06-27"
+    "startDate": "2011-06-27",
+    "keywords": [
+      "robot",
+      "absurdo"
+    ]
   },
   {
     "endpoint": "mother-goose-and-grimm",
     "title": "Mother Goose and Grimm",
     "author": "Mike Peters",
     "available": true,
-    "startDate": "2002-11-25"
+    "startDate": "2002-11-25",
+    "keywords": [
+      "dog",
+      "bull terrier",
+      "cat",
+      "grimm",
+      "attila"
+    ]
   },
   {
     "endpoint": "motley-classics",
@@ -1720,21 +2390,39 @@
     "title": "Nancy",
     "author": "Olivia Jaimes",
     "available": true,
-    "startDate": "1948-01-05"
+    "startDate": "1948-01-05",
+    "keywords": [
+      "sluggo",
+      "aunt fritzi",
+      "kids",
+      "lazy",
+      "clever"
+    ]
   },
   {
     "endpoint": "nancy-classics",
     "title": "Nancy Classics",
     "author": "Ernie Bushmiller",
     "available": true,
-    "startDate": "2015-02-23"
+    "startDate": "2015-02-23",
+    "keywords": [
+      "sluggo",
+      "aunt fritzi",
+      "kids",
+      "bushmiller"
+    ]
   },
   {
     "endpoint": "nate-el-grande",
     "title": "Nate el Grande",
     "author": "Lincoln Peirce",
     "available": true,
-    "startDate": "2011-06-06"
+    "startDate": "2011-06-06",
+    "keywords": [
+      "escuela",
+      "ni\u00f1o",
+      "detenci\u00f3n"
+    ]
   },
   {
     "endpoint": "nestheads",
@@ -1769,7 +2457,13 @@
     "title": "Non Sequitur",
     "author": "Wiley Miller",
     "available": true,
-    "startDate": "1992-02-16"
+    "startDate": "1992-02-16",
+    "keywords": [
+      "political",
+      "satire",
+      "horse",
+      "lucy"
+    ]
   },
   {
     "endpoint": "not-invented-here",
@@ -1797,7 +2491,13 @@
     "title": "Off the Mark",
     "author": "Mark Parisi",
     "available": true,
-    "startDate": "2002-09-02"
+    "startDate": "2002-09-02",
+    "keywords": [
+      "single panel",
+      "puns",
+      "animals",
+      "parisi"
+    ]
   },
   {
     "endpoint": "oh-brother",
@@ -1846,14 +2546,26 @@
     "title": "Our Super Adventure",
     "author": "Sarah Graley",
     "available": true,
-    "startDate": "2019-07-08"
+    "startDate": "2019-07-08",
+    "keywords": [
+      "couple",
+      "cats",
+      "gaming",
+      "wholesome"
+    ]
   },
   {
     "endpoint": "outland",
     "title": "Outland",
     "author": "Berke Breathed",
     "available": true,
-    "startDate": "1989-09-03"
+    "startDate": "1989-09-03",
+    "keywords": [
+      "penguin",
+      "opus",
+      "political",
+      "berke breathed"
+    ]
   },
   {
     "endpoint": "outofthegenepool",
@@ -1867,56 +2579,121 @@
     "title": "Overboard",
     "author": "Chip Dunham",
     "available": true,
-    "startDate": "1990-08-20"
+    "startDate": "1990-08-20",
+    "keywords": [
+      "pirate",
+      "ship",
+      "dog",
+      "ocean"
+    ]
   },
   {
     "endpoint": "overboardespanol",
     "title": "Overboard en Espa\u00f1ol",
     "author": "Chip Dunham",
     "available": true,
-    "startDate": "2004-02-23"
+    "startDate": "2004-02-23",
+    "keywords": [
+      "pirata",
+      "barco"
+    ]
   },
   {
     "endpoint": "overthehedge",
     "title": "Over the Hedge",
     "author": "Michael Fry and T Lewis",
     "available": true,
-    "startDate": "1995-06-12"
+    "startDate": "1995-06-12",
+    "keywords": [
+      "raccoon",
+      "turtle",
+      "squirrel",
+      "suburbia",
+      "hedge",
+      "rj",
+      "verne",
+      "hammy"
+    ]
   },
   {
     "endpoint": "ozy-and-millie",
     "title": "Ozy and Millie",
     "author": "D. C. Simpson",
     "available": true,
-    "startDate": "2013-03-04"
+    "startDate": "2013-03-04",
+    "keywords": [
+      "fox",
+      "kids",
+      "philosophy",
+      "school"
+    ]
   },
   {
     "endpoint": "peanuts",
     "title": "Peanuts",
     "author": "Charles Schulz",
     "available": true,
-    "startDate": "1950-10-02"
+    "startDate": "1950-10-02",
+    "keywords": [
+      "snoopy",
+      "charlie brown",
+      "woodstock",
+      "lucy",
+      "linus",
+      "dog",
+      "beagle",
+      "football",
+      "blanket",
+      "red baron"
+    ]
   },
   {
     "endpoint": "peanuts-begins",
     "title": "Peanuts Begins",
     "author": "Charles Schulz",
     "available": true,
-    "startDate": "1950-10-02"
+    "startDate": "1950-10-02",
+    "keywords": [
+      "snoopy",
+      "charlie brown",
+      "woodstock",
+      "lucy",
+      "linus",
+      "dog",
+      "beagle"
+    ]
   },
   {
     "endpoint": "peanuts-espanol",
     "title": "Peanuts en Espa\u00f1ol",
     "author": "Charles Schulz",
     "available": true,
-    "startDate": "2011-02-11"
+    "startDate": "2011-02-11",
+    "keywords": [
+      "snoopy",
+      "charlie brown",
+      "woodstock",
+      "lucy",
+      "linus",
+      "perro"
+    ]
   },
   {
     "endpoint": "pearlsbeforeswine",
     "title": "Pearls Before Swine",
     "author": "Stephan Pastis",
     "available": true,
-    "startDate": "2002-01-07"
+    "startDate": "2002-01-07",
+    "keywords": [
+      "rat",
+      "pig",
+      "goat",
+      "zebra",
+      "croc",
+      "puns",
+      "wordplay",
+      "dark humor"
+    ]
   },
   {
     "endpoint": "periquita",
@@ -1930,14 +2707,26 @@
     "title": "Perlas Para Los Cerdos",
     "author": "Stephan Pastis",
     "available": true,
-    "startDate": "2011-06-27"
+    "startDate": "2011-06-27",
+    "keywords": [
+      "rata",
+      "cerdo",
+      "cabra",
+      "cebra"
+    ]
   },
   {
     "endpoint": "perry-bible-fellowship",
     "title": "Perry Bible Fellowship",
     "author": "Nicholas Gurewitch",
     "available": true,
-    "startDate": "2014-11-07"
+    "startDate": "2014-11-07",
+    "keywords": [
+      "dark humor",
+      "surreal",
+      "twist",
+      "absurd"
+    ]
   },
   {
     "endpoint": "phd",
@@ -1945,14 +2734,32 @@
     "author": "Jorge Cham",
     "available": true,
     "startDate": "1997-10-27",
-    "source": "phd"
+    "source": "phd",
+    "keywords": [
+      "graduate school",
+      "academia",
+      "procrastination",
+      "research",
+      "thesis",
+      "professor",
+      "student"
+    ]
   },
   {
     "endpoint": "phoebe-and-her-unicorn",
     "title": "Phoebe and Her Unicorn",
     "author": "Dana Simpson",
     "available": true,
-    "startDate": "2012-01-15"
+    "startDate": "2012-01-15",
+    "keywords": [
+      "unicorn",
+      "girl",
+      "marigold",
+      "sparkle",
+      "magic",
+      "school",
+      "fantasy"
+    ]
   },
   {
     "endpoint": "pibgorn",
@@ -1973,7 +2780,16 @@
     "title": "Pickles",
     "author": "Brian Crane",
     "available": true,
-    "startDate": "2003-01-01"
+    "startDate": "2003-01-01",
+    "keywords": [
+      "elderly",
+      "grandparents",
+      "retirement",
+      "earl",
+      "opal",
+      "senior",
+      "aging"
+    ]
   },
   {
     "endpoint": "please-listen-to-me",
@@ -1987,14 +2803,27 @@
     "title": "Pluggers",
     "author": "Gary Brookins and Jeff Harris",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "blue collar",
+      "working class",
+      "animals",
+      "nostalgia",
+      "everyday"
+    ]
   },
   {
     "endpoint": "poochcafe",
     "title": "Pooch Cafe",
     "author": "Paul Gilligan",
     "available": true,
-    "startDate": "2003-04-27"
+    "startDate": "2003-04-27",
+    "keywords": [
+      "dog",
+      "cafe",
+      "poncho",
+      "pet"
+    ]
   },
   {
     "endpoint": "poorcraft",
@@ -2008,14 +2837,29 @@
     "title": "Poorly Drawn Lines",
     "author": "Reza Farazmand",
     "available": true,
-    "startDate": "2013-09-18"
+    "startDate": "2013-09-18",
+    "keywords": [
+      "animals",
+      "existential",
+      "surreal",
+      "absurd"
+    ]
   },
   {
     "endpoint": "popeye",
     "title": "Popeye",
     "author": "Randy Milholland",
     "available": true,
-    "source": "comicsrss"
+    "source": "comicsrss",
+    "keywords": [
+      "sailor",
+      "spinach",
+      "olive oyl",
+      "bluto",
+      "brutus",
+      "wimpy",
+      "strong"
+    ]
   },
   {
     "endpoint": "pot-shots",
@@ -2078,14 +2922,26 @@
     "title": "Real Life Adventures",
     "author": "Gary Wise and Lance Aldrich",
     "available": true,
-    "startDate": "2010-01-01"
+    "startDate": "2010-01-01",
+    "keywords": [
+      "single panel",
+      "family",
+      "everyday"
+    ]
   },
   {
     "endpoint": "redandrover",
     "title": "Red and Rover",
     "author": "Brian Basset",
     "available": true,
-    "startDate": "2000-05-07"
+    "startDate": "2000-05-07",
+    "keywords": [
+      "dog",
+      "boy",
+      "friendship",
+      "nostalgia",
+      "childhood"
+    ]
   },
   {
     "endpoint": "redmeat",
@@ -2106,7 +2962,13 @@
     "title": "Rip Haywire",
     "author": "Dan Thompson",
     "available": true,
-    "startDate": "2009-01-05"
+    "startDate": "2009-01-05",
+    "keywords": [
+      "action",
+      "adventure",
+      "spy",
+      "dog"
+    ]
   },
   {
     "endpoint": "ripleys-en-espanol",
@@ -2134,42 +2996,83 @@
     "title": "Rose Is Rose",
     "author": "Don Wimmer and Pat Brady",
     "available": true,
-    "startDate": "1986-01-01"
+    "startDate": "1986-01-01",
+    "keywords": [
+      "rose",
+      "jimbo",
+      "pasquale",
+      "dreamship",
+      "guardian angel"
+    ]
   },
   {
     "endpoint": "rubes",
     "title": "Rubes",
     "author": "Leigh Rubin",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "animals",
+      "puns",
+      "single panel",
+      "goldberg"
+    ]
   },
   {
     "endpoint": "sarahs-scribbles",
     "title": "Sarah's Scribbles",
     "author": "Sarah Andersen",
     "available": true,
-    "startDate": "2014-01-02"
+    "startDate": "2014-01-02",
+    "keywords": [
+      "introvert",
+      "relatable",
+      "millennial",
+      "adulthood",
+      "anxiety",
+      "lazy"
+    ]
   },
   {
     "endpoint": "saturday-morning-breakfast-cereal",
     "title": "Saturday Morning Breakfast Cereal",
     "author": "Zach Weinersmith",
     "available": true,
-    "startDate": "2014-07-14"
+    "startDate": "2014-07-14",
+    "keywords": [
+      "science",
+      "philosophy",
+      "math",
+      "nerd",
+      "dark humor"
+    ]
   },
   {
     "endpoint": "savage-chickens",
     "title": "Savage Chickens",
     "author": "Doug Savage",
     "available": true,
-    "startDate": "2012-06-25"
+    "startDate": "2012-06-25",
+    "keywords": [
+      "chicken",
+      "sticky note",
+      "office",
+      "puns"
+    ]
   },
   {
     "endpoint": "scarygary",
     "title": "Scary Gary",
     "author": "Mark Buford",
     "available": true,
-    "startDate": "2009-02-02"
+    "startDate": "2009-02-02",
+    "keywords": [
+      "vampire",
+      "monster",
+      "halloween",
+      "dark",
+      "horror"
+    ]
   },
   {
     "endpoint": "scenes-from-a-multiverse",
@@ -2183,14 +3086,29 @@
     "title": "Shen Comix",
     "author": "Shen",
     "available": true,
-    "startDate": "2009-12-16"
+    "startDate": "2009-12-16",
+    "keywords": [
+      "life",
+      "relatable",
+      "wholesome",
+      "depression",
+      "friendship"
+    ]
   },
   {
     "endpoint": "shermanslagoon",
     "title": "Sherman's Lagoon",
     "author": "Jim Toomey",
     "available": true,
-    "startDate": "2002-12-09"
+    "startDate": "2002-12-09",
+    "keywords": [
+      "shark",
+      "ocean",
+      "fish",
+      "sea",
+      "underwater",
+      "lagoon"
+    ]
   },
   {
     "endpoint": "shirley-and-son-classics",
@@ -2204,7 +3122,13 @@
     "title": "Shoe",
     "author": "Chris Cassatt and Gary Brookins",
     "available": true,
-    "startDate": "2001-04-08"
+    "startDate": "2001-04-08",
+    "keywords": [
+      "bird",
+      "newspaper",
+      "journalism",
+      "treetop"
+    ]
   },
   {
     "endpoint": "sketchshark-comics",
@@ -2246,7 +3170,13 @@
     "title": "Speed Bump",
     "author": "Dave Coverly",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "single panel",
+      "puns",
+      "animals",
+      "absurd"
+    ]
   },
   {
     "endpoint": "spirit-of-the-staircase",
@@ -2274,14 +3204,25 @@
     "title": "Stone Soup",
     "author": "Jan Eliot",
     "available": true,
-    "startDate": "1995-11-20"
+    "startDate": "1995-11-20",
+    "keywords": [
+      "single mom",
+      "sisters",
+      "family",
+      "blended family"
+    ]
   },
   {
     "endpoint": "stonesoup_espanol",
     "title": "Las Hermanas Stone",
     "author": "Jan Eliot",
     "available": true,
-    "startDate": "2010-09-19"
+    "startDate": "2010-09-19",
+    "keywords": [
+      "madre soltera",
+      "hermanas",
+      "familia"
+    ]
   },
   {
     "endpoint": "strangebrew",
@@ -2343,21 +3284,38 @@
     "title": "Tank McNamara",
     "author": "Bill Hinds",
     "available": true,
-    "startDate": "1998-01-01"
+    "startDate": "1998-01-01",
+    "keywords": [
+      "sports",
+      "satire",
+      "football",
+      "athlete"
+    ]
   },
   {
     "endpoint": "tarzan",
     "title": "Tarzan",
     "author": "Edgar Rice Burroughs",
     "available": true,
-    "startDate": "1996-01-01"
+    "startDate": "1996-01-01",
+    "keywords": [
+      "jungle",
+      "ape",
+      "adventure",
+      "vine"
+    ]
   },
   {
     "endpoint": "tarzan-en-espanol",
     "title": "Tarz\u00e1n en Espa\u00f1ol",
     "author": "Edgar Rice Burroughs",
     "available": true,
-    "startDate": "2007-01-07"
+    "startDate": "2007-01-07",
+    "keywords": [
+      "selva",
+      "mono",
+      "aventura"
+    ]
   },
   {
     "endpoint": "tavicat",
@@ -2371,7 +3329,12 @@
     "title": "Ten Cats",
     "author": "Graham Harrop",
     "available": true,
-    "startDate": "2003-04-08"
+    "startDate": "2003-04-08",
+    "keywords": [
+      "cat",
+      "cats",
+      "multiple cats"
+    ]
   },
   {
     "endpoint": "tex",
@@ -2385,7 +3348,13 @@
     "title": "Texts From Mittens",
     "author": "Angie Bailey",
     "available": true,
-    "startDate": "2010-06-29"
+    "startDate": "2010-06-29",
+    "keywords": [
+      "cat",
+      "texting",
+      "phone",
+      "pet"
+    ]
   },
   {
     "endpoint": "that-is-priceless",
@@ -2413,14 +3382,26 @@
     "title": "The Academia Waltz",
     "author": "Berke Breathed",
     "available": true,
-    "startDate": "2003-12-08"
+    "startDate": "2003-12-08",
+    "keywords": [
+      "college",
+      "political",
+      "berke breathed"
+    ]
   },
   {
     "endpoint": "the-adventures-of-business-cat",
     "title": "The Adventures of Business Cat",
     "author": "Tom Fonder",
     "available": true,
-    "startDate": "2015-04-27"
+    "startDate": "2015-04-27",
+    "keywords": [
+      "cat",
+      "office",
+      "business",
+      "boss",
+      "corporate"
+    ]
   },
   {
     "endpoint": "the-ancients",
@@ -2433,21 +3414,40 @@
     "title": "The Awkward Yeti",
     "author": "Nick Seluk",
     "available": true,
-    "startDate": "2014-09-08"
+    "startDate": "2014-09-08",
+    "keywords": [
+      "heart",
+      "brain",
+      "organs",
+      "anatomy",
+      "wholesome"
+    ]
   },
   {
     "endpoint": "the-born-loser",
     "title": "The Born Loser",
     "author": "Art and Chip Sansom",
     "available": true,
-    "startDate": "1994-07-14"
+    "startDate": "1994-07-14",
+    "keywords": [
+      "loser",
+      "family",
+      "brutus",
+      "gladys",
+      "everyday"
+    ]
   },
   {
     "endpoint": "the-comic-strip-that-has-a-finale-every-day",
     "title": "The Comic Strip That Has A Finale Every Day",
     "author": "Drew Fairweather",
     "available": true,
-    "startDate": "2015-01-01"
+    "startDate": "2015-01-01",
+    "keywords": [
+      "dark",
+      "absurd",
+      "twist"
+    ]
   },
   {
     "endpoint": "the-daily-drawing",
@@ -2468,7 +3468,13 @@
     "title": "The Middle Age",
     "author": "Agesilaus",
     "available": true,
-    "startDate": "2017-06-19"
+    "startDate": "2017-06-19",
+    "keywords": [
+      "knight",
+      "medieval",
+      "quest",
+      "adventure"
+    ]
   },
   {
     "endpoint": "the-wandering-melon",
@@ -2489,14 +3495,28 @@
     "title": "The Argyle Sweater",
     "author": "Scott Hilburn",
     "available": true,
-    "startDate": "2006-11-29"
+    "startDate": "2006-11-29",
+    "keywords": [
+      "puns",
+      "wordplay",
+      "single panel",
+      "animals"
+    ]
   },
   {
     "endpoint": "thebarn",
     "title": "The Barn",
     "author": "Ralph Hagen",
     "available": true,
-    "startDate": "2009-02-02"
+    "startDate": "2009-02-02",
+    "keywords": [
+      "farm",
+      "animals",
+      "cow",
+      "pig",
+      "chicken",
+      "barn"
+    ]
   },
   {
     "endpoint": "thebigpicture",
@@ -2510,7 +3530,13 @@
     "title": "The Buckets",
     "author": "Scott Stantis and Greg Cravens",
     "available": true,
-    "startDate": "1996-02-19"
+    "startDate": "1996-02-19",
+    "keywords": [
+      "family",
+      "suburban",
+      "kids",
+      "grandpa"
+    ]
   },
   {
     "endpoint": "thecity",
@@ -2538,21 +3564,38 @@
     "title": "The Flying McCoys",
     "author": "Glenn McCoy and Gary McCoy",
     "available": true,
-    "startDate": "2005-05-09"
+    "startDate": "2005-05-09",
+    "keywords": [
+      "single panel",
+      "puns",
+      "animals"
+    ]
   },
   {
     "endpoint": "thefuscobrothers",
     "title": "The Fusco Brothers",
     "author": "J.C. Duffy",
     "available": true,
-    "startDate": "1998-01-01"
+    "startDate": "1998-01-01",
+    "keywords": [
+      "brothers",
+      "bachelor",
+      "dating"
+    ]
   },
   {
     "endpoint": "thegrizzwells",
     "title": "The Grizzwells",
     "author": "Bill Schorr",
     "available": true,
-    "startDate": "1994-03-14"
+    "startDate": "1994-03-14",
+    "keywords": [
+      "bear",
+      "forest",
+      "animals",
+      "gunther",
+      "pierpoint"
+    ]
   },
   {
     "endpoint": "thekchronicles",
@@ -2622,7 +3665,12 @@
     "title": "Tom the Dancing Bug",
     "author": "Ruben Bolling",
     "available": true,
-    "startDate": "1998-01-04"
+    "startDate": "1998-01-04",
+    "keywords": [
+      "political",
+      "satire",
+      "parody"
+    ]
   },
   {
     "endpoint": "toomuchcoffeeman",
@@ -2692,7 +3740,16 @@
     "title": "Wallace the Brave",
     "author": "Will Henry",
     "available": true,
-    "startDate": "2015-06-29"
+    "startDate": "2015-06-29",
+    "keywords": [
+      "adventure",
+      "ocean",
+      "boy",
+      "friends",
+      "spud",
+      "amelia",
+      "beach"
+    ]
   },
   {
     "endpoint": "warped",
@@ -2713,7 +3770,13 @@
     "title": "Wawawiwa",
     "author": "Andres J. Colmenares",
     "available": true,
-    "startDate": "2020-02-10"
+    "startDate": "2020-02-10",
+    "keywords": [
+      "wholesome",
+      "cute",
+      "bear",
+      "love"
+    ]
   },
   {
     "endpoint": "waynovision",
@@ -2727,7 +3790,13 @@
     "title": "Wee Pals",
     "author": "Morrie Turner",
     "available": true,
-    "startDate": "2005-01-02"
+    "startDate": "2005-01-02",
+    "keywords": [
+      "diverse",
+      "kids",
+      "friendship",
+      "multicultural"
+    ]
   },
   {
     "endpoint": "widdershins",
@@ -2748,28 +3817,57 @@
     "title": "Wizard of Id Classics",
     "author": "Brant Parker and Johnny Hart",
     "available": true,
-    "startDate": "2014-11-17"
+    "startDate": "2014-11-17",
+    "keywords": [
+      "medieval",
+      "king",
+      "knight",
+      "castle",
+      "dungeon",
+      "dragon"
+    ]
   },
   {
     "endpoint": "wizardofid",
     "title": "Wizard of Id",
     "author": "Brant Parker and Johnny Hart",
     "available": true,
-    "startDate": "2002-01-01"
+    "startDate": "2002-01-01",
+    "keywords": [
+      "medieval",
+      "king",
+      "knight",
+      "castle",
+      "dungeon",
+      "dragon",
+      "peasant"
+    ]
   },
   {
     "endpoint": "wizardofidespanol",
     "title": "Wizard of Id en Espa\u00f1ol",
     "author": "Brant Parker and Johnny Hart",
     "available": true,
-    "startDate": "2005-01-02"
+    "startDate": "2005-01-02",
+    "keywords": [
+      "medieval",
+      "rey",
+      "caballero",
+      "castillo"
+    ]
   },
   {
     "endpoint": "wondermark",
     "title": "Wondermark",
     "author": "David Malki",
     "available": true,
-    "startDate": "2016-06-27"
+    "startDate": "2016-06-27",
+    "keywords": [
+      "victorian",
+      "vintage",
+      "absurd",
+      "steampunk"
+    ]
   },
   {
     "endpoint": "working-daze",
@@ -2790,14 +3888,26 @@
     "title": "Worry Lines",
     "author": "Oliver Christianson",
     "available": true,
-    "startDate": "2021-12-31"
+    "startDate": "2021-12-31",
+    "keywords": [
+      "anxiety",
+      "worry",
+      "relatable",
+      "dog"
+    ]
   },
   {
     "endpoint": "wrong-hands",
     "title": "Wrong Hands",
     "author": "John Atkinson",
     "available": true,
-    "startDate": "2015-02-20"
+    "startDate": "2015-02-20",
+    "keywords": [
+      "wordplay",
+      "puns",
+      "visual",
+      "single panel"
+    ]
   },
   {
     "endpoint": "wtduck",
@@ -2811,14 +3921,25 @@
     "title": "WuMo",
     "author": "Wulff & Morgenthaler",
     "available": true,
-    "startDate": "2013-10-13"
+    "startDate": "2013-10-13",
+    "keywords": [
+      "absurd",
+      "surreal",
+      "dark humor",
+      "european",
+      "danish"
+    ]
   },
   {
     "endpoint": "wumoespanol",
     "title": "WuMo en Espa\u00f1ol",
     "author": "Wulff & Morgenthaler",
     "available": true,
-    "startDate": "2014-01-01"
+    "startDate": "2014-01-01",
+    "keywords": [
+      "absurdo",
+      "surrealista"
+    ]
   },
   {
     "endpoint": "xkcd",
@@ -2826,7 +3947,16 @@
     "author": "Randall Munroe",
     "available": true,
     "startDate": "2006-01-01",
-    "source": "xkcd"
+    "source": "xkcd",
+    "keywords": [
+      "science",
+      "math",
+      "programming",
+      "nerd",
+      "stick figure",
+      "technology",
+      "computer"
+    ]
   },
   {
     "endpoint": "yaffle",
@@ -2846,7 +3976,13 @@
     "title": "Yes, I'm Hot in This",
     "author": "Huda Fahmy",
     "available": true,
-    "startDate": "2020-01-11"
+    "startDate": "2020-01-11",
+    "keywords": [
+      "hijab",
+      "muslim",
+      "humor",
+      "relatable"
+    ]
   },
   {
     "endpoint": "zackhill",
@@ -2860,20 +3996,37 @@
     "title": "Zen Pencils",
     "author": "Gavin Aung Than",
     "available": true,
-    "startDate": "2013-07-09"
+    "startDate": "2013-07-09",
+    "keywords": [
+      "quotes",
+      "inspiration",
+      "motivational"
+    ]
   },
   {
     "endpoint": "ziggy",
     "title": "Ziggy",
     "author": "Tom Wilson and Tom Wilson II",
     "available": true,
-    "startDate": "1971-06-27"
+    "startDate": "1971-06-27",
+    "keywords": [
+      "bald",
+      "lonely",
+      "pet",
+      "dog",
+      "parrot",
+      "optimism"
+    ]
   },
   {
     "endpoint": "ziggyespanol",
     "title": "Ziggy en Espa\u00f1ol",
     "author": "Tom Wilson and Tom Wilson II",
     "available": true,
-    "startDate": "2004-02-09"
+    "startDate": "2004-02-09",
+    "keywords": [
+      "calvo",
+      "solitario"
+    ]
   }
 ]

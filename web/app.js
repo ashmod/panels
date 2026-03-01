@@ -41,6 +41,7 @@
   let touchPanStart = null;
   let pinchStart = null;
   let searchTimeout = null;
+  let fuseIndex = null;
 
   const feedZoom = { scale: 1, offset: { x: 0, y: 0 }, dragging: false };
   let feedDragStart = { x: 0, y: 0 };
@@ -369,7 +370,7 @@
     els.searchInput.addEventListener('input', () => {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
-        state.searchQuery = els.searchInput.value.trim().toLowerCase();
+        state.searchQuery = els.searchInput.value.trim();
         renderBadgeGrid();
       }, 200);
       els.searchClear.classList.toggle('hidden', els.searchInput.value.length === 0);
@@ -431,21 +432,49 @@
     return true;
   }
 
-  function matchesSearch(c) {
-    if (!state.searchQuery) return true;
-    return c.title.toLowerCase().includes(state.searchQuery) || c.endpoint.toLowerCase().includes(state.searchQuery);
+  function buildFuseIndex(comics) {
+    fuseIndex = new Fuse(comics, {
+      keys: [
+        { name: 'title', weight: 1.0 },
+        { name: 'author', weight: 0.8 },
+        { name: 'keywords', weight: 0.6 },
+        { name: 'tags', weight: 0.4 },
+        { name: 'endpoint', weight: 0.3 },
+      ],
+      threshold: 0.4,
+      ignoreLocation: true,
+    });
   }
 
   function renderBadgeGrid() {
+    const isSearching = state.searchQuery.length > 0;
+
+    document.body.classList.toggle('search-active', isSearching);
+    els.badgeGrid.innerHTML = '';
+
+    if (isSearching) {
+      const selectedSet = new Set(state.selectedEndpoints);
+      let allComics;
+      if (fuseIndex) {
+        const hits = fuseIndex.search(state.searchQuery);
+        allComics = hits.map((r) => r.item).filter((c) => !selectedSet.has(c.endpoint));
+      } else {
+        const q = state.searchQuery.toLowerCase();
+        allComics = state.allComics.filter((c) => !selectedSet.has(c.endpoint) && (c.title.toLowerCase().includes(q) || c.endpoint.toLowerCase().includes(q)));
+      }
+      if (allComics.length > 0) {
+        appendSection(`[ results: ${allComics.length} ]`, allComics, '');
+      }
+      return;
+    }
+
     const selectedComics = state.allComics.filter((c) => state.selectedEndpoints.has(c.endpoint));
     const recEndpoints = new Set(state.recommendations.map((r) => r.endpoint));
     const recommendedComics = state.recommendEnabled
       ? state.allComics.filter((c) => recEndpoints.has(c.endpoint) && !state.selectedEndpoints.has(c.endpoint))
       : [];
     const selectedSet = new Set([...state.selectedEndpoints, ...recEndpoints]);
-    const allComics = state.allComics.filter((c) => !selectedSet.has(c.endpoint) && matchesTagAndAlphabet(c) && matchesSearch(c));
-
-    els.badgeGrid.innerHTML = '';
+    const allComics = state.allComics.filter((c) => !selectedSet.has(c.endpoint) && matchesTagAndAlphabet(c));
 
     if (selectedComics.length > 0) {
       appendSection(`[ selected: ${selectedComics.length} ]`, selectedComics, 'selected', true);
@@ -1396,6 +1425,7 @@
 
     try {
       state.allComics = await fetchComics();
+      buildFuseIndex(state.allComics);
       buildTagFilters();
       buildAlphaBar();
       renderBadgeGrid();

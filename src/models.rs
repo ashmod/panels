@@ -10,6 +10,8 @@ pub struct Comic {
     pub start_date: Option<String>,
     #[serde(default = "default_source")]
     pub source: String,
+    #[serde(default)]
+    pub keywords: Vec<String>,
 }
 
 fn default_source() -> String {

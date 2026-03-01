@@ -501,6 +501,12 @@ header {
   padding-bottom: 0;
 }
 
+body.search-active .tag-filters,
+body.search-active .alpha-bar-inner {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .tag-filters {
   padding-left: 12px;
   padding-right: 12px;
