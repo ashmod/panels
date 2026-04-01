@@ -1,0 +1,10 @@
+{
+  "name": "panels-gocomics-browser",
+  "private": true,
+  "scripts": {
+    "postinstall": "playwright install firefox"
+  },
+  "dependencies": {
+    "playwright": "^1.53.2"
+  }
+}

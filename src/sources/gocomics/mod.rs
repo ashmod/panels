@@ -1,4 +1,5 @@
 mod bunny;
+mod browser;
 pub mod scraper;
 
 use async_trait::async_trait;
@@ -8,7 +9,7 @@ use tracing::{debug, info};
 
 use crate::cache::Caches;
 use crate::error::{PanelsError, Result};
-use crate::http_client::{fetch_page_with_options_and_user_agent, random_user_agent};
+use crate::http_client::{fetch_page_with_options, random_user_agent};
 use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
@@ -28,21 +29,14 @@ fn find_title<'a>(comics: &'a [Comic], endpoint: &'a str) -> &'a str {
 
 pub struct GoComicsSource {
     client: reqwest::Client,
-    verify_client: reqwest::Client,
     comics: Vec<Comic>,
     caches: Caches,
 }
 
 impl GoComicsSource {
-    pub fn new(
-        client: reqwest::Client,
-        verify_client: reqwest::Client,
-        comics: Vec<Comic>,
-        caches: Caches,
-    ) -> Self {
+    pub fn new(client: reqwest::Client, comics: Vec<Comic>, caches: Caches) -> Self {
         Self {
             client,
-            verify_client,
             comics,
             caches,
         }
@@ -56,12 +50,9 @@ impl GoComicsSource {
         suppress_errors: bool,
         silent_statuses: &[u16],
     ) -> Result<Option<crate::http_client::PageResponse>> {
-        let user_agent = random_user_agent();
-
-        let page = fetch_page_with_options_and_user_agent(
+        let page = fetch_page_with_options(
             &self.client,
             url,
-            user_agent,
             retries,
             timeout_ms,
             suppress_errors,
@@ -77,28 +68,14 @@ impl GoComicsSource {
             return Ok(Some(page));
         }
 
-        bunny::solve_challenge(&self.verify_client, &page.final_url, &page.html, user_agent)
-            .await?;
+        let browser_page = browser::fetch_page(url).await?;
 
-        let retried = fetch_page_with_options_and_user_agent(
-            &self.client,
-            url,
-            user_agent,
-            retries,
-            timeout_ms,
-            suppress_errors,
-            silent_statuses,
-        )
-        .await?;
-
-        match retried {
-            Some(page) if !bunny::is_bunny_challenge(&page.html) => Ok(Some(page)),
-            Some(_) => Err(PanelsError::ScrapeFailed(
-                "GoComics Bunny Shield challenge did not clear after verification".into(),
-            )),
-            None => Err(PanelsError::ScrapeFailed(
-                "GoComics page vanished after Bunny Shield verification".into(),
-            )),
+        if bunny::is_bunny_challenge(&browser_page.html) {
+            Err(PanelsError::ScrapeFailed(
+                "GoComics browser fetch still landed on Bunny Shield challenge".into(),
+            ))
+        } else {
+            Ok(Some(browser_page))
         }
     }
 

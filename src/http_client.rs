@@ -1,10 +1,7 @@
-use std::sync::Arc;
 use std::time::Duration;
 
 use rand::Rng;
 use reqwest::Client;
-use reqwest::cookie::Jar;
-use reqwest::redirect::Policy;
 use tracing::{debug, warn};
 
 const USER_AGENTS: &[&str] = &[
@@ -19,22 +16,9 @@ pub fn random_user_agent() -> &'static str {
 }
 
 pub fn build_client() -> Client {
-    build_client_with_jar(Arc::new(Jar::default()), Policy::limited(5))
-}
-
-pub fn build_cookie_clients() -> (Client, Client) {
-    let jar = Arc::new(Jar::default());
-    (
-        build_client_with_jar(jar.clone(), Policy::limited(5)),
-        build_client_with_jar(jar, Policy::none()),
-    )
-}
-
-fn build_client_with_jar(jar: Arc<Jar>, redirect: Policy) -> Client {
     Client::builder()
-        .cookie_provider(jar)
         .timeout(Duration::from_secs(15))
-        .redirect(redirect)
+        .redirect(reqwest::redirect::Policy::limited(5))
         .build()
         .expect("failed to build HTTP client")
 }
@@ -74,27 +58,6 @@ pub async fn fetch_page_with_options(
         client,
         url,
         random_user_agent(),
-        retries,
-        timeout_ms,
-        suppress_errors,
-        silent_statuses,
-    )
-    .await
-}
-
-pub async fn fetch_page_with_options_and_user_agent(
-    client: &Client,
-    url: &str,
-    user_agent: &str,
-    retries: u32,
-    timeout_ms: u64,
-    suppress_errors: bool,
-    silent_statuses: &[u16],
-) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(
-        client,
-        url,
-        user_agent,
         retries,
         timeout_ms,
         suppress_errors,
@@ -193,10 +156,5 @@ mod tests {
     #[test]
     fn client_builds_successfully() {
         let _client = build_client();
-    }
-
-    #[test]
-    fn cookie_clients_build_successfully() {
-        let _clients = build_cookie_clients();
     }
 }

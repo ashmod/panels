@@ -24,10 +24,13 @@ Panels is a personal project and is not affiliated with any comic publishers. Al
 
 - Rust stable toolchain
 - `cargo`
+- `node`
+- `npm`
 
 ### 2. Run locally
 
 ```bash
+npm install
 cargo run
 ```
 
@@ -55,6 +58,7 @@ Panels uses CLI flags and environment variables:
 | `--data-dir` | `PANELS_DATA_DIR` | `data` | Path containing `comics.json`, `tags.json`, and `badges/` |
 | `--strip-cache-max` | `PANELS_STRIP_CACHE_MAX` | `500` | Max strip cache entries |
 | `--strip-cache-ttl` | `PANELS_STRIP_CACHE_TTL` | `1800` | Strip cache TTL in seconds |
+| n/a | `PANELS_GOCOMICS_BROWSER` | unset | Optional browser executable path for the GoComics Playwright fallback |
 
 Example:
 

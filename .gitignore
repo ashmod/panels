@@ -1,6 +1,10 @@
 # Rust build artifacts
 /target/
 
+# Node dependencies
+/node_modules/
+npm-debug.log*
+
 # Environment and local overrides
 .env
 .env.*
