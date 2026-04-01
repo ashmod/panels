@@ -11,7 +11,6 @@ use tokio::task;
 use tracing::info;
 
 use crate::error::{PanelsError, Result};
-use crate::http_client::random_user_agent;
 
 const VERIFY_PATH: &str = "/.bunny-shield/verify-pow";
 
@@ -151,7 +150,12 @@ fn solve_pow_answer(pow: &str, opts: PowOptions) -> Result<u64> {
     })
 }
 
-pub async fn solve_challenge(client: &Client, page_url: &str, html: &str) -> Result<()> {
+pub async fn solve_challenge(
+    client: &Client,
+    page_url: &str,
+    html: &str,
+    user_agent: &str,
+) -> Result<()> {
     let pow = extract_pow(html).ok_or_else(|| {
         PanelsError::ScrapeFailed("failed to read GoComics Bunny Shield challenge".into())
     })?;
@@ -173,7 +177,7 @@ pub async fn solve_challenge(client: &Client, page_url: &str, html: &str) -> Res
 
     let response = client
         .post(&verify_url)
-        .header("User-Agent", random_user_agent())
+        .header("User-Agent", user_agent)
         .header("Referer", page_url)
         .header("Content-Type", "application/json")
         .header("Accept", "*/*")

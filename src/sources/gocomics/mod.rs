@@ -8,7 +8,7 @@ use tracing::{debug, info};
 
 use crate::cache::Caches;
 use crate::error::{PanelsError, Result};
-use crate::http_client::{fetch_page_with_options, random_user_agent};
+use crate::http_client::{fetch_page_with_options_and_user_agent, random_user_agent};
 use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
@@ -49,9 +49,12 @@ impl GoComicsSource {
         suppress_errors: bool,
         silent_statuses: &[u16],
     ) -> Result<Option<crate::http_client::PageResponse>> {
-        let page = fetch_page_with_options(
+        let user_agent = random_user_agent();
+
+        let page = fetch_page_with_options_and_user_agent(
             &self.client,
             url,
+            user_agent,
             retries,
             timeout_ms,
             suppress_errors,
@@ -67,11 +70,12 @@ impl GoComicsSource {
             return Ok(Some(page));
         }
 
-        bunny::solve_challenge(&self.client, &page.final_url, &page.html).await?;
+        bunny::solve_challenge(&self.client, &page.final_url, &page.html, user_agent).await?;
 
-        let retried = fetch_page_with_options(
+        let retried = fetch_page_with_options_and_user_agent(
             &self.client,
             url,
+            user_agent,
             retries,
             timeout_ms,
             suppress_errors,

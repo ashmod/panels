@@ -35,7 +35,16 @@ pub async fn fetch_page(
     retries: u32,
     timeout_ms: u64,
 ) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(client, url, retries, timeout_ms, false, &[]).await
+    fetch_page_inner(
+        client,
+        url,
+        random_user_agent(),
+        retries,
+        timeout_ms,
+        false,
+        &[],
+    )
+    .await
 }
 
 pub async fn fetch_page_with_options(
@@ -49,6 +58,28 @@ pub async fn fetch_page_with_options(
     fetch_page_inner(
         client,
         url,
+        random_user_agent(),
+        retries,
+        timeout_ms,
+        suppress_errors,
+        silent_statuses,
+    )
+    .await
+}
+
+pub async fn fetch_page_with_options_and_user_agent(
+    client: &Client,
+    url: &str,
+    user_agent: &str,
+    retries: u32,
+    timeout_ms: u64,
+    suppress_errors: bool,
+    silent_statuses: &[u16],
+) -> crate::error::Result<Option<PageResponse>> {
+    fetch_page_inner(
+        client,
+        url,
+        user_agent,
         retries,
         timeout_ms,
         suppress_errors,
@@ -60,6 +91,7 @@ pub async fn fetch_page_with_options(
 async fn fetch_page_inner(
     client: &Client,
     url: &str,
+    user_agent: &str,
     retries: u32,
     timeout_ms: u64,
     suppress_errors: bool,
@@ -68,7 +100,7 @@ async fn fetch_page_inner(
     for attempt in 0..=retries {
         let result = client
             .get(url)
-            .header("User-Agent", random_user_agent())
+            .header("User-Agent", user_agent)
             .header(
                 "Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
