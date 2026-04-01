@@ -28,14 +28,21 @@ fn find_title<'a>(comics: &'a [Comic], endpoint: &'a str) -> &'a str {
 
 pub struct GoComicsSource {
     client: reqwest::Client,
+    verify_client: reqwest::Client,
     comics: Vec<Comic>,
     caches: Caches,
 }
 
 impl GoComicsSource {
-    pub fn new(client: reqwest::Client, comics: Vec<Comic>, caches: Caches) -> Self {
+    pub fn new(
+        client: reqwest::Client,
+        verify_client: reqwest::Client,
+        comics: Vec<Comic>,
+        caches: Caches,
+    ) -> Self {
         Self {
             client,
+            verify_client,
             comics,
             caches,
         }
@@ -70,7 +77,8 @@ impl GoComicsSource {
             return Ok(Some(page));
         }
 
-        bunny::solve_challenge(&self.client, &page.final_url, &page.html, user_agent).await?;
+        bunny::solve_challenge(&self.verify_client, &page.final_url, &page.html, user_agent)
+            .await?;
 
         let retried = fetch_page_with_options_and_user_agent(
             &self.client,

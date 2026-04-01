@@ -151,7 +151,7 @@ fn solve_pow_answer(pow: &str, opts: PowOptions) -> Result<u64> {
 }
 
 pub async fn solve_challenge(
-    client: &Client,
+    verify_client: &Client,
     page_url: &str,
     html: &str,
     user_agent: &str,
@@ -175,7 +175,7 @@ pub async fn solve_challenge(
         })
         .unwrap_or_else(|_| "https://www.gocomics.com/.bunny-shield/verify-pow".to_string());
 
-    let response = client
+    let response = verify_client
         .post(&verify_url)
         .header("User-Agent", user_agent)
         .header("Referer", page_url)

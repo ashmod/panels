@@ -34,9 +34,15 @@ async fn main() -> anyhow::Result<()> {
     info!(count = tags.len(), "loaded tags");
 
     let client = http_client::build_client();
+    let (gocomics_client, gocomics_verify_client) = http_client::build_cookie_clients();
     let caches = Caches::new(config.strip_cache_max, config.strip_cache_ttl_secs);
 
-    let gocomics = GoComicsSource::new(client.clone(), comics.clone(), caches.clone());
+    let gocomics = GoComicsSource::new(
+        gocomics_client,
+        gocomics_verify_client,
+        comics.clone(),
+        caches.clone(),
+    );
     let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
     let xkcd = XkcdSource::new(client.clone(), caches.clone());
     let phd = PhdSource::new(client.clone(), caches.clone());
