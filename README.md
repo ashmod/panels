@@ -13,7 +13,9 @@
 
 </div>
 
-Panels is a simple Rust based web server for delivering the Sunday Funnies anytime, anywhere. It provides over 400 comics; select your favorites, and get random strips immediately. Panels also has a recommendation engine to help you discover new comics based on your preferences.
+Panels is a comic strip browser built with Rust. Pick your favorite strips, fetch a random panel instantly, doomscroll your favourites, and get recommendations based on what you already like.
+
+Panels works best when you run it on your own machine or on a host you control, for complete access to all sources like GoComics.
 
 > [!NOTE]
 Panels is a personal project and is not affiliated with any comic publishers. All comics are sourced from publicly available data and are intended for personal use and enjoyment. All comics are property of their respective creators and publishers.
@@ -27,16 +29,29 @@ Panels is a personal project and is not affiliated with any comic publishers. Al
 - `node`
 - `npm`
 
-### 2. Run locally
+### 2. Install browser helper dependencies
+
+Panels uses Playwright for GoComics pages, so install the Node dependency once:
 
 ```bash
 npm install
+```
+
+This runs the package `postinstall` step, which downloads the Playwright browser used by the GoComics fallback.
+
+### 3. Start the app
+
+```bash
 cargo run
 ```
 
-Server starts on `http://localhost:3000` by default.
+Panels starts on `http://localhost:3000` by default.
 
-### 3. Check health
+### 4. Open it
+
+Visit `http://localhost:3000` in your browser.
+
+If you just want to confirm the backend is up:
 
 ```bash
 curl http://localhost:3000/api/health
@@ -46,6 +61,12 @@ Expected response:
 
 ```json
 {"status":"ok"}
+```
+
+You can also specify the port with:
+
+```bash
+cargo run -- --port PORT_NUM
 ```
 
 ## Configuration
@@ -64,6 +85,12 @@ Example:
 
 ```bash
 PANELS_PORT=4000 PANELS_DATA_DIR=./data cargo run
+```
+
+If Playwright should use a specific browser binary:
+
+```bash
+PANELS_GOCOMICS_BROWSER=/path/to/browser cargo run
 ```
 
 ## API Overview
@@ -133,12 +160,19 @@ curl -I "http://localhost:3000/api/comics/garfield/random/image"
 
 ## Development
 
-Run the usual checks:
+Typical local workflow:
+
+```bash
+npm install
+cargo run
+```
+
+Before opening a PR, run:
 
 ```bash
 cargo fmt
 cargo clippy --all-targets -- -D warnings
-cargo test
+cargo test --all-targets
 ```
 
 CI (`.github/workflows/ci.yml`) runs:
@@ -150,7 +184,7 @@ Tests workflow (`.github/workflows/tests.yml`) runs:
 
 ## Contributing
 
-Contributions are welcome. Feel free to open an issue or submit a pull request. Let me know if a comic you love is missing or if you have ideas for new features!
+Contributions are welcome. Open an issue or send a PR if a comic is missing, a source breaks, or you have an improvement in mind.
 
 ### Issue reporting
 
@@ -172,7 +206,7 @@ When reporting an issue, please include:
 ```bash
 cargo fmt
 cargo clippy --all-targets -- -D warnings
-cargo test
+cargo test --all-targets
 ```
 
 ### Pull request checklist
