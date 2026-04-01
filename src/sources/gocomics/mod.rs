@@ -1,3 +1,4 @@
+mod bunny;
 pub mod scraper;
 
 use async_trait::async_trait;
@@ -7,7 +8,7 @@ use tracing::{debug, info};
 
 use crate::cache::Caches;
 use crate::error::{PanelsError, Result};
-use crate::http_client::{fetch_page, fetch_page_with_options, random_user_agent};
+use crate::http_client::{fetch_page_with_options, random_user_agent};
 use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
@@ -40,6 +41,55 @@ impl GoComicsSource {
         }
     }
 
+    async fn fetch_page_handling_challenge(
+        &self,
+        url: &str,
+        retries: u32,
+        timeout_ms: u64,
+        suppress_errors: bool,
+        silent_statuses: &[u16],
+    ) -> Result<Option<crate::http_client::PageResponse>> {
+        let page = fetch_page_with_options(
+            &self.client,
+            url,
+            retries,
+            timeout_ms,
+            suppress_errors,
+            silent_statuses,
+        )
+        .await?;
+
+        let Some(page) = page else {
+            return Ok(None);
+        };
+
+        if !bunny::is_bunny_challenge(&page.html) {
+            return Ok(Some(page));
+        }
+
+        bunny::solve_challenge(&self.client, &page.final_url, &page.html).await?;
+
+        let retried = fetch_page_with_options(
+            &self.client,
+            url,
+            retries,
+            timeout_ms,
+            suppress_errors,
+            silent_statuses,
+        )
+        .await?;
+
+        match retried {
+            Some(page) if !bunny::is_bunny_challenge(&page.html) => Ok(Some(page)),
+            Some(_) => Err(PanelsError::ScrapeFailed(
+                "GoComics Bunny Shield challenge did not clear after verification".into(),
+            )),
+            None => Err(PanelsError::ScrapeFailed(
+                "GoComics page vanished after Bunny Shield verification".into(),
+            )),
+        }
+    }
+
     async fn fetch_strip_inner(
         &self,
         endpoint: &str,
@@ -58,15 +108,15 @@ impl GoComicsSource {
         let date_path = date_str.replace('-', "/");
         let url = format!("{}/{}/{}", BASE_URL, endpoint, date_path);
 
-        let page = fetch_page_with_options(
-            &self.client,
-            &url,
-            retries,
-            timeout_ms,
-            suppress_errors,
-            silent_statuses,
-        )
-        .await?;
+        let page = self
+            .fetch_page_handling_challenge(
+                &url,
+                retries,
+                timeout_ms,
+                suppress_errors,
+                silent_statuses,
+            )
+            .await?;
 
         let Some(page) = page else {
             return Ok(None);
@@ -109,7 +159,9 @@ impl ComicSource for GoComicsSource {
 
     async fn fetch_latest(&self, endpoint: &str) -> Result<Option<ComicStrip>> {
         let url = format!("{}/{}", BASE_URL, endpoint);
-        let page = fetch_page(&self.client, &url, 1, 12000).await?;
+        let page = self
+            .fetch_page_handling_challenge(&url, 1, 12000, false, &[])
+            .await?;
 
         let Some(page) = page else {
             return Ok(None);
@@ -153,7 +205,8 @@ impl ComicSource for GoComicsSource {
         );
         info!(endpoint, url = %random_month_url, "random date missed, trying month page");
 
-        let page = fetch_page_with_options(&self.client, &random_month_url, 0, 12000, true, &[404])
+        let page = self
+            .fetch_page_handling_challenge(&random_month_url, 0, 12000, true, &[404])
             .await?;
 
         let page = match page {
@@ -161,7 +214,10 @@ impl ComicSource for GoComicsSource {
             None => {
                 info!(endpoint, "month page missed, falling back to latest");
                 let url = format!("{}/{}", BASE_URL, endpoint);
-                match fetch_page(&self.client, &url, 1, 12000).await? {
+                match self
+                    .fetch_page_handling_challenge(&url, 1, 12000, false, &[])
+                    .await?
+                {
                     Some(p) => p,
                     None => return Ok(None),
                 }

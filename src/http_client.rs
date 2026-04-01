@@ -17,6 +17,7 @@ pub fn random_user_agent() -> &'static str {
 
 pub fn build_client() -> Client {
     Client::builder()
+        .cookie_store(true)
         .timeout(Duration::from_secs(15))
         .redirect(reqwest::redirect::Policy::limited(5))
         .build()
