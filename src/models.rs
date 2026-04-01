@@ -11,11 +11,13 @@ pub struct Comic {
     #[serde(default = "default_source")]
     pub source: String,
     #[serde(default)]
+    pub source_slug: Option<String>,
+    #[serde(default)]
     pub keywords: Vec<String>,
 }
 
 fn default_source() -> String {
-    "gocomics".to_string()
+    "disabled".to_string()
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

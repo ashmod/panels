@@ -3,6 +3,7 @@
 
   const state = {
     allComics: [],
+    appMeta: { demoMode: false, demoNotice: '', repoUrl: '' },
     selectedEndpoints: new Set(),
     currentStrip: null,
     activeTags: new Set(),
@@ -114,11 +115,22 @@
     favContainer: $('#favContainer'),
     favGallery: $('#favGallery'),
     favEmpty: $('#favEmpty'),
+    demoModal: $('#demoModal'),
+    demoModalBackdrop: $('#demoModalBackdrop'),
+    demoModalText: $('#demoModalText'),
+    demoModalDismiss: $('#demoModalDismiss'),
+    demoRepoLink: $('#demoRepoLink'),
   };
 
   async function fetchComics() {
     const res = await fetch('/api/comics');
     if (!res.ok) throw new Error('Failed to fetch comics');
+    return res.json();
+  }
+
+  async function fetchMeta() {
+    const res = await fetch('/api/meta');
+    if (!res.ok) throw new Error('Failed to fetch app metadata');
     return res.json();
   }
 
@@ -202,6 +214,50 @@
 
   function saveSelected() {
     localStorage.setItem(LS_SELECTED, JSON.stringify(Array.from(state.selectedEndpoints)));
+  }
+
+  function pruneSelections() {
+    const valid = new Set(state.allComics.map((comic) => comic.endpoint));
+    let changed = false;
+    state.selectedEndpoints.forEach((endpoint) => {
+      if (valid.has(endpoint)) return;
+      state.selectedEndpoints.delete(endpoint);
+      changed = true;
+    });
+    if (changed) saveSelected();
+  }
+
+  function closeDemoModal() {
+    els.demoModal.classList.add('hidden');
+    els.demoModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function openDemoModal() {
+    els.demoModal.classList.remove('hidden');
+    els.demoModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function renderDemoModal() {
+    const meta = state.appMeta;
+    if (!meta.demoMode || !meta.demoNotice) {
+      closeDemoModal();
+      return;
+    }
+
+    els.demoModalText.textContent = meta.demoNotice;
+    els.demoRepoLink.href = meta.repoUrl || 'https://github.com/ashmod/panels';
+    openDemoModal();
+  }
+
+  function initDemoModal() {
+    els.demoModalDismiss.addEventListener('click', closeDemoModal);
+    els.demoModalBackdrop.addEventListener('click', closeDemoModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !els.demoModal.classList.contains('hidden')) {
+        closeDemoModal();
+      }
+    });
   }
 
   function saveTheme(theme) {
@@ -1422,9 +1478,14 @@
     initKeyboard();
     initFeedScroll();
     initFeedZoom();
+    initDemoModal();
 
     try {
-      state.allComics = await fetchComics();
+      const [meta, comics] = await Promise.all([fetchMeta(), fetchComics()]);
+      state.appMeta = meta;
+      state.allComics = comics;
+      pruneSelections();
+      renderDemoModal();
       buildFuseIndex(state.allComics);
       buildTagFilters();
       buildAlphaBar();

@@ -20,6 +20,7 @@ pub async fn list_comics(
     let mut results: Vec<ComicWithTags> = state
         .comics
         .iter()
+        .filter(|comic| comic.available)
         .map(|comic| {
             let tags = state.tags.get(&comic.endpoint).cloned().unwrap_or_default();
             ComicWithTags {

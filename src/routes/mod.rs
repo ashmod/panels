@@ -1,4 +1,5 @@
 pub mod comics;
+pub mod meta;
 pub mod proxy;
 pub mod recommendations;
 pub mod strips;
@@ -17,6 +18,7 @@ pub fn build_router(state: Arc<AppState>) -> Router {
 
     Router::new()
         .route("/api/health", get(health))
+        .route("/api/meta", get(meta::get_meta))
         .route("/api/comics", get(comics::list_comics))
         .route(
             "/api/recommendations",

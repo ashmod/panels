@@ -8,9 +8,10 @@ use panels::data;
 use panels::http_client;
 use panels::routes;
 use panels::sources::SourceRegistry;
+use panels::sources::arcamax::ArcaMaxSource;
 use panels::sources::comicsrss::ComicsRssSource;
 use panels::sources::dilbert::DilbertSource;
-use panels::sources::gocomics::GoComicsSource;
+use panels::sources::jikos::JikosSource;
 use panels::sources::phd::PhdSource;
 use panels::sources::xkcd::XkcdSource;
 use tracing::info;
@@ -36,13 +37,15 @@ async fn main() -> anyhow::Result<()> {
     let client = http_client::build_client();
     let caches = Caches::new(config.strip_cache_max, config.strip_cache_ttl_secs);
 
-    let gocomics = GoComicsSource::new(client.clone(), comics.clone(), caches.clone());
+    let arcamax = ArcaMaxSource::new(client.clone(), comics.clone(), caches.clone());
+    let jikos = JikosSource::new(client.clone(), comics.clone(), caches.clone());
     let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
     let xkcd = XkcdSource::new(client.clone(), caches.clone());
     let phd = PhdSource::new(client.clone(), caches.clone());
     let comicsrss = ComicsRssSource::new(client.clone(), comics.clone(), caches);
     let sources = SourceRegistry::new(vec![
-        Box::new(gocomics),
+        Box::new(arcamax),
+        Box::new(jikos),
         Box::new(dilbert),
         Box::new(xkcd),
         Box::new(phd),
@@ -51,6 +54,11 @@ async fn main() -> anyhow::Result<()> {
 
     let state = Arc::new(AppState {
         config: config.clone(),
+        meta: panels::AppMeta {
+            demo_mode: config.demo_mode,
+            demo_notice: config.demo_notice.clone(),
+            repo_url: config.repo_url.clone(),
+        },
         comics,
         tags,
         sources,

@@ -38,6 +38,23 @@
     </div>
   </header>
 
+  <div class="demo-modal hidden" id="demoModal" aria-hidden="true">
+    <div class="demo-modal-backdrop" id="demoModalBackdrop"></div>
+    <div class="demo-modal-card" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
+      <div class="demo-modal-eyebrow">LIVE DEMO NOTICE</div>
+      <h2 class="demo-modal-title" id="demoModalTitle">This demo runs a reduced catalog.</h2>
+      <p class="demo-modal-copy" id="demoModalText"></p>
+      <div class="demo-modal-actions">
+        <button class="demo-modal-button" id="demoModalDismiss">
+          Continue to Panels <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <a class="demo-modal-link" id="demoRepoLink" href="https://github.com/ashmod/panels" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github"></i> Repo
+        </a>
+      </div>
+    </div>
+  </div>
+
   <main class="layout">
     <section class="comic-panel" id="comicPanel">
       <div class="comic-empty" id="comicEmpty">

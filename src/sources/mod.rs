@@ -1,6 +1,7 @@
+pub mod arcamax;
 pub mod comicsrss;
 pub mod dilbert;
-pub mod gocomics;
+pub mod jikos;
 pub mod phd;
 pub mod xkcd;
 

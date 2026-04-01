@@ -4,7 +4,7 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use axum::body::Body;
 use axum::http::{Request, StatusCode, header};
-use panels::AppState;
+use panels::{AppMeta, AppState};
 use panels::config::PanelsConfig;
 use panels::error::Result;
 use panels::models::ComicStrip;
@@ -56,6 +56,14 @@ fn test_app() -> axum::Router {
             data_dir: "data".to_string(),
             strip_cache_max: 10,
             strip_cache_ttl_secs: 60,
+            demo_mode: false,
+            demo_notice: String::new(),
+            repo_url: "https://github.com/ashmod/panels".to_string(),
+        },
+        meta: AppMeta {
+            demo_mode: false,
+            demo_notice: String::new(),
+            repo_url: "https://github.com/ashmod/panels".to_string(),
         },
         comics: vec![],
         tags: HashMap::new(),

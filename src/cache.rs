@@ -32,7 +32,7 @@ mod tests {
             title: "Garfield".into(),
             date: "2024-01-15".into(),
             image_url: "https://example.com/img.gif".into(),
-            source_url: "https://www.gocomics.com/garfield".into(),
+            source_url: "https://example.com/source".into(),
             prev_date: Some("2024-01-14".into()),
             next_date: Some("2024-01-16".into()),
         };
