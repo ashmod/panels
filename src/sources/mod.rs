@@ -1,4 +1,5 @@
 pub mod arcamax;
+pub mod calvincdn;
 pub mod comicsrss;
 pub mod dilbert;
 pub mod jikos;

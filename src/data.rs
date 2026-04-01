@@ -5,6 +5,7 @@ use crate::models::Comic;
 
 enum RenderSourceOverride {
     ArcaMax(&'static str),
+    CalvinCdn,
     Jikos(&'static str),
 }
 
@@ -76,6 +77,10 @@ const ARCAMAX_ENDPOINTS: &[(&str, &str)] = &[
 ];
 
 fn render_override(endpoint: &str) -> Option<RenderSourceOverride> {
+    if endpoint == "calvinandhobbes" {
+        return Some(RenderSourceOverride::CalvinCdn);
+    }
+
     if endpoint == "garfield" {
         return Some(RenderSourceOverride::Jikos("garfield"));
     }
@@ -93,6 +98,11 @@ fn normalize_render_catalog(mut comics: Vec<Comic>) -> Vec<Comic> {
                 comic.available = true;
                 comic.source = "arcamax".to_string();
                 comic.source_slug = Some(slug.to_string());
+            }
+            Some(RenderSourceOverride::CalvinCdn) => {
+                comic.available = true;
+                comic.source = "calvincdn".to_string();
+                comic.source_slug = None;
             }
             Some(RenderSourceOverride::Jikos(slug)) => {
                 comic.available = true;
@@ -176,9 +186,20 @@ mod tests {
         let comics = load_comics("data").expect("should load comics.json");
         let calvin = comics
             .iter()
-            .find(|c| c.endpoint == "calvinandhobbes")
+            .find(|c| c.endpoint == "calvinandhobbesespanol")
             .unwrap();
         assert_eq!(calvin.source, "disabled");
         assert!(!calvin.available);
+    }
+
+    #[test]
+    fn calvin_and_hobbes_is_remapped_to_cdn_source() {
+        let comics = load_comics("data").expect("should load comics.json");
+        let calvin = comics
+            .iter()
+            .find(|c| c.endpoint == "calvinandhobbes")
+            .unwrap();
+        assert_eq!(calvin.source, "calvincdn");
+        assert!(calvin.available);
     }
 }

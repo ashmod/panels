@@ -30,6 +30,7 @@ pub fn build_router(state: Arc<AppState>) -> Router {
             get(proxy::proxy_image),
         )
         .nest_service("/api/badges", ServeDir::new(badges_dir))
+        .nest_service("/assets", ServeDir::new("assets"))
         .route_service("/feed", ServeFile::new("web/index.html"))
         .fallback_service(ServeDir::new("web").fallback(ServeFile::new("web/index.html")))
         .layer(CorsLayer::permissive())

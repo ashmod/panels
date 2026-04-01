@@ -9,6 +9,7 @@ use panels::http_client;
 use panels::routes;
 use panels::sources::SourceRegistry;
 use panels::sources::arcamax::ArcaMaxSource;
+use panels::sources::calvincdn::CalvinCdnSource;
 use panels::sources::comicsrss::ComicsRssSource;
 use panels::sources::dilbert::DilbertSource;
 use panels::sources::jikos::JikosSource;
@@ -37,6 +38,7 @@ async fn main() -> anyhow::Result<()> {
     let client = http_client::build_client();
     let caches = Caches::new(config.strip_cache_max, config.strip_cache_ttl_secs);
 
+    let calvincdn = CalvinCdnSource::new(client.clone(), comics.clone(), caches.clone());
     let arcamax = ArcaMaxSource::new(client.clone(), comics.clone(), caches.clone());
     let jikos = JikosSource::new(client.clone(), comics.clone(), caches.clone());
     let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
@@ -44,6 +46,7 @@ async fn main() -> anyhow::Result<()> {
     let phd = PhdSource::new(client.clone(), caches.clone());
     let comicsrss = ComicsRssSource::new(client.clone(), comics.clone(), caches);
     let sources = SourceRegistry::new(vec![
+        Box::new(calvincdn),
         Box::new(arcamax),
         Box::new(jikos),
         Box::new(dilbert),

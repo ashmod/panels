@@ -33,6 +33,7 @@
       <a class="nav-link fav-nav-link" id="navFavLink" href="/favorites"><i class="fa-solid fa-heart"></i></a>
     </nav>
     <div class="header-right">
+      <button class="icon-btn" id="infoBtn" aria-label="About Panels"><i class="fa-regular fa-circle-question"></i></button>
       <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
       <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
     </div>
@@ -41,8 +42,27 @@
   <div class="demo-modal hidden" id="demoModal" aria-hidden="true">
     <div class="demo-modal-backdrop" id="demoModalBackdrop"></div>
     <div class="demo-modal-card" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
-      <div class="demo-modal-eyebrow">LIVE DEMO NOTICE</div>
-      <h2 class="demo-modal-title" id="demoModalTitle">This demo runs a reduced catalog.</h2>
+      <div class="demo-modal-eyebrow">WELCOME TO PANELS</div>
+      <h2 class="demo-modal-title" id="demoModalTitle">The Sunday Funnies,<br>All day. Everyday.</h2>
+
+      <div class="demo-modal-comics">
+        <span class="demo-modal-comics-label">400+ strips including</span>
+        <div class="demo-modal-comics-row">
+          <div class="demo-modal-comic-card" style="--comic-badge-bg: #e67e22">
+            <img src="/api/badges/garfield.png" alt="Garfield" loading="lazy">
+            <span>Garfield</span>
+          </div>
+          <div class="demo-modal-comic-card demo-modal-comic-card--right demo-modal-comic-card--nudge" style="--comic-badge-bg: #9b59b6">
+            <img src="/api/badges/dilbert.png" alt="Dilbert" loading="lazy">
+            <span>Dilbert</span>
+          </div>
+          <div class="demo-modal-comic-card" style="--comic-badge-bg: #3498db">
+            <img src="/assets/calvinandhobbes.png" alt="Calvin and Hobbes" loading="lazy">
+            <span>Calvin &amp; Hobbes</span>
+          </div>
+        </div>
+      </div>
+
       <p class="demo-modal-copy" id="demoModalText"></p>
       <div class="demo-modal-actions">
         <button class="demo-modal-button" id="demoModalDismiss">

@@ -56,6 +56,7 @@
   const LS_SIDEBAR = 'panels_sidebar_collapsed';
   const LS_COLLAPSIBLES = 'panels_collapsibles';
   const LS_FAVORITES = 'panels_favorites';
+  const LS_DEMO_SEEN = 'panels_demo_seen';
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
@@ -115,6 +116,7 @@
     favContainer: $('#favContainer'),
     favGallery: $('#favGallery'),
     favEmpty: $('#favEmpty'),
+    infoBtn: $('#infoBtn'),
     demoModal: $('#demoModal'),
     demoModalBackdrop: $('#demoModalBackdrop'),
     demoModalText: $('#demoModalText'),
@@ -230,6 +232,7 @@
   function closeDemoModal() {
     els.demoModal.classList.add('hidden');
     els.demoModal.setAttribute('aria-hidden', 'true');
+    localStorage.setItem(LS_DEMO_SEEN, '1');
   }
 
   function openDemoModal() {
@@ -239,19 +242,20 @@
 
   function renderDemoModal() {
     const meta = state.appMeta;
-    if (!meta.demoMode || !meta.demoNotice) {
-      closeDemoModal();
-      return;
+    if (meta.demoNotice) {
+      els.demoModalText.textContent = meta.demoNotice;
     }
-
-    els.demoModalText.textContent = meta.demoNotice;
     els.demoRepoLink.href = meta.repoUrl || 'https://github.com/ashmod/panels';
-    openDemoModal();
+
+    if (meta.demoMode && meta.demoNotice && !localStorage.getItem(LS_DEMO_SEEN)) {
+      openDemoModal();
+    }
   }
 
   function initDemoModal() {
     els.demoModalDismiss.addEventListener('click', closeDemoModal);
     els.demoModalBackdrop.addEventListener('click', closeDemoModal);
+    els.infoBtn.addEventListener('click', openDemoModal);
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !els.demoModal.classList.contains('hidden')) {
