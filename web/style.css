@@ -134,6 +134,8 @@ header {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .demo-modal-backdrop {
@@ -146,12 +148,14 @@ header {
 .demo-modal-card {
   position: relative;
   width: min(560px, 100%);
+  max-height: calc(100dvh - 40px);
   padding: 24px;
   border: var(--border-thick);
   background:
     radial-gradient(circle at top left, var(--accent-glow), transparent 38%),
     var(--bg-surface);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  overflow-y: auto;
 }
 
 .demo-modal-eyebrow {
@@ -271,7 +275,7 @@ header {
   font-size: 42px;
   font-family: var(--font-logo);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   line-height: 1;
 }
 
@@ -390,8 +394,14 @@ header {
 }
 
 @media (max-width: 900px), ((hover: none) and (pointer: coarse)) {
+  .demo-modal {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
   .demo-modal-card {
     padding: 18px;
+    max-height: calc(100dvh - 24px);
   }
 
   .demo-modal-title {

@@ -1,6 +1,6 @@
 use clap::Parser;
 
-const DEFAULT_DEMO_NOTICE: &str = "This live demo is a simpler, smaller version of Panels. For the full, improved, catalog, run Panels locally or self-host it from the repo.";
+const DEFAULT_DEMO_NOTICE: &str = "This live demo is a smaller, simpler version of Panels featuring the full collections for the comics above. To access the complete, enhanced catalog for all other series, you can run locally or self-host it from the repository.";
 
 #[derive(Parser, Debug, Clone)]
 #[command(name = "panels", about = "Comic strip aggregator backend")]
