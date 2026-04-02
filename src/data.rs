@@ -7,6 +7,7 @@ enum RenderSourceOverride {
     ArcaMax(&'static str),
     CalvinCdn,
     Jikos(&'static str),
+    Peanuts,
 }
 
 const ARCAMAX_ENDPOINTS: &[(&str, &str)] = &[
@@ -81,6 +82,10 @@ fn render_override(endpoint: &str) -> Option<RenderSourceOverride> {
         return Some(RenderSourceOverride::CalvinCdn);
     }
 
+    if endpoint == "peanuts" {
+        return Some(RenderSourceOverride::Peanuts);
+    }
+
     if endpoint == "garfield" {
         return Some(RenderSourceOverride::Jikos("garfield"));
     }
@@ -102,6 +107,11 @@ fn normalize_render_catalog(mut comics: Vec<Comic>) -> Vec<Comic> {
             Some(RenderSourceOverride::CalvinCdn) => {
                 comic.available = true;
                 comic.source = "calvincdn".to_string();
+                comic.source_slug = None;
+            }
+            Some(RenderSourceOverride::Peanuts) => {
+                comic.available = true;
+                comic.source = "peanuts".to_string();
                 comic.source_slug = None;
             }
             Some(RenderSourceOverride::Jikos(slug)) => {
@@ -201,5 +211,13 @@ mod tests {
             .unwrap();
         assert_eq!(calvin.source, "calvincdn");
         assert!(calvin.available);
+    }
+
+    #[test]
+    fn peanuts_is_remapped_to_peanuts_source() {
+        let comics = load_comics("data").expect("should load comics.json");
+        let peanuts = comics.iter().find(|c| c.endpoint == "peanuts").unwrap();
+        assert_eq!(peanuts.source, "peanuts");
+        assert!(peanuts.available);
     }
 }

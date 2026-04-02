@@ -13,6 +13,7 @@ use panels::sources::calvincdn::CalvinCdnSource;
 use panels::sources::comicsrss::ComicsRssSource;
 use panels::sources::dilbert::DilbertSource;
 use panels::sources::jikos::JikosSource;
+use panels::sources::peanuts::PeanutsSource;
 use panels::sources::phd::PhdSource;
 use panels::sources::xkcd::XkcdSource;
 use tracing::info;
@@ -41,12 +42,14 @@ async fn main() -> anyhow::Result<()> {
     let calvincdn = CalvinCdnSource::new(client.clone(), comics.clone(), caches.clone());
     let arcamax = ArcaMaxSource::new(client.clone(), comics.clone(), caches.clone());
     let jikos = JikosSource::new(client.clone(), comics.clone(), caches.clone());
+    let peanuts = PeanutsSource::new(client.clone(), comics.clone(), caches.clone());
     let dilbert = DilbertSource::new(client.clone(), &config.data_dir);
     let xkcd = XkcdSource::new(client.clone(), caches.clone());
     let phd = PhdSource::new(client.clone(), caches.clone());
     let comicsrss = ComicsRssSource::new(client.clone(), comics.clone(), caches);
     let sources = SourceRegistry::new(vec![
         Box::new(calvincdn),
+        Box::new(peanuts),
         Box::new(arcamax),
         Box::new(jikos),
         Box::new(dilbert),

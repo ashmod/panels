@@ -3,6 +3,7 @@ pub mod calvincdn;
 pub mod comicsrss;
 pub mod dilbert;
 pub mod jikos;
+pub mod peanuts;
 pub mod phd;
 pub mod xkcd;
 
