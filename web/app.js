@@ -114,6 +114,9 @@
     favContainer: $('#favContainer'),
     favGallery: $('#favGallery'),
     favEmpty: $('#favEmpty'),
+    favExportBtn: $('#favExportBtn'),
+    favImportInput: $('#favImportInput'),
+    favToolbarMsg: $('#favToolbarMsg'),
   };
 
   async function fetchComics() {
@@ -967,6 +970,7 @@
   }
 
   function renderFavGallery() {
+    els.favExportBtn.disabled = state.favorites.length === 0;
     if (state.favorites.length === 0) {
       els.favEmpty.classList.remove('hidden');
       els.favGallery.classList.add('hidden');
@@ -1405,8 +1409,69 @@
     }
   }
 
+  function exportFavorites() {
+    if (state.favorites.length === 0) return;
+    const date = new Date().toISOString().slice(0, 10);
+    const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `panels-favorites-${date}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  let _favMsgTimer = null;
+  function showFavToolbarMsg(msg) {
+    els.favToolbarMsg.textContent = msg;
+    els.favToolbarMsg.classList.remove('hidden');
+    clearTimeout(_favMsgTimer);
+    _favMsgTimer = setTimeout(() => els.favToolbarMsg.classList.add('hidden'), 3000);
+  }
+
+  function importFavorites(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      let entries;
+      try {
+        entries = JSON.parse(e.target.result);
+      } catch {
+        showFavToolbarMsg('Invalid file');
+        return;
+      }
+      if (!Array.isArray(entries)) {
+        showFavToolbarMsg('Invalid file');
+        return;
+      }
+      const valid = entries.filter((f) => f && typeof f.endpoint === 'string' && typeof f.date === 'string');
+      let added = 0;
+      valid.forEach((f) => {
+        if (!state.favorites.some((e) => e.endpoint === f.endpoint && e.date === f.date)) {
+          state.favorites.push({ endpoint: f.endpoint, date: f.date, title: f.title || '', added: f.added || Date.now() });
+          added++;
+        }
+      });
+      saveFavorites();
+      renderFavGallery();
+      const skipped = valid.length - added;
+      if (added === 0) {
+        showFavToolbarMsg('Already up to date');
+      } else {
+        showFavToolbarMsg('Imported ' + added + ' favorite' + (added !== 1 ? 's' : '') + (skipped > 0 ? ' (' + skipped + ' already existed)' : ''));
+      }
+    };
+    reader.readAsText(file);
+  }
+
   function initFavorites() {
     els.btnFavorite.addEventListener('click', toggleFavorite);
+    els.favExportBtn.addEventListener('click', exportFavorites);
+    els.favImportInput.addEventListener('change', (e) => {
+      if (e.target.files[0]) {
+        importFavorites(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
   }
 
   async function init() {

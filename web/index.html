@@ -76,6 +76,14 @@
     </section>
 
     <section class="fav-container hidden" id="favContainer">
+      <div class="fav-toolbar" id="favToolbar">
+        <button class="fav-toolbar-btn" id="favExportBtn"><i class="fa-solid fa-file-export"></i> Export</button>
+        <div class="fav-toolbar-right">
+          <span class="fav-toolbar-msg hidden" id="favToolbarMsg"></span>
+          <label class="fav-toolbar-btn fav-import-label" for="favImportInput"><i class="fa-solid fa-file-import"></i> Import</label>
+          <input type="file" id="favImportInput" accept=".json" class="hidden" aria-label="Import favorites JSON">
+        </div>
+      </div>
       <div class="fav-gallery" id="favGallery"></div>
       <div class="fav-empty hidden" id="favEmpty">
         <span>[ no favorites yet — heart some strips! ]</span>
