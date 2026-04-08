@@ -20,6 +20,22 @@ Panels works best when you run it on your own machine or on a host you control, 
 > [!NOTE]
 Panels is a personal project and is not affiliated with any comic publishers. All comics are sourced from publicly available data and are intended for personal use and enjoyment. All comics are property of their respective creators and publishers.
 
+## Live Demo
+
+A live demo is available at **[panels.ashmod.dev](https://panels.ashmod.dev)**.
+
+The demo runs a lightweight deployment without the GoComics browser integration, so it includes full collections for a subset of comics sourced through alternative providers:
+
+- **Calvin and Hobbes**
+- **Peanuts**
+- **Garfield**
+- **xkcd**
+- **Dilbert**
+- **Piled Higher and Deeper**
+
+A handful of other series have their **most recent** strips available via RSS.<br />
+To access the full catalog, run Panels locally or self-host it.
+
 ## Quick Start
 
 ### 1. Prerequisites
