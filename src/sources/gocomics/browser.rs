@@ -36,12 +36,17 @@ pub async fn fetch_page(url: &str) -> Result<PageResponse> {
     let output = timeout(Duration::from_secs(35), command.output())
         .await
         .map_err(|_| PanelsError::ScrapeFailed("GoComics browser fetch timed out".into()))?
-        .map_err(|e| PanelsError::ScrapeFailed(format!("failed to start GoComics browser helper: {e}")))?;
+        .map_err(|e| {
+            PanelsError::ScrapeFailed(format!("failed to start GoComics browser helper: {e}"))
+        })?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
         let message = if stderr.is_empty() {
-            format!("GoComics browser helper exited with status {}", output.status)
+            format!(
+                "GoComics browser helper exited with status {}",
+                output.status
+            )
         } else {
             format!("GoComics browser helper failed: {stderr}")
         };
@@ -49,7 +54,9 @@ pub async fn fetch_page(url: &str) -> Result<PageResponse> {
     }
 
     let response: BrowserPageResponse = serde_json::from_slice(&output.stdout).map_err(|e| {
-        PanelsError::ScrapeFailed(format!("failed to parse GoComics browser helper output: {e}"))
+        PanelsError::ScrapeFailed(format!(
+            "failed to parse GoComics browser helper output: {e}"
+        ))
     })?;
 
     Ok(PageResponse {

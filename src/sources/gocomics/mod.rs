@@ -1,5 +1,5 @@
-mod bunny;
 mod browser;
+mod bunny;
 pub mod scraper;
 
 use async_trait::async_trait;
