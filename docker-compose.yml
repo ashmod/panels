@@ -1,0 +1,9 @@
+services:
+  panels:
+    build: .
+    image: panels:local
+    ports:
+      - "${PANELS_PORT:-3000}:3000"
+    environment:
+      RUST_LOG: "info"
+    restart: unless-stopped
