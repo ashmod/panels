@@ -14,7 +14,8 @@ use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
 use self::scraper::{
-    extract_date_links, extract_nav_date, extract_page_date_from_html, parse_comic_page,
+    StripTarget, extract_date_links, extract_nav_date, extract_page_date_from_html,
+    parse_comic_page,
 };
 
 const BASE_URL: &str = "https://www.gocomics.com";
@@ -116,7 +117,12 @@ impl GoComicsSource {
             .unwrap_or_else(|| date_str.to_string());
 
         let title = find_title(&self.comics, endpoint);
-        let strip = parse_comic_page(&page.html, endpoint, &resolved_date, title);
+        let strip = parse_comic_page(
+            &page.html,
+            endpoint,
+            StripTarget::Date(&resolved_date),
+            title,
+        );
 
         if let Some(ref s) = strip {
             let strip_cache_key = format!("{}:{}", endpoint, s.date);
@@ -162,7 +168,14 @@ impl ComicSource for GoComicsSource {
             .unwrap_or(today);
 
         let title = find_title(&self.comics, endpoint);
-        let strip = parse_comic_page(&page.html, endpoint, &resolved_date, title);
+        let strip = parse_comic_page(
+            &page.html,
+            endpoint,
+            StripTarget::Latest {
+                fallback: &resolved_date,
+            },
+            title,
+        );
 
         if let Some(ref s) = strip {
             let cache_key = format!("{}:{}", endpoint, s.date);
@@ -198,8 +211,8 @@ impl ComicSource for GoComicsSource {
             .fetch_page_handling_challenge(&random_month_url, 0, 12000, true, &[404])
             .await?;
 
-        let page = match page {
-            Some(p) => p,
+        let (page, is_landing_page) = match page {
+            Some(p) => (p, false),
             None => {
                 info!(endpoint, "month page missed, falling back to latest");
                 let url = format!("{}/{}", BASE_URL, endpoint);
@@ -207,7 +220,7 @@ impl ComicSource for GoComicsSource {
                     .fetch_page_handling_challenge(&url, 1, 12000, false, &[])
                     .await?
                 {
-                    Some(p) => p,
+                    Some(p) => (p, true),
                     None => return Ok(None),
                 }
             }
@@ -219,8 +232,15 @@ impl ComicSource for GoComicsSource {
             let resolved = extract_nav_date(&page.final_url, endpoint)
                 .or_else(|| extract_page_date_from_html(&page.html, endpoint))
                 .unwrap_or(today);
+            let target = if is_landing_page {
+                StripTarget::Latest {
+                    fallback: &resolved,
+                }
+            } else {
+                StripTarget::Date(&resolved)
+            };
             let title = find_title(&self.comics, endpoint);
-            return Ok(parse_comic_page(&page.html, endpoint, &resolved, title));
+            return Ok(parse_comic_page(&page.html, endpoint, target, title));
         }
 
         let idx = rand::thread_rng().gen_range(0..dates.len());
