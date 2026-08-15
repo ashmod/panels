@@ -10,9 +10,23 @@ const USER_AGENTS: &[&str] = &[
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 ];
 
+pub const ARCHIVE_USER_AGENT: &str = concat!(
+    "panels/",
+    env!("CARGO_PKG_VERSION"),
+    " (+https://github.com/ashmod/panels)"
+);
+
 pub fn random_user_agent() -> &'static str {
     let idx = rand::thread_rng().gen_range(0..USER_AGENTS.len());
     USER_AGENTS[idx]
+}
+
+pub fn user_agent_for(url: &str) -> &'static str {
+    if url.contains("web.archive.org") {
+        ARCHIVE_USER_AGENT
+    } else {
+        random_user_agent()
+    }
 }
 
 pub fn build_client() -> Client {
@@ -34,16 +48,7 @@ pub async fn fetch_page(
     retries: u32,
     timeout_ms: u64,
 ) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(
-        client,
-        url,
-        random_user_agent(),
-        retries,
-        timeout_ms,
-        false,
-        &[],
-    )
-    .await
+    fetch_page_inner(client, url, retries, timeout_ms, false, &[]).await
 }
 
 pub async fn fetch_page_with_options(
@@ -57,7 +62,6 @@ pub async fn fetch_page_with_options(
     fetch_page_inner(
         client,
         url,
-        random_user_agent(),
         retries,
         timeout_ms,
         suppress_errors,
@@ -69,12 +73,13 @@ pub async fn fetch_page_with_options(
 async fn fetch_page_inner(
     client: &Client,
     url: &str,
-    user_agent: &str,
     retries: u32,
     timeout_ms: u64,
     suppress_errors: bool,
     silent_statuses: &[u16],
 ) -> crate::error::Result<Option<PageResponse>> {
+    let user_agent = user_agent_for(url);
+
     for attempt in 0..=retries {
         let result = client
             .get(url)
@@ -151,6 +156,17 @@ mod tests {
         let ua = random_user_agent();
         assert!(ua.contains("Mozilla"));
         assert!(ua.contains("Chrome"));
+    }
+
+    #[test]
+    fn user_agent_selected_per_host() {
+        assert_eq!(
+            user_agent_for(
+                "https://web.archive.org/web/20160228070030im_/http://assets.amuniversal.com/abc",
+            ),
+            ARCHIVE_USER_AGENT
+        );
+        assert!(user_agent_for("https://xkcd.com/1/info.0.json").contains("Mozilla"));
     }
 
     #[test]

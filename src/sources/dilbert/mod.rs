@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use tracing::{debug, info, warn};
 
 use crate::error::{PanelsError, Result};
-use crate::http_client::random_user_agent;
+use crate::http_client::user_agent_for;
 use crate::models::ComicStrip;
 use crate::sources::ComicSource;
 
@@ -123,13 +123,19 @@ impl ComicSource for DilbertSource {
         let response = self
             .client
             .get(image_url)
-            .header("User-Agent", random_user_agent())
+            .header("User-Agent", user_agent_for(image_url))
             .send()
             .await
             .map_err(|e| PanelsError::ScrapeFailed(format!("failed to fetch image: {}", e)))?;
 
         if !response.status().is_success() {
-            return Err(PanelsError::NotFound("image not found".into()));
+            let status = response.status().as_u16();
+            warn!(url = image_url, status, "dilbert image fetch failed");
+            return Err(if status == 404 {
+                PanelsError::NotFound("image not found".into())
+            } else {
+                PanelsError::ScrapeFailed(format!("image fetch returned {}", status))
+            });
         }
 
         let content_type = response
