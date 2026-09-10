@@ -42,13 +42,11 @@ The fastest way to try Panels locally is with Docker. If you'd rather build from
 
 ### Run with Docker
 
-Prerequisites: [Docker](https://docs.docker.com/get-docker/) (and Docker Compose, bundled with Docker Desktop).
-
 ```bash
 docker compose up --build
 ```
 
-Then open `http://localhost:3000`. The image is built in two stages: a Rust builder compiles the binary, and a Playwright runtime image provides Node and Firefox for the GoComics fallback — no local Rust or Node toolchain required.
+Then open `http://localhost:3000`. The image is built in two stages: a Rust builder compiles the binary, and a Playwright runtime image provides Node and Firefox which are required to fetch the comics properly.
 
 To use a different host port, override it at the compose level:
 

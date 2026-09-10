@@ -3,27 +3,28 @@ FROM rust:1-slim-bookworm AS builder
 WORKDIR /app
 
 COPY Cargo.toml Cargo.lock ./
-RUN mkdir src && echo 'fn main() {}' > src/main.rs && \
-    cargo build --release && \
-    rm -rf src target/release/panels* target/release/deps/panels*
-
 COPY src ./src
 COPY tests ./tests
-RUN cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,target=/app/target,sharing=locked \
+    cargo build --release && \
+    cp target/release/panels /panels
 
-FROM mcr.microsoft.com/playwright:v1.59.1-noble
+FROM node:22-slim
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts
+RUN npm ci --omit=dev --ignore-scripts && \
+    npx playwright install --with-deps firefox && \
+    rm -rf /var/lib/apt/lists/* /root/.npm
 
 COPY gocomics-browser.mjs ./
 COPY data ./data
 COPY web ./web
 COPY assets ./assets
 
-COPY --from=builder /app/target/release/panels /usr/local/bin/panels
+COPY --from=builder /panels /usr/local/bin/panels
 
 ENV PANELS_PORT=3000 \
     PANELS_DATA_DIR=/app/data \
