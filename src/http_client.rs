@@ -48,7 +48,7 @@ pub async fn fetch_page(
     retries: u32,
     timeout_ms: u64,
 ) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(client, url, retries, timeout_ms, false, &[]).await
+    fetch_page_inner(client, url, retries, timeout_ms, false, &[], None).await
 }
 
 pub async fn fetch_page_with_options(
@@ -66,6 +66,28 @@ pub async fn fetch_page_with_options(
         timeout_ms,
         suppress_errors,
         silent_statuses,
+        None,
+    )
+    .await
+}
+
+pub async fn fetch_page_accepting_error_body(
+    client: &Client,
+    url: &str,
+    retries: u32,
+    timeout_ms: u64,
+    suppress_errors: bool,
+    silent_statuses: &[u16],
+    accept_error_body: fn(&str) -> bool,
+) -> crate::error::Result<Option<PageResponse>> {
+    fetch_page_inner(
+        client,
+        url,
+        retries,
+        timeout_ms,
+        suppress_errors,
+        silent_statuses,
+        Some(accept_error_body),
     )
     .await
 }
@@ -77,6 +99,7 @@ async fn fetch_page_inner(
     timeout_ms: u64,
     suppress_errors: bool,
     silent_statuses: &[u16],
+    accept_error_body: Option<fn(&str) -> bool>,
 ) -> crate::error::Result<Option<PageResponse>> {
     let user_agent = user_agent_for(url);
 
@@ -99,6 +122,13 @@ async fn fetch_page_inner(
                 let final_url = response.url().to_string();
 
                 if !response.status().is_success() {
+                    if let Some(accept) = accept_error_body
+                        && let Ok(html) = response.text().await
+                        && accept(&html)
+                    {
+                        debug!("Returning {} body from {} to caller", status, url);
+                        return Ok(Some(PageResponse { html, final_url }));
+                    }
                     if !suppress_errors && !silent_statuses.contains(&status) {
                         warn!("Failed to fetch {}: {}", url, status);
                     }
@@ -172,5 +202,47 @@ mod tests {
     #[test]
     fn client_builds_successfully() {
         let _client = build_client();
+    }
+
+    async fn serve_once(status: &'static str, body: &'static str) -> String {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = listener.local_addr().unwrap();
+        tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.unwrap();
+            let mut buf = [0u8; 1024];
+            let _ = socket.read(&mut buf).await;
+            let response = format!(
+                "HTTP/1.1 {status}\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{body}",
+                body.len()
+            );
+            socket.write_all(response.as_bytes()).await.unwrap();
+        });
+        format!("http://{addr}/")
+    }
+
+    #[tokio::test]
+    async fn accepted_error_body_is_returned() {
+        let url = serve_once("403 Forbidden", "challenge").await;
+        let page =
+            fetch_page_accepting_error_body(&build_client(), &url, 0, 2000, true, &[], |html| {
+                html == "challenge"
+            })
+            .await
+            .unwrap();
+        assert_eq!(page.unwrap().html, "challenge");
+    }
+
+    #[tokio::test]
+    async fn rejected_error_body_is_dropped() {
+        let url = serve_once("403 Forbidden", "forbidden").await;
+        let page =
+            fetch_page_accepting_error_body(&build_client(), &url, 0, 2000, true, &[], |html| {
+                html == "challenge"
+            })
+            .await
+            .unwrap();
+        assert!(page.is_none());
     }
 }

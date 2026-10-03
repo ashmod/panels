@@ -2,6 +2,9 @@ mod browser;
 mod bunny;
 pub mod scraper;
 
+use std::sync::Mutex;
+use std::time::{Duration, Instant};
+
 use async_trait::async_trait;
 use chrono::{Local, NaiveDate};
 use rand::Rng;
@@ -9,7 +12,7 @@ use tracing::{debug, info};
 
 use crate::cache::Caches;
 use crate::error::{PanelsError, Result};
-use crate::http_client::{fetch_page_with_options, random_user_agent};
+use crate::http_client::{fetch_page_accepting_error_body, random_user_agent};
 use crate::models::{Comic, ComicStrip};
 use crate::sources::ComicSource;
 
@@ -19,6 +22,7 @@ use self::scraper::{
 };
 
 const BASE_URL: &str = "https://www.gocomics.com";
+const CHALLENGE_WINDOW: Duration = Duration::from_secs(10 * 60);
 
 fn find_title<'a>(comics: &'a [Comic], endpoint: &'a str) -> &'a str {
     comics
@@ -32,6 +36,7 @@ pub struct GoComicsSource {
     client: reqwest::Client,
     comics: Vec<Comic>,
     caches: Caches,
+    last_challenge: Mutex<Option<Instant>>,
 }
 
 impl GoComicsSource {
@@ -40,7 +45,15 @@ impl GoComicsSource {
             client,
             comics,
             caches,
+            last_challenge: Mutex::new(None),
         }
+    }
+
+    fn recently_challenged(&self) -> bool {
+        self.last_challenge
+            .lock()
+            .unwrap()
+            .is_some_and(|at| at.elapsed() < CHALLENGE_WINDOW)
     }
 
     async fn fetch_page_handling_challenge(
@@ -51,13 +64,18 @@ impl GoComicsSource {
         suppress_errors: bool,
         silent_statuses: &[u16],
     ) -> Result<Option<crate::http_client::PageResponse>> {
-        let page = fetch_page_with_options(
+        if self.recently_challenged() {
+            return browser::fetch_page(url).await;
+        }
+
+        let page = fetch_page_accepting_error_body(
             &self.client,
             url,
             retries,
             timeout_ms,
             suppress_errors,
             silent_statuses,
+            bunny::is_bunny_challenge,
         )
         .await?;
 
@@ -69,15 +87,8 @@ impl GoComicsSource {
             return Ok(Some(page));
         }
 
-        let browser_page = browser::fetch_page(url).await?;
-
-        if bunny::is_bunny_challenge(&browser_page.html) {
-            Err(PanelsError::ScrapeFailed(
-                "GoComics browser fetch still landed on Bunny Shield challenge".into(),
-            ))
-        } else {
-            Ok(Some(browser_page))
-        }
+        *self.last_challenge.lock().unwrap() = Some(Instant::now());
+        browser::fetch_page(url).await
     }
 
     async fn fetch_strip_inner(
