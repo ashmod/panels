@@ -9,6 +9,7 @@ use async_trait::async_trait;
 use crate::error::Result;
 use crate::models::ComicStrip;
 
+#[allow(clippy::double_must_use)]
 #[async_trait]
 pub trait ComicSource: Send + Sync {
     fn handles(&self, endpoint: &str) -> bool;
