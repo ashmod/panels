@@ -6,6 +6,8 @@ import { els } from './els.js';
 let searchTimeout = null;
 let fuseIndex = null;
 let onSelectionChanged = null;
+let reveal = null;
+const REVEAL_MS = 900;
 
 export function setOnSelectionChanged(fn) {
   onSelectionChanged = fn;
@@ -58,15 +60,15 @@ export function initTheme() {
   });
 }
 
-export function initSidebar() {
-  const applySidebarState = (isCollapsed, persist) => {
-    els.selectionPanel.classList.toggle('collapsed', isCollapsed);
-    els.sidebarToggle.classList.toggle('collapsed', isCollapsed);
-    document.body.classList.toggle('drawer-open', mobileQuery.matches && !isCollapsed);
-    els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
-    if (persist) saveSidebar(isCollapsed);
-  };
+function applySidebarState(isCollapsed, persist) {
+  els.selectionPanel.classList.toggle('collapsed', isCollapsed);
+  els.sidebarToggle.classList.toggle('collapsed', isCollapsed);
+  document.body.classList.toggle('drawer-open', mobileQuery.matches && !isCollapsed);
+  els.sidebarToggle.innerHTML = sidebarArrow(isCollapsed);
+  if (persist) saveSidebar(isCollapsed);
+}
 
+export function initSidebar() {
   els.sidebarToggle.addEventListener('click', () => {
     const isCollapsed = !els.selectionPanel.classList.contains('collapsed');
     applySidebarState(isCollapsed, true);
@@ -211,6 +213,19 @@ export function initSearch() {
     renderBadgeGrid();
     els.searchInput.focus();
   });
+
+  els.searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') els.searchInput.blur();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.matches('input, select, textarea, [contenteditable]')) return;
+    e.preventDefault();
+    if (els.selectionPanel.classList.contains('collapsed')) applySidebarState(false, true);
+    els.searchInput.focus();
+    els.searchInput.select();
+  });
 }
 
 export function initRecommend() {
@@ -225,19 +240,45 @@ export function initRecommend() {
   });
 
   els.luckyBtn.addEventListener('click', () => {
-    const available = state.allComics.filter(
-      (c) => c.available && !c.tags.some((t) => t === 'en-espanol')
+    const candidates = state.allComics.filter(
+      (c) => c.available && !state.selectedEndpoints.has(c.endpoint) && !c.tags.includes('en-espanol')
     );
-    if (available.length === 0) return;
-    const count = Math.floor(Math.random() * 5) + 3;
-    const shuffled = available.sort(() => Math.random() - 0.5);
-    state.selectedEndpoints.clear();
-    shuffled.slice(0, count).forEach((c) => state.selectedEndpoints.add(c.endpoint));
+    if (candidates.length === 0) return;
+    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+    state.selectedEndpoints.add(pick.endpoint);
     saveSelected();
+    reveal = { endpoint: pick.endpoint, start: performance.now() };
     renderBadgeGrid();
+    scrollToBadge(pick.endpoint);
     updateNavVisibility();
     if (state.recommendEnabled) refreshRecommendations();
+    if (onSelectionChanged) onSelectionChanged();
   });
+}
+
+function applyReveal(badge, endpoint) {
+  if (!reveal || reveal.endpoint !== endpoint || !badge.classList.contains('selected')) return;
+  const elapsed = performance.now() - reveal.start;
+  if (elapsed >= REVEAL_MS) {
+    reveal = null;
+    return;
+  }
+  badge.classList.add('lucky-reveal');
+  badge.style.setProperty('--reveal-offset', `-${Math.round(elapsed)}ms`);
+  const onEnd = (e) => {
+    if (e.target !== badge) return;
+    badge.classList.remove('lucky-reveal');
+    badge.removeEventListener('animationend', onEnd);
+    reveal = null;
+  };
+  badge.addEventListener('animationend', onEnd);
+}
+
+function scrollToBadge(endpoint) {
+  const badge = els.badgeGrid.querySelector(`.badge.selected[data-endpoint="${CSS.escape(endpoint)}"]`);
+  if (!badge) return;
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  badge.scrollIntoView({ block: 'nearest', behavior: smooth ? 'smooth' : 'auto' });
 }
 
 export async function refreshRecommendations() {
@@ -282,6 +323,10 @@ export function renderBadgeGrid() {
 
   if (isSearching) {
     const selectedSet = new Set(state.selectedEndpoints);
+    const selectedComics = state.allComics.filter((c) => selectedSet.has(c.endpoint));
+    if (selectedComics.length > 0) {
+      appendSection(`[ selected: ${selectedComics.length} ]`, selectedComics, 'selected', true);
+    }
     let allComics;
     if (fuseIndex) {
       const hits = fuseIndex.search(state.searchQuery);
@@ -290,9 +335,7 @@ export function renderBadgeGrid() {
       const q = state.searchQuery.toLowerCase();
       allComics = state.allComics.filter((c) => !selectedSet.has(c.endpoint) && (c.title.toLowerCase().includes(q) || c.endpoint.toLowerCase().includes(q)));
     }
-    if (allComics.length > 0) {
-      appendSection(`[ results: ${allComics.length} ]`, allComics, '');
-    }
+    appendSection(`[ results: ${allComics.length} ]`, allComics, '');
     return;
   }
 
@@ -346,6 +389,7 @@ function appendSection(title, comics, badgeClass, showClear) {
     if (state.selectedEndpoints.has(comic.endpoint)) badge.classList.add('selected');
     if (badgeClass === 'recommended' && !state.selectedEndpoints.has(comic.endpoint)) badge.classList.add('recommended');
     badge.dataset.endpoint = comic.endpoint;
+    applyReveal(badge, comic.endpoint);
 
     const wrap = document.createElement('div');
     wrap.className = 'badge-img-wrap';
