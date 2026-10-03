@@ -1,0 +1,24 @@
+name: Update demo
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".dockerignore"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - "gocomics-browser.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - "src/sources/gocomics/**"
+      - "README.md"
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger demo sync
+        env:
+          GH_TOKEN: ${{ secrets.DEMO_DISPATCH_TOKEN }}
+        run: gh api repos/ashmod/panels-demo/dispatches -f event_type=panels-updated

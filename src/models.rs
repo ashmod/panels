@@ -24,6 +24,7 @@ pub struct ComicStrip {
     pub endpoint: String,
     pub title: String,
     pub date: String,
+    #[serde(skip_serializing)]
     pub image_url: String,
     pub source_url: String,
     pub prev_date: Option<String>,
