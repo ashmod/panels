@@ -46,7 +46,7 @@ The fastest way to try Panels locally is with Docker. If you'd rather build from
 docker compose up --build
 ```
 
-Then open `http://localhost:3000`. The image is built in two stages: a Rust builder compiles the binary, and a Playwright runtime image provides Node and Firefox which are required to fetch the comics properly.
+Then open `http://localhost:3000`. The image is built in two stages: a Rust builder compiles the binary, and a Playwright runtime image provides Node, Chromium and Firefox which are required to fetch the comics properly.
 
 To use a different host port, override it at the compose level:
 

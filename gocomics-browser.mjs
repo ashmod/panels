@@ -9,45 +9,46 @@ const RATE_LIMIT_RETRY_MS = 3000;
 const browserCandidates = process.env.PANELS_GOCOMICS_BROWSER
   ? [{ type: chromium, launch: { executablePath: process.env.PANELS_GOCOMICS_BROWSER } }]
   : [
+      { type: chromium, launch: { channel: 'chromium' } },
       { type: firefox, launch: {} },
       { type: webkit, launch: {} },
-      { type: chromium, launch: {} },
     ];
 
+class ChallengeBlockedError extends Error {}
+
+let candidateIndex = 0;
 let contextPromise = null;
 
-async function launchContext() {
-  let lastError;
-  for (const candidate of browserCandidates) {
-    try {
-      const launchOptions = { headless: true, ...candidate.launch };
-      if (candidate.type === chromium || candidate.launch.executablePath) {
-        launchOptions.args = ['--no-sandbox', '--disable-dev-shm-usage'];
-      }
-      const browser = await candidate.type.launch(launchOptions);
-      browser.on('disconnected', () => {
-        contextPromise = null;
-      });
-      return await browser.newContext();
-    } catch (error) {
-      lastError = error;
-    }
+async function launchContext(candidate) {
+  const launchOptions = { headless: true, ...candidate.launch };
+  if (candidate.type === chromium) {
+    launchOptions.args = ['--no-sandbox', '--disable-dev-shm-usage'];
   }
-  throw lastError || new Error('no Playwright browser could be launched');
+  const browser = await candidate.type.launch(launchOptions);
+  browser.on('disconnected', () => {
+    contextPromise = null;
+  });
+  try {
+    if (candidate.type !== chromium) return await browser.newContext();
+    const probe = await browser.newPage();
+    const userAgent = (await probe.evaluate(() => navigator.userAgent)).replace('HeadlessChrome', 'Chrome');
+    await probe.close();
+    return await browser.newContext({ userAgent });
+  } catch (error) {
+    await browser.close().catch(() => {});
+    throw error;
+  }
 }
 
-function getContext() {
-  contextPromise ??= launchContext().catch((error) => {
-    contextPromise = null;
-    throw error;
-  });
-  return contextPromise;
+async function dropContext() {
+  const context = await contextPromise?.catch(() => null);
+  contextPromise = null;
+  await context?.browser()?.close().catch(() => {});
 }
 
 const isChallengePage = () => document.body?.hasAttribute('data-pow') ?? false;
 
-async function fetchPage(url) {
-  const context = await getContext();
+async function fetchWithContext(context, url) {
   const page = await context.newPage();
 
   let status = 0;
@@ -62,9 +63,13 @@ async function fetchPage(url) {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
 
       if (await page.evaluate(isChallengePage)) {
-        await page.waitForFunction(() => !document.body?.hasAttribute('data-pow'), undefined, {
-          timeout: CHALLENGE_TIMEOUT_MS,
-        });
+        try {
+          await page.waitForFunction(() => !document.body?.hasAttribute('data-pow'), undefined, {
+            timeout: CHALLENGE_TIMEOUT_MS,
+          });
+        } catch {
+          throw new ChallengeBlockedError('Bunny Shield challenge did not clear');
+        }
         await page.waitForLoadState('domcontentloaded');
       }
 
@@ -79,6 +84,33 @@ async function fetchPage(url) {
   } finally {
     await page.close().catch(() => {});
   }
+}
+
+async function fetchPage(url) {
+  let launchError;
+  let blockedError;
+  for (let tried = 0; tried < browserCandidates.length; tried++) {
+    let context;
+    try {
+      contextPromise ??= launchContext(browserCandidates[candidateIndex]);
+      context = await contextPromise;
+    } catch (error) {
+      launchError = error;
+      contextPromise = null;
+      candidateIndex = (candidateIndex + 1) % browserCandidates.length;
+      continue;
+    }
+
+    try {
+      return await fetchWithContext(context, url);
+    } catch (error) {
+      if (!(error instanceof ChallengeBlockedError)) throw error;
+      blockedError = error;
+      await dropContext();
+      candidateIndex = (candidateIndex + 1) % browserCandidates.length;
+    }
+  }
+  throw blockedError || launchError || new Error('no Playwright browser could be launched');
 }
 
 const lines = readline.createInterface({ input: process.stdin });

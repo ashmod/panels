@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && \
-    npx playwright install --with-deps firefox && \
+    npx playwright install --with-deps chromium firefox && \
     rm -rf /var/lib/apt/lists/* /root/.npm
 
 COPY gocomics-browser.mjs ./
