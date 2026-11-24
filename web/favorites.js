@@ -1,187 +1,115 @@
-import { state, saveFavorites, isFavorited } from './state.js';
-import { escapeHtml } from './helpers.js';
-import { els } from './els.js';
-import { openFeedZoom } from './zoom.js';
+import { imageUrl } from './api.js';
+import { syncFavButton } from './reader.js';
+import { comicTitle, favKey, isFav, paint, persist, state, stripLabel } from './state.js';
+import { openViewer } from './viewer.js';
+import { $, currentView, esc, formatDate } from './util.js';
 
-export function toggleFavorite() {
-  if (!state.currentStrip) return;
-  const { endpoint, date, title } = state.currentStrip;
-  const idx = state.favorites.findIndex((f) => f.endpoint === endpoint && f.date === date);
-  if (idx >= 0) {
-    state.favorites.splice(idx, 1);
-  } else {
-    state.favorites.push({ endpoint, date, title, added: Date.now() });
-  }
+const MESSAGE_MS = 4000;
+
+const plural = (n) => (n === 1 ? '1 favorite' : `${n} favorites`);
+
+function saveFavorites() {
+  persist('favorites', state.favorites);
+  syncFavButton();
+  if (currentView() === 'favorites') renderFavorites();
+}
+
+export function toggleFav(s = state.strip) {
+  if (!s) return;
+  if (isFav(s)) state.favorites = state.favorites.filter((f) => favKey(f) !== favKey(s));
+  else state.favorites.push({ endpoint: s.endpoint, date: s.date, title: s.title, added: Date.now() });
   saveFavorites();
-  updateFavoriteButton();
-  if (state.currentView === 'favorites') renderFavGallery();
 }
 
-export function updateFavoriteButton() {
-  if (!state.currentStrip) {
-    els.btnFavorite.classList.add('hidden');
-    return;
-  }
-  els.btnFavorite.classList.remove('hidden');
-  const faved = isFavorited(state.currentStrip.endpoint, state.currentStrip.date);
-  els.btnFavorite.classList.toggle('favorited', faved);
-  els.btnFavorite.innerHTML = faved
-    ? '<i class="fa-solid fa-heart"></i>'
-    : '<i class="fa-regular fa-heart"></i>';
-}
-
-function formatFavDate(ts) {
+function addedLabel(ts) {
   const d = new Date(ts);
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const diff = today - target;
-  if (diff === 0) return 'Today';
-  if (diff === 86400000) return 'Yesterday';
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  const startOf = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate());
+  const days = Math.round((startOf(now) - startOf(d)) / 86400000);
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-export function renderFavGallery() {
-  els.favExportBtn.disabled = state.favorites.length === 0;
-  if (state.favorites.length === 0) {
-    els.favEmpty.classList.remove('hidden');
-    els.favGallery.classList.add('hidden');
+export function renderFavorites() {
+  const n = state.favorites.length;
+  $('#favCount').textContent = n ? (n === 1 ? '1 saved strip' : `${n} saved strips`) : '';
+  $('#favEmpty').hidden = n > 0;
+  $('#exportBtn').disabled = n === 0;
+  const groups = [];
+  [...state.favorites].sort((a, b) => (b.added ?? 0) - (a.added ?? 0)).forEach((f) => {
+    const label = addedLabel(f.added ?? 0);
+    if (groups.at(-1)?.label !== label) groups.push({ label, items: [] });
+    groups.at(-1).items.push(f);
+  });
+  $('#favGroups').replaceChildren(...groups.map((g) => {
+    const section = document.createElement('section');
+    section.className = 'fav-group';
+    section.innerHTML = `<h2>${esc(g.label)}</h2><div class="fav-grid"></div>`;
+    $('.fav-grid', section).append(...g.items.map(favCard));
+    return section;
+  }));
+}
+
+function favCard(f) {
+  const card = document.createElement('article');
+  card.className = 'fav-card plate';
+  paint(card, f.endpoint);
+  card.innerHTML = `
+    <button class="fav-open" type="button" aria-label="Zoom in on ${esc(comicTitle(f.endpoint))}, ${esc(formatDate(f.date))}">
+      <img src="${imageUrl(f)}" alt="" loading="lazy">
+    </button>
+    <div class="fav-info">
+      <div>
+        <strong class="letter">${esc(comicTitle(f.endpoint))}</strong>
+        <span>${esc(stripLabel(f, 'short'))}</span>
+      </div>
+      <button class="btn btn-round" type="button" aria-label="Remove from favorites"><svg class="i i-fill"><use href="#i-heart"/></svg></button>
+    </div>`;
+  $('.fav-open', card).onclick = () => openViewer(f);
+  $('.fav-info .btn', card).onclick = () => toggleFav(f);
+  return card;
+}
+
+let msgTimer;
+function favMessage(text) {
+  $('#favMsg').textContent = text;
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(() => { $('#favMsg').textContent = ''; }, MESSAGE_MS);
+}
+
+export function exportFavorites() {
+  if (!state.favorites.length) return;
+  const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `panels-favorites-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  favMessage(`Exported ${plural(state.favorites.length)}`);
+}
+
+export async function importFavorites(file) {
+  let entries;
+  try {
+    entries = JSON.parse(await file.text());
+  } catch {
+    entries = null;
+  }
+  if (!Array.isArray(entries)) {
+    favMessage('That file isn\'t a Panels favorites export.');
     return;
   }
-  els.favEmpty.classList.add('hidden');
-  els.favGallery.classList.remove('hidden');
-  els.favGallery.innerHTML = '';
-
-  const sorted = [...state.favorites].sort((a, b) => b.added - a.added);
-
-  const groups = [];
-  sorted.forEach((fav) => {
-    const label = formatFavDate(fav.added);
-    const last = groups[groups.length - 1];
-    if (last && last.label === label) {
-      last.items.push(fav);
-    } else {
-      groups.push({ label, items: [fav] });
-    }
-  });
-
-  groups.forEach((group) => {
-    const header = document.createElement('div');
-    header.className = 'fav-group-header';
-    header.textContent = group.label;
-    els.favGallery.appendChild(header);
-
-    const grid = document.createElement('div');
-    grid.className = 'fav-group-grid';
-
-    group.items.forEach((fav) => {
-      const card = document.createElement('div');
-      card.className = 'fav-card';
-
-      const imgSrc = `/api/comics/${encodeURIComponent(fav.endpoint)}/${encodeURIComponent(fav.date)}/image`;
-
-      const img = document.createElement('img');
-      img.className = 'fav-card-img';
-      img.src = imgSrc;
-      img.alt = fav.title;
-      img.loading = 'lazy';
-      img.addEventListener('click', () => {
-        openFeedZoom(imgSrc);
-      });
-
-      const overlay = document.createElement('div');
-      overlay.className = 'fav-card-overlay';
-
-      const info = document.createElement('div');
-      info.className = 'fav-card-info';
-      info.innerHTML = '<span class="fav-card-title">' + escapeHtml(fav.title) + '</span>' +
-        '<span class="fav-card-date">' + escapeHtml(fav.date) + '</span>';
-
-      const unfav = document.createElement('button');
-      unfav.className = 'fav-card-unfav';
-      unfav.innerHTML = '<i class="fa-solid fa-heart"></i>';
-      unfav.title = 'Remove from favorites';
-      unfav.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const idx = state.favorites.findIndex((f) => f.endpoint === fav.endpoint && f.date === fav.date);
-        if (idx >= 0) state.favorites.splice(idx, 1);
-        saveFavorites();
-        updateFavoriteButton();
-        renderFavGallery();
-      });
-
-      overlay.appendChild(info);
-      overlay.appendChild(unfav);
-      card.appendChild(img);
-      card.appendChild(overlay);
-      grid.appendChild(card);
-    });
-
-    els.favGallery.appendChild(grid);
-  });
-}
-
-function exportFavorites() {
-  if (state.favorites.length === 0) return;
-  const date = new Date().toISOString().slice(0, 10);
-  const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `panels-favorites-${date}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-let _favMsgTimer = null;
-function showFavToolbarMsg(msg) {
-  els.favToolbarMsg.textContent = msg;
-  els.favToolbarMsg.classList.remove('hidden');
-  clearTimeout(_favMsgTimer);
-  _favMsgTimer = setTimeout(() => els.favToolbarMsg.classList.add('hidden'), 3000);
-}
-
-function importFavorites(file) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    let entries;
-    try {
-      entries = JSON.parse(e.target.result);
-    } catch {
-      showFavToolbarMsg('Invalid file');
-      return;
-    }
-    if (!Array.isArray(entries)) {
-      showFavToolbarMsg('Invalid file');
-      return;
-    }
-    const valid = entries.filter((f) => f && typeof f.endpoint === 'string' && typeof f.date === 'string');
-    let added = 0;
-    valid.forEach((f) => {
-      if (!state.favorites.some((e) => e.endpoint === f.endpoint && e.date === f.date)) {
-        state.favorites.push({ endpoint: f.endpoint, date: f.date, title: f.title || '', added: f.added || Date.now() });
-        added++;
-      }
-    });
-    saveFavorites();
-    renderFavGallery();
-    const skipped = valid.length - added;
-    if (added === 0) {
-      showFavToolbarMsg('Already up to date');
-    } else {
-      showFavToolbarMsg('Imported ' + added + ' favorite' + (added !== 1 ? 's' : '') + (skipped > 0 ? ' (' + skipped + ' already existed)' : ''));
-    }
-  };
-  reader.readAsText(file);
-}
-
-export function initFavorites() {
-  els.btnFavorite.addEventListener('click', toggleFavorite);
-  els.favExportBtn.addEventListener('click', exportFavorites);
-  els.favImportInput.addEventListener('change', (e) => {
-    if (e.target.files[0]) {
-      importFavorites(e.target.files[0]);
-      e.target.value = '';
-    }
-  });
+  const valid = entries.filter((f) => f && typeof f.endpoint === 'string' && typeof f.date === 'string');
+  const fresh = valid.filter((f) => !isFav(f));
+  state.favorites.push(...fresh.map((f) => ({
+    endpoint: f.endpoint, date: f.date, title: f.title || '', added: f.added || Date.now(),
+  })));
+  saveFavorites();
+  if (!fresh.length) {
+    favMessage('Already up to date');
+    return;
+  }
+  const skipped = valid.length - fresh.length;
+  favMessage(`Imported ${plural(fresh.length)}${skipped ? `, ${skipped} already saved` : ''}`);
 }

@@ -1,75 +1,71 @@
-const BADGE_COLORS = [
-  '#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#1abc9c',
-  '#3498db', '#9b59b6', '#e84393', '#fd79a8', '#00cec9',
-  '#6c5ce7', '#fdcb6e', '#55a3e8', '#ff7675', '#a29bfe',
-  '#fab1a0', '#74b9ff', '#81ecec', '#dfe6e9', '#b2bec3',
-];
+import { badgeUrl } from './api.js';
+import { formatDate } from './util.js';
 
-export function hashColor(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return BADGE_COLORS[Math.abs(hash) % BADGE_COLORS.length];
-}
-
-export const LS_SELECTED = 'panels_selected';
-export const LS_THEME = 'panels_theme';
-export const LS_SIDEBAR = 'panels_sidebar_collapsed';
-export const LS_COLLAPSIBLES = 'panels_collapsibles';
-export const LS_FAVORITES = 'panels_favorites';
-
-export const state = {
-  allComics: [],
-  selectedEndpoints: new Set(),
-  currentStrip: null,
-  activeTags: new Set(),
-  activeLetter: null,
-  searchQuery: '',
-  recommendations: [],
-  recommendEnabled: false,
-  isLoading: false,
-  zoom: { scale: 1, offset: { x: 0, y: 0 }, dragging: false },
-  currentView: 'panel',
-  favorites: [],
-  feed: {
-    strips: [],
-    seenKeys: new Set(),
-    isLoadingBatch: false,
-    lastSelectedSnapshot: null,
-  },
+export const KEYS = {
+  selected: 'panels_selected',
+  favorites: 'panels_favorites',
+  theme: 'panels_theme',
 };
 
-export const recentStrips = [];
-export const MAX_RECENT = 20;
+const DEFAULT_PICKS = ['garfield', 'peanuts', 'calvinandhobbes', 'pickles', 'xkcd'];
+const NEUTRAL = [222, 0.06];
 
-export function stripKey(strip) {
-  return `${strip.endpoint}:${strip.date}`;
-}
-
-export function trackStrip(strip) {
-  const key = stripKey(strip);
-  recentStrips.push(key);
-  if (recentStrips.length > MAX_RECENT) recentStrips.shift();
-}
-
-export function loadFavorites() {
+function readList(key) {
   try {
-    const saved = localStorage.getItem(LS_FAVORITES);
-    if (saved) state.favorites = JSON.parse(saved);
-  } catch (e) {
-    state.favorites = [];
+    const v = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(v) ? v : null;
+  } catch {
+    return null;
   }
 }
 
-export function saveFavorites() {
-  localStorage.setItem(LS_FAVORITES, JSON.stringify(state.favorites));
+export const state = {
+  comics: [],
+  byEp: new Map(),
+  plates: {},
+  selected: readList(KEYS.selected) ?? DEFAULT_PICKS,
+  favorites: readList(KEYS.favorites) ?? [],
+  strip: null,
+  stageEp: null,
+  lastRequest: null,
+  token: 0,
+  prefetched: null,
+  wipe: null,
+  tags: new Set(),
+  letter: null,
+  query: '',
+  arrivals: new Set(),
+};
+
+export const plateOf = (ep) => state.plates[ep] || NEUTRAL;
+export const plateStyle = (ep) => `--h:${plateOf(ep)[0]};--c:${plateOf(ep)[1]}`;
+
+export function paint(el, ep) {
+  const [h, c] = plateOf(ep);
+  el.style.setProperty('--h', h);
+  el.style.setProperty('--c', c);
 }
 
-export function isFavorited(endpoint, date) {
-  return state.favorites.some((f) => f.endpoint === endpoint && f.date === date);
+export const comicTitle = (ep) => state.byEp.get(ep)?.title ?? ep;
+export const tagLabel = (t) => (t.charAt(0).toUpperCase() + t.slice(1)).replace(/-/g, ' ');
+export const faceHtml = (ep) => `<span class="face plate" style="${plateStyle(ep)}"><img src="${badgeUrl(ep)}" alt="" loading="lazy"></span>`;
+
+const loose = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+export const ownTitle = (strip, comicName) => strip.title
+  && loose(strip.title) !== loose(comicName)
+  && loose(strip.title) !== loose(strip.endpoint);
+
+export function stripLabel(strip, style) {
+  const named = ownTitle(strip, state.byEp.get(strip.endpoint)?.title) ? ` “${strip.title}”` : '';
+  return formatDate(strip.date, style) + named;
 }
 
-export function saveSelected() {
-  localStorage.setItem(LS_SELECTED, JSON.stringify(Array.from(state.selectedEndpoints)));
+export const favKey = (s) => `${s.endpoint}:${s.date}`;
+export const isFav = (s) => state.favorites.some((f) => favKey(f) === favKey(s));
+
+export function persist(key, value) {
+  try {
+    localStorage.setItem(KEYS[key], typeof value === 'string' ? value : JSON.stringify(value));
+  } catch {}
 }

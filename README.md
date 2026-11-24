@@ -201,6 +201,14 @@ npm install
 cargo run
 ```
 
+The frontend in `web/` is plain HTML, CSS and ES modules with no build step; the server picks up changes on reload.
+
+Each comic's background colour comes from its badge. After adding or replacing badges in `data/badges/`, regenerate `web/plates.json` (requires Pillow):
+
+```bash
+python3 scripts/plates.py
+```
+
 Before opening a PR, run:
 
 ```bash

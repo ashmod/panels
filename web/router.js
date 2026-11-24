@@ -1,84 +1,38 @@
-import { state } from './state.js';
-import { els } from './els.js';
-import { clearFeed, loadFeedBatch } from './feed.js';
-import { renderFavGallery } from './favorites.js';
+import { renderFavorites } from './favorites.js';
+import { renderFeedFilter, resetFeed } from './feed.js';
+import { renderStage } from './reader.js';
+import { $, $$, currentView } from './util.js';
 
-function switchToFeed() {
-  state.currentView = 'feed';
-  document.body.classList.add('view-feed');
-  document.body.classList.remove('view-panel', 'view-favorites');
-  els.feedContainer.classList.remove('hidden');
-  els.favContainer.classList.add('hidden');
-  els.navFeedLink.classList.add('active');
-  els.navFavLink.classList.remove('active');
-
-  const snapshot = Array.from(state.selectedEndpoints).sort().join(',');
-  if (state.feed.lastSelectedSnapshot !== snapshot) {
-    clearFeed();
-    state.feed.lastSelectedSnapshot = snapshot;
+export function route() {
+  const v = currentView();
+  $('#viewRead').hidden = v !== 'read';
+  $('#viewFeed').hidden = v !== 'feed';
+  $('#viewFavorites').hidden = v !== 'favorites';
+  $$('.nav a').forEach((a) => {
+    if (a.dataset.view === v) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
+  if (v === 'read') renderStage();
+  if (v === 'feed') {
+    renderFeedFilter();
+    if (!$('#feedList').children.length) resetFeed();
   }
-
-  if (state.selectedEndpoints.size === 0) {
-    els.feedEmpty.classList.remove('hidden');
-  } else if (state.feed.strips.length === 0 && !state.feed.isLoadingBatch) {
-    els.feedEmpty.classList.add('hidden');
-    loadFeedBatch();
-  }
+  if (v === 'favorites') renderFavorites();
+  scrollTo(0, 0);
 }
 
-function switchToPanel() {
-  state.currentView = 'panel';
-  document.body.classList.remove('view-feed', 'view-favorites');
-  document.body.classList.add('view-panel');
-  els.navFeedLink.classList.remove('active');
-  els.navFavLink.classList.remove('active');
-  els.favContainer.classList.add('hidden');
-}
-
-function switchToFavorites() {
-  state.currentView = 'favorites';
-  document.body.classList.add('view-favorites');
-  document.body.classList.remove('view-panel', 'view-feed');
-  els.favContainer.classList.remove('hidden');
-  els.feedContainer.classList.add('hidden');
-  els.navFavLink.classList.add('active');
-  els.navFeedLink.classList.remove('active');
-  renderFavGallery();
-}
-
-function handleRoute() {
-  if (location.pathname === '/feed') {
-    switchToFeed();
-  } else if (location.pathname === '/favorites') {
-    switchToFavorites();
-  } else {
-    switchToPanel();
-  }
-}
-
-function navigateTo(path) {
-  if (location.pathname !== path) {
-    history.pushState(null, '', path);
-  }
-  handleRoute();
+export function navigate(path) {
+  if (location.pathname !== path) history.pushState(null, '', path);
+  route();
 }
 
 export function initRouter() {
-  window.addEventListener('popstate', handleRoute);
-
-  els.navFeedLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/feed');
+  addEventListener('popstate', route);
+  $$('a.logo, .nav a').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      navigate(a.getAttribute('href'));
+    });
   });
-
-  els.navFavLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/favorites');
-  });
-
-  els.logoLink.addEventListener('click', () => {
-    navigateTo('/');
-  });
-
-  handleRoute();
 }

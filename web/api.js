@@ -1,18 +1,34 @@
-export async function fetchComics() {
-  const res = await fetch('/api/comics');
-  if (!res.ok) throw new Error('Failed to fetch comics');
-  return res.json();
+import { enc } from './util.js';
+
+export const badgeUrl = (ep) => `/api/badges/${enc(ep)}.png`;
+export const imageUrl = (s) => `/api/comics/${enc(s.endpoint)}/${enc(s.date)}/image`;
+
+export async function getJson(path, ms = 30000) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), ms);
+  try {
+    const res = await fetch(path, { signal: ctl.signal });
+    if (!res.ok) {
+      const err = new Error(`HTTP ${res.status}`);
+      err.status = res.status;
+      err.retryAfter = Number(res.headers.get('Retry-After')) || 0;
+      throw err;
+    }
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
-export async function fetchStrip(endpoint, date) {
-  const res = await fetch(`/api/comics/${encodeURIComponent(endpoint)}/${encodeURIComponent(date)}`);
-  if (!res.ok) throw new Error('Failed to fetch strip');
-  return res.json();
+export async function fetchStrip(ep, date) {
+  const strip = await getJson(`/api/comics/${enc(ep)}/${enc(date)}`);
+  const img = new Image();
+  img.src = imageUrl(strip);
+  await img.decode();
+  return strip;
 }
 
-export async function fetchRecommendations(endpoints, limit) {
-  const selected = Array.from(endpoints).join(',');
-  const res = await fetch(`/api/recommendations?selected=${encodeURIComponent(selected)}&limit=${limit}`);
-  if (!res.ok) throw new Error('Failed to fetch recommendations');
-  return res.json();
-}
+export const fetchRandom = (ep) => getJson(`/api/comics/${enc(ep)}/random`);
+
+export const fetchRecommendations = (selected, limit) =>
+  getJson(`/api/recommendations?selected=${enc(selected.join(','))}&limit=${limit}`, 10000);

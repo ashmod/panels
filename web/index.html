@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,128 +20,210 @@
   <meta name="twitter:description" content="Panels is your online Sunday funnies hub: pick favorite comics, discover new ones, and enjoy random strips anytime.">
   <meta name="twitter:image" content="https://panels.ashmod.dev/banner.png">
   <meta name="twitter:image:alt" content="panels preview banner">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&family=Shantell+Sans:wght,BNCE,INFM@400..800,-100..100,0..100&display=swap">
   <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    try {
+      const saved = localStorage.getItem('panels_theme');
+      document.documentElement.dataset.theme = saved === 'dark' || saved === 'light'
+        ? saved
+        : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {}
+  </script>
+  <script type="module" src="/app.js"></script>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <span class="logo" id="logoLink"><svg class="logo-svg" viewBox="0 0 896.63 227.7" fill="currentColor" role="img" aria-label="panels"><polygon points="123.52 38.5 123.52 113.94 0 114.6 0 44.93 123.52 38.5"/><path d="M67.19,128.93c.29-.47,74.72-.65,95.7-.81,8.17-.06,27.86-.32,28.15.15v41.84l-.49.49h-122.86l-.49-.49v-41.18Z"/><path d="M0,129.1l53.03.16v96.86c-.61.83-1.18.49-1.81.49H.49l-.49-.49v-97.02Z"/><path d="M137.68,38.34c.09-.32.78-.74,1.16-.82.88-.16,3.21-.28,4.28-.33,12.72-.68,25.48-1.08,38.22-1.64,2.55-.11,5.73-.69,8.22-.7.6,0,1.12-.02,1.48.52v77.42c0,1.02-53.36.66-53.36.66V38.34Z"/><polygon points="123.52 184.77 123.47 227.23 67.19 226.45 67.19 185.27 67.69 184.77 123.52 184.77"/><path d="M138.01,227.27v-42.17h52.54c1.43.06,0,41.5.5,42-16.53,1.37-35.7-.1-53.03.16Z"/><g><path d="M376.79,112.97c0,40.08-20.62,65.39-52.85,65.39-18.4,0-32.81-8.32-40.2-22.62h-.59v63.4h-29.18V48.87h28.48v21.56h.59c7.03-14.06,22.5-22.97,40.43-22.97,32.58,0,53.32,25.31,53.32,65.51ZM346.91,112.97c0-24.96-12.66-41.25-31.99-41.25s-31.88,16.64-31.88,41.25,12.77,41.13,31.88,41.13,31.99-16.05,31.99-41.13Z"/><path d="M378.85,140.27c0-22.85,17.46-35.86,49.69-37.85l33.28-1.99v-9.38c0-13.59-9.14-20.98-24.84-20.98-13.24,0-22.73,6.91-24.73,17.23h-26.95c.7-23.44,22.5-40.2,52.62-40.2,31.99,0,52.73,16.64,52.73,42.07v87.77h-28.01v-20.62h-.7c-7.03,13.71-22.85,22.03-39.84,22.03-25.2,0-43.24-15.35-43.24-38.09ZM461.82,129.38v-9.73l-29.3,1.88c-15.94,1.05-24.38,7.15-24.38,17.58s8.91,16.87,22.5,16.87c17.7,0,31.17-11.02,31.17-26.6Z"/><path d="M503.14,48.87h28.01v22.27h.59c7.62-15.59,20.51-23.79,40.2-23.79,28.36,0,44.53,17.93,44.53,47.58v82.03h-29.18v-76.29c0-18.28-8.67-28.59-26.25-28.59s-28.71,12.66-28.71,31.41v73.48h-29.18V48.87Z"/><path d="M740.99,138.87c-3.75,23.67-26.48,39.96-56.37,39.96-37.85,0-61.29-25.08-61.29-65.39s23.55-66.33,60.23-66.33,58.59,24.49,58.59,63.28v9.61h-89.65v1.76c0,20.62,13.12,34.34,32.7,34.34,14.06,0,24.96-6.68,28.36-17.23h27.42ZM652.74,100.55h60.7c-.59-18.52-12.54-30.7-29.88-30.7s-29.53,12.42-30.82,30.7Z"/><path d="M750.67,0h29.18v176.95h-29.18V0Z"/><path d="M842.96,47.11c29.53,0,50.16,15.94,50.74,39.14h-27.19c-.94-10.78-10.2-17.58-24.14-17.58s-22.5,6.21-22.5,15.59c0,7.15,5.98,12.07,18.63,15l22.5,5.16c25.78,5.98,35.62,15.7,35.62,34.57,0,23.79-22.27,39.84-54.38,39.84s-52.15-15.82-54.02-39.61h28.71c1.76,11.6,11.25,18.05,26.48,18.05s24.14-5.98,24.14-15.47c0-7.5-4.69-11.48-17.46-14.53l-23.2-5.62c-23.44-5.51-35.39-17.58-35.39-35.74,0-23.2,20.62-38.79,51.45-38.79Z"/></g></svg></span>
-    </div>
-    <nav class="header-nav">
-      <a class="nav-link" id="navFeedLink" href="/feed">[ FEED ]</a>
-      <a class="nav-link fav-nav-link" id="navFavLink" href="/favorites"><i class="fa-solid fa-heart"></i></a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 7h3.2c2 0 3.3 1 4.4 2.6l2.8 4.6c1 1.6 2.4 2.8 4.4 2.8H21M18 13.5l3 3-3 3M3 17h3.2c1.4 0 2.4-.5 3.3-1.4M14.3 8.5c.9-1 2-1.5 3.5-1.5H21M18 4l3 3-3 3"/></symbol>
+  <symbol id="i-read" viewBox="0 0 24 24"><path d="M12 6.8C10.2 5.4 7.6 4.8 3.5 5v13.2c4.1-.2 6.7.4 8.5 1.8 1.8-1.4 4.4-2 8.5-1.8V5c-4.1-.2-6.7.4-8.5 1.8zM12 6.8V20"/></symbol>
+  <symbol id="i-feed" viewBox="0 0 24 24"><path d="M7 4h11.5A1.5 1.5 0 0 1 20 5.5V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8h4"/><path d="M7 4v14a2 2 0 0 1-2 2"/><path d="M10.5 8.5h6M10.5 12.5h6M10.5 16h6"/></symbol>
+  <symbol id="i-left-2" viewBox="0 0 24 24"><path d="M12 6l-6 6 6 6M18 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right-2" viewBox="0 0 24 24"><path d="M6 6l6 6-6 6M12 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20 4.6 12.7a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-latest" viewBox="0 0 24 24"><path d="M6 5l7 7-7 7M17 5v14"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.1" fill="currentColor"/><circle cx="15" cy="15" r="1.1" fill="currentColor"/><circle cx="15" cy="9" r="1.1" fill="currentColor"/><circle cx="9" cy="15" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19h14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></symbol>
+</svg>
+
+<div id="app">
+  <header class="topbar-bar" id="topbar">
+  <div class="wrap topbar">
+    <a class="logo" href="/" aria-label="panels, read">
+      <svg viewBox="0 0 896.63 227.7" fill="currentColor" aria-hidden="true"><polygon points="123.52 38.5 123.52 113.94 0 114.6 0 44.93 123.52 38.5"/><path d="M67.19,128.93c.29-.47,74.72-.65,95.7-.81,8.17-.06,27.86-.32,28.15.15v41.84l-.49.49h-122.86l-.49-.49v-41.18Z"/><path d="M0,129.1l53.03.16v96.86c-.61.83-1.18.49-1.81.49H.49l-.49-.49v-97.02Z"/><path d="M137.68,38.34c.09-.32.78-.74,1.16-.82.88-.16,3.21-.28,4.28-.33,12.72-.68,25.48-1.08,38.22-1.64,2.55-.11,5.73-.69,8.22-.7.6,0,1.12-.02,1.48.52v77.42c0,1.02-53.36.66-53.36.66V38.34Z"/><polygon points="123.52 184.77 123.47 227.23 67.19 226.45 67.19 185.27 67.69 184.77 123.52 184.77"/><path d="M138.01,227.27v-42.17h52.54c1.43.06,0,41.5.5,42-16.53,1.37-35.7-.1-53.03.16Z"/><g><path d="M376.79,112.97c0,40.08-20.62,65.39-52.85,65.39-18.4,0-32.81-8.32-40.2-22.62h-.59v63.4h-29.18V48.87h28.48v21.56h.59c7.03-14.06,22.5-22.97,40.43-22.97,32.58,0,53.32,25.31,53.32,65.51ZM346.91,112.97c0-24.96-12.66-41.25-31.99-41.25s-31.88,16.64-31.88,41.25,12.77,41.13,31.88,41.13,31.99-16.05,31.99-41.13Z"/><path d="M378.85,140.27c0-22.85,17.46-35.86,49.69-37.85l33.28-1.99v-9.38c0-13.59-9.14-20.98-24.84-20.98-13.24,0-22.73,6.91-24.73,17.23h-26.95c.7-23.44,22.5-40.2,52.62-40.2,31.99,0,52.73,16.64,52.73,42.07v87.77h-28.01v-20.62h-.7c-7.03,13.71-22.85,22.03-39.84,22.03-25.2,0-43.24-15.35-43.24-38.09ZM461.82,129.38v-9.73l-29.3,1.88c-15.94,1.05-24.38,7.15-24.38,17.58s8.91,16.87,22.5,16.87c17.7,0,31.17-11.02,31.17-26.6Z"/><path d="M503.14,48.87h28.01v22.27h.59c7.62-15.59,20.51-23.79,40.2-23.79,28.36,0,44.53,17.93,44.53,47.58v82.03h-29.18v-76.29c0-18.28-8.67-28.59-26.25-28.59s-28.71,12.66-28.71,31.41v73.48h-29.18V48.87Z"/><path d="M740.99,138.87c-3.75,23.67-26.48,39.96-56.37,39.96-37.85,0-61.29-25.08-61.29-65.39s23.55-66.33,60.23-66.33,58.59,24.49,58.59,63.28v9.61h-89.65v1.76c0,20.62,13.12,34.34,32.7,34.34,14.06,0,24.96-6.68,28.36-17.23h27.42ZM652.74,100.55h60.7c-.59-18.52-12.54-30.7-29.88-30.7s-29.53,12.42-30.82,30.7Z"/><path d="M750.67,0h29.18v176.95h-29.18V0Z"/><path d="M842.96,47.11c29.53,0,50.16,15.94,50.74,39.14h-27.19c-.94-10.78-10.2-17.58-24.14-17.58s-22.5,6.21-22.5,15.59c0,7.15,5.98,12.07,18.63,15l22.5,5.16c25.78,5.98,35.62,15.7,35.62,34.57,0,23.79-22.27,39.84-54.38,39.84s-52.15-15.82-54.02-39.61h28.71c1.76,11.6,11.25,18.05,26.48,18.05s24.14-5.98,24.14-15.47c0-7.5-4.69-11.48-17.46-14.53l-23.2-5.62c-23.44-5.51-35.39-17.58-35.39-35.74,0-23.2,20.62-38.79,51.45-38.79Z"/></g></svg>
+    </a>
+    <nav class="nav" aria-label="Views">
+      <a href="/" data-view="read"><span class="nav-icon" aria-hidden="true"><span><svg class="i"><use href="#i-read"/></svg></span></span><span class="nav-label">Read</span></a>
+      <a href="/feed" data-view="feed"><span class="nav-icon" aria-hidden="true"><span><svg class="i"><use href="#i-feed"/></svg></span></span><span class="nav-label">Feed</span></a>
+      <a href="/favorites" data-view="favorites"><span class="nav-icon" aria-hidden="true"><span><svg class="i"><use href="#i-heart"/></svg></span></span><span class="nav-label">Favorites</span></a>
     </nav>
-    <div class="header-right">
-      <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
-    </div>
-  </header>
-
-  <main class="layout">
-    <section class="comic-panel" id="comicPanel">
-      <div class="comic-empty" id="comicEmpty">
-        <span>[ select comics &gt;&gt; ]</span>
-      </div>
-      <div class="comic-loading hidden" id="comicLoading">
-        <div class="loading-spinner"></div>
-        <span>[ loading strip... ]</span>
-      </div>
-      <div class="comic-display hidden" id="comicDisplay">
-        <div class="comic-meta" id="comicMeta"></div>
-        <div class="comic-image-wrap">
-          <img id="comicImage" alt="Comic strip" draggable="false">
-        </div>
-        <div class="comic-zoom-bar" id="comicZoomBar">
-          <button class="zoom-inline-btn" id="zoomOutBtn" aria-label="Zoom out">&minus;</button>
-          <input type="range" id="zoomSlider" min="100" max="500" step="5" value="100" aria-label="Zoom level">
-          <button class="zoom-inline-btn" id="zoomInBtn" aria-label="Zoom in">&plus;</button>
-          <button class="zoom-inline-btn" id="zoomResetBtn" aria-label="Reset zoom">&#8634;</button>
-          <span class="zoom-inline-level" id="zoomLevel">100%</span>
-        </div>
-      </div>
-      <div class="comic-nav-bar hidden" id="comicNavBar">
-        <button class="nav-btn shuffle-btn" id="btnNextPanel"><i class="fa-solid fa-shuffle"></i> NEXT PANEL</button>
-        <button class="nav-btn fav-btn hidden" id="btnFavorite" aria-label="Toggle favorite"><i class="fa-regular fa-heart"></i></button>
-        <button class="nav-btn today-btn hidden" id="btnToday">[ LATEST ]</button>
-      </div>
-    </section>
-
-    <section class="feed-container hidden" id="feedContainer">
-      <div class="feed-scroll" id="feedScroll"></div>
-      <div class="feed-sentinel" id="feedSentinel"></div>
-      <div class="feed-empty hidden" id="feedEmpty">
-        <span>[ select comics to fill your feed ]</span>
-      </div>
-    </section>
-
-    <section class="fav-container hidden" id="favContainer">
-      <div class="fav-toolbar" id="favToolbar">
-        <button class="fav-toolbar-btn" id="favExportBtn"><i class="fa-solid fa-file-export"></i> Export</button>
-        <div class="fav-toolbar-right">
-          <span class="fav-toolbar-msg hidden" id="favToolbarMsg"></span>
-          <label class="fav-toolbar-btn fav-import-label" for="favImportInput"><i class="fa-solid fa-file-import"></i> Import</label>
-          <input type="file" id="favImportInput" accept=".json" class="hidden" aria-label="Import favorites JSON">
-        </div>
-      </div>
-      <div class="fav-gallery" id="favGallery"></div>
-      <div class="fav-empty hidden" id="favEmpty">
-        <span>[ no favorites yet — heart some strips! ]</span>
-      </div>
-    </section>
-
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"></button>
-
-    <aside class="selection-panel" id="selectionPanel">
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="[ search comics... ]" autocomplete="off" spellcheck="false">
-        <button class="search-clear hidden" id="searchClear" aria-label="Clear search">&times;</button>
-      </div>
-
-      <div class="collapsible-section">
-        <button class="collapsible-header" id="tagHeader">[ tags ] <span class="collapse-arrow">&#9660;</span></button>
-        <div class="collapsible-body">
-          <div class="tag-filters" id="tagFilters"></div>
-        </div>
-      </div>
-
-      <div class="collapsible-section">
-        <button class="collapsible-header" id="alphaHeader">[ A-Z ] <span class="collapse-arrow">&#9660;</span></button>
-        <div class="collapsible-body">
-          <div class="alpha-bar-inner" id="alphaBar"></div>
-        </div>
-      </div>
-
-      <div class="recommend-toggle">
-        <label>
-          <input type="checkbox" id="recommendToggle">
-          <span>[ recommendations ]</span>
-        </label>
-        <button class="lucky-btn" id="luckyBtn">I'm feeling lucky</button>
-      </div>
-
-      <div class="badge-grid" id="badgeGrid"></div>
-    </aside>
-  </main>
-
-  <div class="feed-zoom-overlay hidden" id="feedZoomOverlay">
-    <div class="zoom-backdrop" id="feedZoomBackdrop"></div>
-    <button class="zoom-close" id="feedZoomClose">&times;</button>
-    <div class="feed-zoom-content">
-      <div class="feed-zoom-image-wrap" id="feedZoomWrap">
-        <img id="feedZoomImage" alt="Comic strip" draggable="false">
-      </div>
-    </div>
-    <div class="comic-zoom-bar feed-zoom-bar">
-      <button class="zoom-inline-btn" id="feedZoomOut" aria-label="Zoom out">&minus;</button>
-      <input type="range" id="feedZoomSlider" min="100" max="500" step="5" value="100" aria-label="Zoom level">
-      <button class="zoom-inline-btn" id="feedZoomIn" aria-label="Zoom in">&plus;</button>
-      <button class="zoom-inline-btn" id="feedZoomReset" aria-label="Reset zoom">&#8634;</button>
-      <span class="zoom-inline-level" id="feedZoomLevel">100%</span>
+    <div class="topbar-end">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark theme"><svg class="i"><use href="#i-moon"/></svg></button>
+      <a class="icon-btn" href="https://github.com/ashmod/panels" target="_blank" rel="noopener" aria-label="Panels on GitHub"><svg class="i i-fill"><use href="#i-github"/></svg></a>
     </div>
   </div>
+  </header>
 
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
-  <script type="module" src="/app.js"></script>
+  <main>
+    <section class="wrap view-read" id="viewRead" aria-label="Read">
+      <div class="scroller cast-scroller" data-wheel>
+        <button class="lineup-add" type="button" data-action="library" aria-label="Add or remove comics" title="Add or remove comics"><svg class="i"><use href="#i-plus"/></svg></button>
+        <button class="scroll-btn prev" type="button" aria-label="Scroll your comics left"><svg class="i"><use href="#i-left-2"/></svg></button>
+        <div class="cast scroll-row" id="cast" aria-label="Your comics"></div>
+        <button class="scroll-btn next" type="button" aria-label="Scroll your comics right"><svg class="i"><use href="#i-right-2"/></svg></button>
+      </div>
+      <div class="stage plate" id="stage">
+        <div class="stage-wipe plate" id="stageWipe"></div>
+
+        <div class="stage-empty" id="stageEmpty" hidden>
+          <h1 class="letter">Pick a few comics!</h1>
+          <div class="starters" id="starters"></div>
+          <button class="btn btn-primary" type="button" data-action="library">Browse all comics</button>
+        </div>
+
+        <div class="stage-head" id="stageHead">
+          <div>
+            <h1 class="letter" id="stripTitle"></h1>
+            <p class="strip-sub" id="stripSub"></p>
+          </div>
+          <div class="datestep">
+            <button class="btn btn-round" id="earlierBtn" type="button" aria-label="Earlier strip" aria-keyshortcuts="ArrowLeft"><svg class="i"><use href="#i-left"/></svg></button>
+            <time id="stripDate"></time>
+            <button class="btn btn-round" id="laterBtn" type="button" aria-label="Later strip" aria-keyshortcuts="ArrowRight"><svg class="i"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+
+        <div class="strip-area" id="stripArea">
+          <img class="strip-img" id="stripImg" alt="" draggable="false">
+          <div class="dots" id="stripDots" hidden></div>
+          <div class="strip-status" id="stripStatus" hidden></div>
+        </div>
+
+        <div class="stage-foot" id="stageFoot">
+          <div class="foot-start">
+            <button class="btn btn-round" id="favBtn" type="button" aria-pressed="false" aria-label="Add to favorites" aria-keyshortcuts="F"><svg class="i" id="favIcon"><use href="#i-heart"/></svg></button>
+          </div>
+          <button class="btn btn-primary shuffle" id="shuffleBtn" type="button" aria-keyshortcuts="Space"><svg class="i"><use href="#i-shuffle"/></svg>Shuffle <kbd>Space</kbd></button>
+          <div class="foot-end">
+            <button class="btn" id="latestBtn" type="button" aria-keyshortcuts="L"><span class="btn-label">Latest</span><svg class="i"><use href="#i-latest"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap view-feed" id="viewFeed" aria-label="Feed" hidden>
+      <div class="list-head">
+        <div>
+          <h1>Feed</h1>
+          <p>Random strips from your comics, as far as you care to scroll.</p>
+        </div>
+      </div>
+      <div class="scroller feed-filter" id="feedFilterWrap">
+        <button class="filter-add" type="button" data-action="library" aria-label="Add or remove comics" title="Add or remove comics"><svg class="i"><use href="#i-plus"/></svg></button>
+        <button class="scroll-btn prev" type="button" aria-label="Scroll filters left"><svg class="i"><use href="#i-left-2"/></svg></button>
+        <div class="scroll-row" id="feedFilter" aria-label="Show strips from"></div>
+        <button class="scroll-btn next" type="button" aria-label="Scroll filters right"><svg class="i"><use href="#i-right-2"/></svg></button>
+      </div>
+      <div id="feedList"></div>
+      <div class="list-empty" id="feedEmpty" hidden>
+        <h2 class="letter">Your feed fills up once you pick some comics.</h2>
+        <button class="btn btn-primary" type="button" data-action="library">Browse all comics</button>
+      </div>
+      <p class="feed-note" id="feedNote" role="status" hidden></p>
+      <div class="feed-end" id="feedEnd"></div>
+    </section>
+
+    <section class="wrap view-favs" id="viewFavorites" aria-label="Favorites" hidden>
+      <div class="list-head">
+        <div>
+          <h1>Favorites</h1>
+          <p id="favCount"></p>
+        </div>
+        <div class="list-tools">
+          <span class="list-msg" id="favMsg" role="status"></span>
+          <button class="btn btn-outline btn-sm" id="exportBtn" type="button"><svg class="i"><use href="#i-download"/></svg>Export</button>
+          <label class="btn btn-outline btn-sm" for="importInput"><svg class="i"><use href="#i-upload"/></svg>Import</label>
+          <input class="sr-only" id="importInput" type="file" accept=".json,application/json">
+        </div>
+      </div>
+      <div id="favGroups"></div>
+      <div class="list-empty" id="favEmpty" hidden>
+        <h2 class="letter">Strips you favorite end up here.</h2>
+        <p>Press <kbd>F</kbd> or the heart while reading, or import a favorites file.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="library" role="dialog" aria-modal="true" aria-labelledby="libTitle">
+  <div class="wrap sheet-head">
+    <div>
+      <h2 id="libTitle">Comics</h2>
+      <p>Choose what shows up when you shuffle and scroll the feed.</p>
+    </div>
+    <button class="icon-btn" id="libClose" type="button" aria-label="Close comics"><svg class="i"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="wrap sheet-tools">
+    <label class="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <span class="sr-only">Search comics</span>
+      <input id="search" type="search" placeholder="Search by title, creator or character" autocomplete="off" spellcheck="false">
+    </label>
+    <div class="chips" id="chips" aria-label="Filter by tag"></div>
+    <div class="letters-row">
+      <div class="letters" id="letters" aria-label="Filter by first letter"></div>
+      <button class="btn btn-outline btn-sm" id="luckyBtn" type="button"><svg class="i"><use href="#i-dice"/></svg>I'm feeling lucky</button>
+    </div>
+  </div>
+  <div class="sheet-body" id="sheetBody">
+    <div class="wrap">
+      <section class="sheet-section" id="picksSection" hidden>
+        <div class="section-head">
+          <h3>Your comics <span id="picksCount"></span></h3>
+          <button class="btn btn-sm" id="clearBtn" type="button">Clear all</button>
+        </div>
+        <div class="picks" id="picks"></div>
+      </section>
+      <section class="sheet-section" id="recsSection" hidden>
+        <div class="section-head"><h3>Similar to your comics</h3></div>
+        <div class="tiles" id="recTiles"></div>
+      </section>
+      <section class="sheet-section">
+        <div class="section-head"><h3 id="allTitle">All comics</h3></div>
+        <div class="tiles" id="tiles"></div>
+      </section>
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <div class="wrap">
+      <span id="selCount"></span>
+      <button class="btn btn-primary" id="libDone" type="button">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Zoomed strip" tabindex="-1" hidden>
+  <img id="viewerImg" alt="" draggable="false">
+  <div class="viewer-bar">
+    <button class="icon-btn" id="vOut" type="button" aria-label="Zoom out"><svg class="i"><use href="#i-minus"/></svg></button>
+    <output id="vLevel">100%</output>
+    <button class="icon-btn" id="vIn" type="button" aria-label="Zoom in"><svg class="i"><use href="#i-plus"/></svg></button>
+    <button class="icon-btn" id="vClose" type="button" aria-label="Close zoom"><svg class="i"><use href="#i-close"/></svg></button>
+  </div>
+</div>
 </body>
 </html>

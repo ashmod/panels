@@ -1,149 +1,171 @@
-import { state, hashColor, stripKey, saveFavorites, isFavorited } from './state.js';
-import { fetchStrip } from './api.js';
-import { escapeHtml } from './helpers.js';
-import { els } from './els.js';
-import { openFeedZoom } from './zoom.js';
-import { updateFavoriteButton } from './favorites.js';
+import { fetchRandom, imageUrl } from './api.js';
+import { toggleFav } from './favorites.js';
+import { read } from './reader.js';
+import { navigate } from './router.js';
+import { comicTitle, faceHtml, isFav, state, stripLabel } from './state.js';
+import { openViewer } from './viewer.js';
+import { $, currentView, esc, formatDate } from './util.js';
 
-function createSkeletonCard() {
-  const card = document.createElement('article');
-  card.className = 'feed-card feed-card-skeleton';
-  card.innerHTML =
-    '<div class="feed-card-header">' +
-      '<div class="feed-card-badge skeleton-pulse"></div>' +
-      '<div class="feed-card-info">' +
-        '<div class="skeleton-pulse" style="width:120px;height:14px;"></div>' +
-        '<div class="skeleton-pulse" style="width:80px;height:11px;margin-top:4px;"></div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="feed-card-image skeleton-pulse"></div>';
-  return card;
+const BATCH = 4;
+const AHEAD_PX = 1500;
+const EMPTY_RETRY_MS = 15000;
+const MIN_PAUSE_S = 5;
+
+const feed = {
+  loading: false, deck: [], only: null, generation: 0, resumeAt: 0, timer: null,
+};
+
+function feedPool() {
+  return feed.only && state.selected.includes(feed.only) ? [feed.only] : state.selected;
 }
 
-function renderFeedCard(strip, comic) {
-  const card = document.createElement('article');
-  card.className = 'feed-card';
-
-  const author = comic && comic.author ? comic.author : '';
-  const authorHtml = author ? '<span class="feed-card-sub">by ' + escapeHtml(author) + ' &mdash; ' + escapeHtml(strip.date) + '</span>' : '<span class="feed-card-sub">' + escapeHtml(strip.date) + '</span>';
-  const color = hashColor(strip.endpoint);
-
-  const faved = isFavorited(strip.endpoint, strip.date);
-
-  card.innerHTML =
-    '<div class="feed-card-header">' +
-      '<div class="feed-card-badge">' +
-        '<div class="badge-circle-bg" style="background:' + color + ';"></div>' +
-        '<img src="/api/badges/' + encodeURIComponent(strip.endpoint) + '.png" alt="" onerror="this.style.display=\'none\'">' +
-      '</div>' +
-      '<div class="feed-card-info">' +
-        '<span class="feed-card-title">' + escapeHtml(strip.title) + '</span>' +
-        authorHtml +
-      '</div>' +
-      '<button class="feed-card-fav' + (faved ? ' favorited' : '') + '" aria-label="Toggle favorite">' +
-        '<i class="' + (faved ? 'fa-solid' : 'fa-regular') + ' fa-heart"></i>' +
-      '</button>' +
-    '</div>' +
-    '<div class="feed-card-image">' +
-      '<img src="/api/comics/' + encodeURIComponent(strip.endpoint) + '/' + encodeURIComponent(strip.date) + '/image" alt="' + escapeHtml(strip.title) + '" loading="lazy">' +
-    '</div>';
-
-  const cardImg = card.querySelector('.feed-card-image img');
-  if (cardImg) {
-    cardImg.addEventListener('click', () => openFeedZoom(cardImg.src));
-  }
-
-  const favBtn = card.querySelector('.feed-card-fav');
-  if (favBtn) {
-    favBtn.addEventListener('click', () => {
-      const idx = state.favorites.findIndex((f) => f.endpoint === strip.endpoint && f.date === strip.date);
-      if (idx >= 0) {
-        state.favorites.splice(idx, 1);
-        favBtn.classList.remove('favorited');
-        favBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
-      } else {
-        state.favorites.push({ endpoint: strip.endpoint, date: strip.date, title: strip.title, added: Date.now() });
-        favBtn.classList.add('favorited');
-        favBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
-      }
-      saveFavorites();
-      updateFavoriteButton();
-    });
-  }
-
-  return card;
-}
-
-async function fetchRandomFeedStrip() {
-  const endpoints = Array.from(state.selectedEndpoints);
-  if (endpoints.length === 0) return null;
-
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
-    try {
-      const strip = await fetchStrip(endpoint, 'random');
-      const key = stripKey(strip);
-      if (attempt < 2 && state.feed.seenKeys.has(key)) continue;
-      state.feed.seenKeys.add(key);
-      return strip;
-    } catch (e) {
-      if (attempt === 2) return null;
+function drawFromDeck() {
+  if (!feed.deck.length) {
+    feed.deck = [...feedPool()];
+    for (let i = feed.deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [feed.deck[i], feed.deck[j]] = [feed.deck[j], feed.deck[i]];
     }
   }
-  return null;
+  return feed.deck.pop();
 }
 
+export function renderFeedFilter() {
+  $('#feedFilterWrap').hidden = !state.selected.length;
+  const make = (ep) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = ep ? 'filter-pill' : 'filter-pill only-text';
+    b.setAttribute('aria-pressed', String(feed.only === ep));
+    b.innerHTML = ep ? `${faceHtml(ep)}${esc(comicTitle(ep))}` : 'Everything';
+    b.onclick = () => {
+      feed.only = ep;
+      renderFeedFilter();
+      resetFeed();
+    };
+    return b;
+  };
+  const pills = state.selected.length > 1 ? [make(null), ...state.selected.map(make)] : [];
+  $('#feedFilter').replaceChildren(...pills);
+}
+
+function postEl(ep) {
+  const el = document.createElement('article');
+  el.className = 'post';
+  el.dataset.ep = ep;
+  el.innerHTML = `
+    <header class="post-head">
+      ${faceHtml(ep)}
+      <div class="post-meta">
+        <h2 class="letter">${esc(comicTitle(ep))}</h2>
+        <span class="post-date">&nbsp;</span>
+      </div>
+      <div class="post-actions"></div>
+    </header>
+    <div class="post-strip"><div class="dots"></div></div>`;
+  return el;
+}
+
+function fillPost(el, strip) {
+  $('.post-date', el).textContent = stripLabel(strip, 'long');
+  const actions = $('.post-actions', el);
+  actions.innerHTML = `
+    <button class="btn btn-round" type="button" data-fav><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="btn btn-round" type="button" data-read aria-label="Open in the reader"><svg class="i"><use href="#i-right"/></svg></button>`;
+  const favBtn = $('[data-fav]', actions);
+  const sync = () => {
+    const on = isFav(strip);
+    favBtn.setAttribute('aria-pressed', String(on));
+    favBtn.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+    $('svg', favBtn).classList.toggle('i-fill', on);
+  };
+  favBtn.onclick = () => { toggleFav(strip); sync(); };
+  $('[data-read]', actions).onclick = () => {
+    navigate('/');
+    read(strip.endpoint, strip.date);
+  };
+  sync();
+  const img = new Image();
+  img.alt = `${comicTitle(strip.endpoint)}, ${formatDate(strip.date)}`;
+  img.draggable = false;
+  img.onclick = () => openViewer(strip);
+  img.onload = () => $('.post-strip', el).replaceChildren(img);
+  img.onerror = () => el.remove();
+  img.src = imageUrl(strip);
+}
+
+const nearEnd = () => $('#feedEnd').getBoundingClientRect().top < innerHeight + AHEAD_PX;
+
+function showNote(text) {
+  const note = $('#feedNote');
+  note.textContent = text;
+  note.hidden = !text;
+}
+
+function clearPause() {
+  clearTimeout(feed.timer);
+  feed.resumeAt = 0;
+  showNote('');
+}
+
+function pauseFeed(ms, message) {
+  feed.resumeAt = Date.now() + ms;
+  showNote(message);
+  clearTimeout(feed.timer);
+  feed.timer = setTimeout(() => {
+    clearPause();
+    if (currentView() === 'feed' && nearEnd()) loadFeedBatch();
+  }, ms);
+}
+
+// Strips load one at a time: parallel requests are what trip GoComics' rate limit.
 export async function loadFeedBatch() {
-  if (state.feed.isLoadingBatch || state.selectedEndpoints.size === 0) return;
-  state.feed.isLoadingBatch = true;
-
-  const skeletons = [];
-  for (let i = 0; i < 6; i++) {
-    const skel = createSkeletonCard();
-    els.feedScroll.appendChild(skel);
-    skeletons.push(skel);
-  }
-
-  const promises = [];
-  for (let i = 0; i < 6; i++) {
-    promises.push(fetchRandomFeedStrip());
-  }
-  const results = await Promise.allSettled(promises);
-
+  if (feed.loading || !state.selected.length || Date.now() < feed.resumeAt) return;
+  feed.loading = true;
+  const generation = feed.generation;
   let loaded = 0;
-  results.forEach((result, i) => {
-    const strip = result.status === 'fulfilled' ? result.value : null;
-    if (strip) {
-      const comic = state.allComics.find((c) => c.endpoint === strip.endpoint);
-      const card = renderFeedCard(strip, comic);
-      skeletons[i].replaceWith(card);
-      state.feed.strips.push(strip);
+  for (let i = 0; i < BATCH; i++) {
+    const el = postEl(drawFromDeck());
+    $('#feedList').append(el);
+    try {
+      const strip = await fetchRandom(el.dataset.ep);
+      if (generation !== feed.generation) return;
+      fillPost(el, strip);
       loaded++;
-    } else {
-      skeletons[i].remove();
+    } catch (err) {
+      if (generation !== feed.generation) return;
+      el.remove();
+      if (err.status === 503) {
+        pauseFeed(
+          Math.max(err.retryAfter, MIN_PAUSE_S) * 1000,
+          'GoComics is limiting requests. More strips in a minute.',
+        );
+        break;
+      }
     }
-  });
-
-  if (state.feed.strips.length === 0) {
-    els.feedEmpty.classList.remove('hidden');
   }
-
-  state.feed.isLoadingBatch = false;
+  feed.loading = false;
+  if (feed.resumeAt) return;
+  if (!loaded) {
+    pauseFeed(EMPTY_RETRY_MS, 'These strips didn\'t load. Trying again in a few seconds.');
+    return;
+  }
+  // The observer only fires on intersection changes, so a short batch would otherwise stall.
+  if (currentView() === 'feed' && nearEnd()) loadFeedBatch();
 }
 
-export function clearFeed() {
-  state.feed.strips = [];
-  state.feed.seenKeys = new Set();
-  state.feed.isLoadingBatch = false;
-  els.feedScroll.innerHTML = '';
-  els.feedEmpty.classList.add('hidden');
+export function resetFeed() {
+  feed.generation++;
+  feed.loading = false;
+  feed.deck = [];
+  clearPause();
+  $('#feedList').replaceChildren();
+  $('#feedEmpty').hidden = state.selected.length > 0;
+  if (state.selected.length) loadFeedBatch();
 }
 
-export function initFeedScroll() {
-  const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && state.currentView === 'feed') {
-      loadFeedBatch();
-    }
-  }, { root: els.feedContainer, rootMargin: '400px' });
-  observer.observe(els.feedSentinel);
+export function initFeed() {
+  new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && currentView() === 'feed') loadFeedBatch();
+  }, { rootMargin: `${AHEAD_PX}px` }).observe($('#feedEnd'));
 }
