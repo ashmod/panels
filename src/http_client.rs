@@ -42,13 +42,30 @@ pub struct PageResponse {
     pub final_url: String,
 }
 
+pub enum PageFetch {
+    Page(PageResponse),
+    Missing,
+    Blocked(u16),
+}
+
+impl PageFetch {
+    fn into_page(self) -> Option<PageResponse> {
+        match self {
+            PageFetch::Page(page) => Some(page),
+            PageFetch::Missing | PageFetch::Blocked(_) => None,
+        }
+    }
+}
+
 pub async fn fetch_page(
     client: &Client,
     url: &str,
     retries: u32,
     timeout_ms: u64,
 ) -> crate::error::Result<Option<PageResponse>> {
-    fetch_page_inner(client, url, retries, timeout_ms, false, &[], None).await
+    fetch_page_inner(client, url, retries, timeout_ms, false, &[], &[], None)
+        .await
+        .map(PageFetch::into_page)
 }
 
 pub async fn fetch_page_with_options(
@@ -66,20 +83,26 @@ pub async fn fetch_page_with_options(
         timeout_ms,
         suppress_errors,
         silent_statuses,
+        &[],
         None,
     )
     .await
+    .map(PageFetch::into_page)
 }
 
-pub async fn fetch_page_accepting_error_body(
+/// Like [`fetch_page_with_options`], but reports `blocked_statuses` as [`PageFetch::Blocked`]
+/// without retrying, and returns error bodies that `accept_error_body` recognises as pages.
+#[allow(clippy::too_many_arguments)]
+pub async fn fetch_page_or_block(
     client: &Client,
     url: &str,
     retries: u32,
     timeout_ms: u64,
     suppress_errors: bool,
     silent_statuses: &[u16],
+    blocked_statuses: &[u16],
     accept_error_body: fn(&str) -> bool,
-) -> crate::error::Result<Option<PageResponse>> {
+) -> crate::error::Result<PageFetch> {
     fetch_page_inner(
         client,
         url,
@@ -87,11 +110,13 @@ pub async fn fetch_page_accepting_error_body(
         timeout_ms,
         suppress_errors,
         silent_statuses,
+        blocked_statuses,
         Some(accept_error_body),
     )
     .await
 }
 
+#[allow(clippy::too_many_arguments)]
 async fn fetch_page_inner(
     client: &Client,
     url: &str,
@@ -99,8 +124,9 @@ async fn fetch_page_inner(
     timeout_ms: u64,
     suppress_errors: bool,
     silent_statuses: &[u16],
+    blocked_statuses: &[u16],
     accept_error_body: Option<fn(&str) -> bool>,
-) -> crate::error::Result<Option<PageResponse>> {
+) -> crate::error::Result<PageFetch> {
     let user_agent = user_agent_for(url);
 
     for attempt in 0..=retries {
@@ -127,19 +153,22 @@ async fn fetch_page_inner(
                         && accept(&html)
                     {
                         debug!("Returning {} body from {} to caller", status, url);
-                        return Ok(Some(PageResponse { html, final_url }));
+                        return Ok(PageFetch::Page(PageResponse { html, final_url }));
+                    }
+                    if blocked_statuses.contains(&status) {
+                        return Ok(PageFetch::Blocked(status));
                     }
                     if !suppress_errors && !silent_statuses.contains(&status) {
                         warn!("Failed to fetch {}: {}", url, status);
                     }
                     if status == 404 {
-                        return Ok(None);
+                        return Ok(PageFetch::Missing);
                     }
                     if attempt < retries {
                         tokio::time::sleep(Duration::from_secs(1)).await;
                         continue;
                     }
-                    return Ok(None);
+                    return Ok(PageFetch::Missing);
                 }
 
                 let html = response.text().await.map_err(|e| {
@@ -149,7 +178,7 @@ async fn fetch_page_inner(
                     ))
                 })?;
 
-                return Ok(Some(PageResponse { html, final_url }));
+                return Ok(PageFetch::Page(PageResponse { html, final_url }));
             }
             Err(e) => {
                 if !suppress_errors {
@@ -170,11 +199,11 @@ async fn fetch_page_inner(
                     tokio::time::sleep(Duration::from_secs(1)).await;
                     continue;
                 }
-                return Ok(None);
+                return Ok(PageFetch::Missing);
             }
         }
     }
-    Ok(None)
+    Ok(PageFetch::Missing)
 }
 
 #[cfg(test)]
@@ -222,27 +251,38 @@ mod tests {
         format!("http://{addr}/")
     }
 
-    #[tokio::test]
-    async fn accepted_error_body_is_returned() {
-        let url = serve_once("403 Forbidden", "challenge").await;
-        let page =
-            fetch_page_accepting_error_body(&build_client(), &url, 0, 2000, true, &[], |html| {
-                html == "challenge"
-            })
-            .await
-            .unwrap();
-        assert_eq!(page.unwrap().html, "challenge");
+    async fn fetch_or_block(url: &str, blocked: &[u16]) -> PageFetch {
+        fetch_page_or_block(&build_client(), url, 0, 2000, true, &[], blocked, |html| {
+            html == "challenge"
+        })
+        .await
+        .unwrap()
     }
 
     #[tokio::test]
-    async fn rejected_error_body_is_dropped() {
+    async fn accepted_error_body_is_returned() {
+        let url = serve_once("403 Forbidden", "challenge").await;
+        let PageFetch::Page(page) = fetch_or_block(&url, &[403]).await else {
+            panic!("expected the challenge body");
+        };
+        assert_eq!(page.html, "challenge");
+    }
+
+    #[tokio::test]
+    async fn blocked_status_is_reported() {
+        let url = serve_once("403 Forbidden", "rate limited").await;
+        assert!(matches!(
+            fetch_or_block(&url, &[403]).await,
+            PageFetch::Blocked(403)
+        ));
+    }
+
+    #[tokio::test]
+    async fn unlisted_error_status_is_missing() {
         let url = serve_once("403 Forbidden", "forbidden").await;
-        let page =
-            fetch_page_accepting_error_body(&build_client(), &url, 0, 2000, true, &[], |html| {
-                html == "challenge"
-            })
-            .await
-            .unwrap();
-        assert!(page.is_none());
+        assert!(matches!(
+            fetch_or_block(&url, &[]).await,
+            PageFetch::Missing
+        ));
     }
 }

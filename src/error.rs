@@ -1,4 +1,4 @@
-use axum::http::StatusCode;
+use axum::http::{HeaderValue, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use serde_json::json;
 
@@ -16,6 +16,12 @@ pub enum PanelsError {
     #[error("scrape failed: {0}")]
     ScrapeFailed(String),
 
+    #[error("{source_name} is limiting requests, retry in {retry_after}s")]
+    RateLimited {
+        source_name: &'static str,
+        retry_after: u64,
+    },
+
     #[error("http error: {0}")]
     HttpError(#[from] reqwest::Error),
 
@@ -30,12 +36,19 @@ impl IntoResponse for PanelsError {
             PanelsError::InvalidDate(msg) => (StatusCode::BAD_REQUEST, msg.clone()),
             PanelsError::InvalidParam(msg) => (StatusCode::BAD_REQUEST, msg.clone()),
             PanelsError::ScrapeFailed(msg) => (StatusCode::BAD_GATEWAY, msg.clone()),
+            PanelsError::RateLimited { .. } => (StatusCode::SERVICE_UNAVAILABLE, self.to_string()),
             PanelsError::HttpError(e) => (StatusCode::BAD_GATEWAY, e.to_string()),
             PanelsError::Internal(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()),
         };
 
         let body = json!({ "error": message });
-        (status, axum::Json(body)).into_response()
+        let mut response = (status, axum::Json(body)).into_response();
+        if let PanelsError::RateLimited { retry_after, .. } = self {
+            response
+                .headers_mut()
+                .insert(header::RETRY_AFTER, HeaderValue::from(retry_after));
+        }
+        response
     }
 }
 
@@ -64,6 +77,17 @@ mod tests {
         let err = PanelsError::InvalidParam("bad param".into());
         let response = err.into_response();
         assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+    }
+
+    #[test]
+    fn rate_limited_maps_to_503_with_retry_after() {
+        let err = PanelsError::RateLimited {
+            source_name: "GoComics",
+            retry_after: 60,
+        };
+        let response = err.into_response();
+        assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+        assert_eq!(response.headers()[header::RETRY_AFTER], "60");
     }
 
     #[test]

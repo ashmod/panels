@@ -9,23 +9,20 @@ use tokio::time::{Duration, Instant, timeout};
 use tracing::{info, warn};
 
 use crate::error::{PanelsError, Result};
-use crate::http_client::PageResponse;
+use crate::http_client::{PageFetch, PageResponse};
 
 const SCRIPT_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/gocomics-browser.mjs");
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(50);
 const MIN_REQUEST_INTERVAL: Duration = Duration::from_secs(1);
-const RATE_LIMIT_COOLDOWN: Duration = Duration::from_secs(60);
 
 static STATE: Mutex<State> = Mutex::const_new(State {
     helper: None,
     last_request: None,
-    rate_limited_until: None,
 });
 
 struct State {
     helper: Option<Helper>,
     last_request: Option<Instant>,
-    rate_limited_until: Option<Instant>,
 }
 
 struct Helper {
@@ -86,18 +83,8 @@ impl Helper {
     }
 }
 
-fn rate_limited() -> PanelsError {
-    PanelsError::ScrapeFailed("GoComics is rate limiting requests, backing off".into())
-}
-
-pub async fn fetch_page(url: &str) -> Result<Option<PageResponse>> {
+pub async fn fetch_page(url: &str) -> Result<PageFetch> {
     let mut state = STATE.lock().await;
-    if state
-        .rate_limited_until
-        .is_some_and(|until| Instant::now() < until)
-    {
-        return Err(rate_limited());
-    }
     if let Some(last) = state.last_request {
         tokio::time::sleep_until(last + MIN_REQUEST_INTERVAL).await;
     }
@@ -138,19 +125,12 @@ pub async fn fetch_page(url: &str) -> Result<Option<PageResponse>> {
         )));
     }
     match reply.status {
-        Some(404) => return Ok(None),
-        Some(429) => {
-            warn!(
-                "GoComics rate limited us, pausing for {}s",
-                RATE_LIMIT_COOLDOWN.as_secs()
-            );
-            state.rate_limited_until = Some(Instant::now() + RATE_LIMIT_COOLDOWN);
-            return Err(rate_limited());
-        }
+        Some(404) => return Ok(PageFetch::Missing),
+        Some(status @ (403 | 429)) => return Ok(PageFetch::Blocked(status)),
         _ => {}
     }
     match (reply.html, reply.final_url) {
-        (Some(html), Some(final_url)) => Ok(Some(PageResponse { html, final_url })),
+        (Some(html), Some(final_url)) => Ok(PageFetch::Page(PageResponse { html, final_url })),
         _ => Err(PanelsError::ScrapeFailed(
             "GoComics browser helper returned an incomplete reply".into(),
         )),

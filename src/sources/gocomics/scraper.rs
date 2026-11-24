@@ -134,34 +134,6 @@ fn resolve_strip_image(document: &Html, target: StripTarget) -> Option<(String, 
     }
 }
 
-pub fn extract_date_links(html: &str, endpoint: &str) -> Vec<String> {
-    let mut dates = Vec::new();
-
-    let url_pattern = format!(
-        r"/{}/(\d{{4}})/(\d{{2}})/(\d{{2}})",
-        regex::escape(endpoint)
-    );
-    if let Ok(re) = Regex::new(&url_pattern) {
-        for caps in re.captures_iter(html) {
-            let date = format!("{}-{}-{}", &caps[1], &caps[2], &caps[3]);
-            if !dates.contains(&date) {
-                dates.push(date);
-            }
-        }
-    }
-
-    if let Ok(re) = Regex::new(r"(20[0-3]\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])") {
-        for caps in re.captures_iter(html) {
-            let date = format!("{}-{}-{}", &caps[1], &caps[2], &caps[3]);
-            if !dates.contains(&date) {
-                dates.push(date);
-            }
-        }
-    }
-
-    dates
-}
-
 pub fn parse_comic_page(
     html: &str,
     endpoint: &str,

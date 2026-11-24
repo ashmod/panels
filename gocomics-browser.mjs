@@ -4,7 +4,6 @@ import readline from 'node:readline';
 
 const NAV_TIMEOUT_MS = 15000;
 const CHALLENGE_TIMEOUT_MS = 20000;
-const RATE_LIMIT_RETRY_MS = 3000;
 
 const browserCandidates = process.env.PANELS_GOCOMICS_BROWSER
   ? [{ type: chromium, launch: { executablePath: process.env.PANELS_GOCOMICS_BROWSER } }]
@@ -59,28 +58,23 @@ async function fetchWithContext(context, url) {
   });
 
   try {
-    for (let attempt = 0; ; attempt++) {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
 
-      if (await page.evaluate(isChallengePage)) {
-        try {
-          await page.waitForFunction(() => !document.body?.hasAttribute('data-pow'), undefined, {
-            timeout: CHALLENGE_TIMEOUT_MS,
-          });
-        } catch {
-          throw new ChallengeBlockedError('Bunny Shield challenge did not clear');
-        }
-        await page.waitForLoadState('domcontentloaded');
+    if (await page.evaluate(isChallengePage)) {
+      try {
+        await page.waitForFunction(() => !document.body?.hasAttribute('data-pow'), undefined, {
+          timeout: CHALLENGE_TIMEOUT_MS,
+        });
+      } catch {
+        throw new ChallengeBlockedError('Bunny Shield challenge did not clear');
       }
-
-      if (status === 429 && attempt === 0) {
-        await page.waitForTimeout(RATE_LIMIT_RETRY_MS);
-        continue;
-      }
-      if (status === 404 || status === 429) return { status };
-      if (status >= 400) throw new Error(`GoComics responded ${status}`);
-      return { html: await page.content(), finalUrl: page.url(), status };
+      await page.waitForLoadState('domcontentloaded');
     }
+
+    // Retrying a rate-limited or refused request only extends the block; the server backs off.
+    if (status === 403 || status === 404 || status === 429) return { status };
+    if (status >= 400) throw new Error(`GoComics responded ${status}`);
+    return { html: await page.content(), finalUrl: page.url(), status };
   } finally {
     await page.close().catch(() => {});
   }
