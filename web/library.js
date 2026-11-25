@@ -6,6 +6,7 @@ import { $, $$, currentView, esc, isOpen, motion, pick, reduceMotion } from './u
 
 const LETTERS = ['#', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const SHOWN_RECS = 8;
+const finePointer = matchMedia('(pointer: fine)');
 
 function saveSelected() {
   persist('selected', state.selected);
@@ -50,7 +51,18 @@ export function openLibrary() {
   renderTiles();
   syncLibrary();
   loadRecs();
-  setTimeout(() => $('#search').focus(), 60);
+  // On touch screens, focusing the search would raise the keyboard over the comics.
+  setTimeout(() => (finePointer.matches ? $('#search') : $('#library')).focus({ preventScroll: true }), 60);
+}
+
+export function toggleFilters() {
+  const open = $('#library').classList.toggle('filters-open');
+  $('#filtersBtn').setAttribute('aria-expanded', String(open));
+}
+
+function syncFilterCount() {
+  const n = state.tags.size + (state.letter ? 1 : 0);
+  $('#filterCount').textContent = n ? ` · ${n}` : '';
 }
 
 export function closeLibrary() {
@@ -170,6 +182,7 @@ function renderTiles() {
     : `All comics <span>${state.comics.length}</span>`;
   $('#tiles').replaceChildren(...list.map(tileEl));
   syncRecsVisibility();
+  syncFilterCount();
 }
 
 const recs = { pool: [] };

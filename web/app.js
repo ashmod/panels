@@ -1,12 +1,12 @@
 import { getJson } from './api.js';
 import { exportFavorites, importFavorites, toggleFav } from './favorites.js';
 import { initFeed } from './feed.js';
-import { clearComics, closeLibrary, feelingLucky, openLibrary, setQuery } from './library.js';
+import { clearComics, closeLibrary, feelingLucky, openLibrary, setQuery, toggleFilters } from './library.js';
 import { readLatest, renderCast, shuffle, showBootError, step } from './reader.js';
 import { initRouter, route } from './router.js';
 import { initScroller } from './scroller.js';
 import { persist, state } from './state.js';
-import { closeViewer, initViewer, openViewer, zoomAt } from './viewer.js';
+import { closeViewer, initViewer, openViewer, zoomBy } from './viewer.js';
 import { $, $$, currentView, isOpen } from './util.js';
 
 function applyTheme(theme) {
@@ -20,8 +20,8 @@ function onKey(e) {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (isOpen('viewer')) {
     if (e.key === 'Escape') closeViewer();
-    if (e.key === '+' || e.key === '=') zoomAt(1.25);
-    if (e.key === '-') zoomAt(0.8);
+    if (e.key === '+' || e.key === '=') zoomBy(0.2);
+    if (e.key === '-') zoomBy(-0.2);
     return;
   }
   if (isOpen('library')) {
@@ -65,6 +65,7 @@ function bind() {
   $('#libDone').onclick = closeLibrary;
   $('#scrim').onclick = closeLibrary;
   $('#luckyBtn').onclick = feelingLucky;
+  $('#filtersBtn').onclick = toggleFilters;
   $('#clearBtn').onclick = clearComics;
   let searchTimer;
   $('#search').oninput = (e) => {

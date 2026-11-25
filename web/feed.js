@@ -2,7 +2,7 @@ import { fetchRandom, imageUrl } from './api.js';
 import { toggleFav } from './favorites.js';
 import { read } from './reader.js';
 import { navigate } from './router.js';
-import { comicTitle, faceHtml, isFav, state, stripLabel } from './state.js';
+import { comicTitle, faceHtml, favKey, isFav, paintFav, state, stripLabel } from './state.js';
 import { openViewer } from './viewer.js';
 import { $, currentView, esc, formatDate } from './util.js';
 
@@ -70,21 +70,15 @@ function fillPost(el, strip) {
   $('.post-date', el).textContent = stripLabel(strip, 'long');
   const actions = $('.post-actions', el);
   actions.innerHTML = `
-    <button class="btn btn-round" type="button" data-fav><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="btn btn-round" type="button" data-fav="${esc(favKey(strip))}"><svg class="i"><use href="#i-heart"/></svg></button>
     <button class="btn btn-round" type="button" data-read aria-label="Open in the reader"><svg class="i"><use href="#i-right"/></svg></button>`;
   const favBtn = $('[data-fav]', actions);
-  const sync = () => {
-    const on = isFav(strip);
-    favBtn.setAttribute('aria-pressed', String(on));
-    favBtn.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
-    $('svg', favBtn).classList.toggle('i-fill', on);
-  };
-  favBtn.onclick = () => { toggleFav(strip); sync(); };
+  favBtn.onclick = () => toggleFav(strip);
   $('[data-read]', actions).onclick = () => {
     navigate('/');
     read(strip.endpoint, strip.date);
   };
-  sync();
+  paintFav(favBtn, isFav(strip));
   const img = new Image();
   img.alt = `${comicTitle(strip.endpoint)}, ${formatDate(strip.date)}`;
   img.draggable = false;

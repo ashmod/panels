@@ -1,6 +1,6 @@
 import { badgeUrl, fetchStrip, imageUrl } from './api.js';
 import { addComic, openLibrary } from './library.js';
-import { comicTitle, faceHtml, isFav, ownTitle, paint, plateOf, state } from './state.js';
+import { comicTitle, faceHtml, isFav, ownTitle, paint, paintFav, plateOf, state } from './state.js';
 import { $, $$, esc, formatDate, isOpen, motion, pick, reduceMotion } from './util.js';
 
 const STARTERS = ['garfield', 'peanuts', 'calvinandhobbes', 'xkcd', 'dilbert', 'pearlsbeforeswine'];
@@ -196,10 +196,7 @@ function renderStarters() {
 
 export function syncFavButton() {
   const on = !!state.strip && isFav(state.strip);
-  const btn = $('#favBtn');
-  btn.setAttribute('aria-pressed', String(on));
-  btn.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
-  $('#favIcon').classList.toggle('i-fill', on);
+  paintFav($('#favBtn'), on);
 }
 
 export function renderCast() {

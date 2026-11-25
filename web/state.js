@@ -64,6 +64,12 @@ export function stripLabel(strip, style) {
 export const favKey = (s) => `${s.endpoint}:${s.date}`;
 export const isFav = (s) => state.favorites.some((f) => favKey(f) === favKey(s));
 
+export function paintFav(btn, on) {
+  btn.setAttribute('aria-pressed', String(on));
+  btn.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+  btn.querySelector('svg').classList.toggle('i-fill', on);
+}
+
 export function persist(key, value) {
   try {
     localStorage.setItem(KEYS[key], typeof value === 'string' ? value : JSON.stringify(value));

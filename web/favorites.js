@@ -1,8 +1,8 @@
 import { imageUrl } from './api.js';
 import { syncFavButton } from './reader.js';
-import { comicTitle, favKey, isFav, paint, persist, state, stripLabel } from './state.js';
+import { comicTitle, favKey, isFav, paint, paintFav, persist, state, stripLabel } from './state.js';
 import { openViewer } from './viewer.js';
-import { $, currentView, esc, formatDate } from './util.js';
+import { $, $$, currentView, esc, formatDate } from './util.js';
 
 const MESSAGE_MS = 4000;
 
@@ -11,6 +11,8 @@ const plural = (n) => (n === 1 ? '1 favorite' : `${n} favorites`);
 function saveFavorites() {
   persist('favorites', state.favorites);
   syncFavButton();
+  const keys = new Set(state.favorites.map(favKey));
+  $$('[data-fav]').forEach((b) => paintFav(b, keys.has(b.dataset.fav)));
   if (currentView() === 'favorites') renderFavorites();
 }
 

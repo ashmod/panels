@@ -50,6 +50,8 @@
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
   <symbol id="i-latest" viewBox="0 0 24 24"><path d="M6 5l7 7-7 7M17 5v14"/></symbol>
   <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.1" fill="currentColor"/><circle cx="15" cy="15" r="1.1" fill="currentColor"/><circle cx="15" cy="9" r="1.1" fill="currentColor"/><circle cx="9" cy="15" r="1.1" fill="currentColor"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></symbol>
@@ -169,7 +171,7 @@
 </div>
 
 <div class="scrim" id="scrim"></div>
-<div class="sheet" id="library" role="dialog" aria-modal="true" aria-labelledby="libTitle">
+<div class="sheet" id="library" role="dialog" aria-modal="true" aria-labelledby="libTitle" tabindex="-1">
   <div class="wrap sheet-head">
     <div>
       <h2 id="libTitle">Comics</h2>
@@ -183,6 +185,7 @@
       <span class="sr-only">Search comics</span>
       <input id="search" type="search" placeholder="Search by title, creator or character" autocomplete="off" spellcheck="false">
     </label>
+    <button class="btn btn-outline btn-sm filters-btn" id="filtersBtn" type="button" aria-expanded="false" aria-controls="chips letters">Filters<span id="filterCount"></span><svg class="i"><use href="#i-down"/></svg></button>
     <div class="chips" id="chips" aria-label="Filter by tag"></div>
     <div class="letters-row">
       <div class="letters" id="letters" aria-label="Filter by first letter"></div>
@@ -217,12 +220,18 @@
 </div>
 
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Zoomed strip" tabindex="-1" hidden>
-  <img id="viewerImg" alt="" draggable="false">
+  <button class="icon-btn viewer-close" id="vClose" type="button" aria-label="Close zoom"><svg class="i"><use href="#i-close"/></svg></button>
+  <div class="viewer-stage" id="viewerStage">
+    <div class="viewer-wrap" id="viewerWrap"><img id="viewerImg" alt="" draggable="false"></div>
+  </div>
   <div class="viewer-bar">
     <button class="icon-btn" id="vOut" type="button" aria-label="Zoom out"><svg class="i"><use href="#i-minus"/></svg></button>
-    <output id="vLevel">100%</output>
+    <input type="range" id="vSlider" min="100" max="500" step="5" value="100" aria-label="Zoom level">
     <button class="icon-btn" id="vIn" type="button" aria-label="Zoom in"><svg class="i"><use href="#i-plus"/></svg></button>
-    <button class="icon-btn" id="vClose" type="button" aria-label="Close zoom"><svg class="i"><use href="#i-close"/></svg></button>
+    <output id="vLevel">100%</output>
+    <button class="icon-btn" id="vReset" type="button" aria-label="Reset zoom"><svg class="i"><use href="#i-reset"/></svg></button>
+    <span class="viewer-sep" aria-hidden="true"></span>
+    <button class="icon-btn" id="vFav" type="button" aria-pressed="false" aria-label="Add to favorites"><svg class="i"><use href="#i-heart"/></svg></button>
   </div>
 </div>
 </body>

@@ -1,80 +1,201 @@
 import { imageUrl } from './api.js';
-import { comicTitle, state } from './state.js';
+import { toggleFav } from './favorites.js';
+import { comicTitle, favKey, isFav, paintFav, state } from './state.js';
 import { $, formatDate, isOpen } from './util.js';
 
-const MAX_ZOOM = 6;
+const MIN = 1;
+const MAX = 5;
 
-const view = { scale: 1, x: 0, y: 0, min: 0.2, drag: null, opener: null };
+const zoom = { scale: 1, offset: { x: 0, y: 0 }, dragging: false };
+const view = { strip: null, opener: null };
+let dragStart = { x: 0, y: 0 };
+let touchPanStart = null;
+let pinchStart = null;
+
+const clampScale = (s) => Math.min(MAX, Math.max(MIN, s));
+const touchDistance = (a, b) => Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+const touchCenter = (a, b) => ({ x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 });
+
+function render() {
+  const img = $('#viewerImg');
+  const { scale, offset, dragging } = zoom;
+  img.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${scale})`;
+  img.classList.toggle('dragging', dragging);
+  img.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
+  $('#vLevel').textContent = `${Math.round(scale * 100)}%`;
+  $('#vSlider').value = String(Math.round(scale * 100));
+}
+
+function setScale(next) {
+  zoom.scale = clampScale(next);
+  if (zoom.scale <= 1) zoom.offset = { x: 0, y: 0 };
+  render();
+}
+
+export const zoomBy = (delta) => setScale(zoom.scale + delta);
+
+function resetZoom() {
+  zoom.scale = 1;
+  zoom.offset = { x: 0, y: 0 };
+  zoom.dragging = false;
+  render();
+}
+
+function syncFav() {
+  const btn = $('#vFav');
+  btn.dataset.fav = favKey(view.strip);
+  paintFav(btn, isFav(view.strip));
+}
 
 export function openViewer(strip = state.strip) {
   if (!strip) return;
+  view.strip = strip;
   view.opener = document.activeElement;
   const img = $('#viewerImg');
   img.alt = `${comicTitle(strip.endpoint)}, ${formatDate(strip.date)}`;
-  img.style.transform = 'scale(0)';
-  img.onload = fitViewer;
   img.src = imageUrl(strip);
+  resetZoom();
+  syncFav();
   $('#viewer').hidden = false;
   $('#app').inert = true;
-  if (img.complete && img.naturalWidth) fitViewer();
   $('#viewer').focus();
 }
 
 export function closeViewer() {
   $('#viewer').hidden = true;
+  pinchStart = null;
+  touchPanStart = null;
+  resetZoom();
   if (!isOpen('library')) $('#app').inert = false;
   view.opener?.focus?.({ preventScroll: true });
 }
 
-function fitViewer() {
-  const img = $('#viewerImg');
-  const s = Math.min((innerWidth * 0.92) / img.naturalWidth, (innerHeight * 0.78) / img.naturalHeight);
-  view.min = s;
-  setView(s, (innerWidth - img.naturalWidth * s) / 2, (innerHeight - img.naturalHeight * s) / 2 - 24);
+function bindMouse(v, wrap, img) {
+  wrap.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    zoomBy(e.deltaY > 0 ? -0.12 : 0.12);
+  }, { passive: false });
+
+  img.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    if (zoom.scale <= 1) return;
+    zoom.dragging = true;
+    dragStart = { x: e.clientX, y: e.clientY };
+    render();
+  });
+  img.addEventListener('dragstart', (e) => e.preventDefault());
+
+  v.addEventListener('mousemove', (e) => {
+    if (!zoom.dragging || zoom.scale <= 1) return;
+    zoom.offset.x += e.clientX - dragStart.x;
+    zoom.offset.y += e.clientY - dragStart.y;
+    dragStart = { x: e.clientX, y: e.clientY };
+    render();
+  });
+  const endDrag = () => {
+    if (!zoom.dragging) return;
+    zoom.dragging = false;
+    render();
+  };
+  v.addEventListener('mouseup', endDrag);
+  v.addEventListener('mouseleave', endDrag);
 }
 
-function setView(scale, x, y) {
-  view.scale = Math.min(Math.max(scale, view.min), view.min * MAX_ZOOM);
-  view.x = x;
-  view.y = y;
-  $('#viewerImg').style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.scale})`;
-  $('#vLevel').textContent = `${Math.round((view.scale / view.min) * 100)}%`;
-}
+function bindTouch(v, wrap) {
+  wrap.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const [a, b] = e.touches;
+      zoom.dragging = true;
+      pinchStart = {
+        distance: touchDistance(a, b),
+        scale: zoom.scale,
+        center: touchCenter(a, b),
+        offset: { ...zoom.offset },
+      };
+      touchPanStart = null;
+      render();
+      return;
+    }
+    if (e.touches.length === 1 && zoom.scale > 1) {
+      e.preventDefault();
+      zoom.dragging = true;
+      touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      render();
+    }
+  }, { passive: false });
 
-export function zoomAt(factor, cx = innerWidth / 2, cy = innerHeight / 2) {
-  const next = Math.min(Math.max(view.scale * factor, view.min), view.min * MAX_ZOOM);
-  const k = next / view.scale;
-  setView(next, cx - (cx - view.x) * k, cy - (cy - view.y) * k);
+  wrap.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2 && pinchStart) {
+      e.preventDefault();
+      const [a, b] = e.touches;
+      const center = touchCenter(a, b);
+      zoom.scale = clampScale(pinchStart.scale * (touchDistance(a, b) / pinchStart.distance));
+      zoom.offset = {
+        x: pinchStart.offset.x + (center.x - pinchStart.center.x),
+        y: pinchStart.offset.y + (center.y - pinchStart.center.y),
+      };
+      render();
+      return;
+    }
+    if (e.touches.length === 1 && zoom.scale > 1 && touchPanStart) {
+      e.preventDefault();
+      const t = e.touches[0];
+      zoom.offset.x += t.clientX - touchPanStart.x;
+      zoom.offset.y += t.clientY - touchPanStart.y;
+      touchPanStart = { x: t.clientX, y: t.clientY };
+      render();
+    }
+  }, { passive: false });
+
+  wrap.addEventListener('touchend', (e) => {
+    if (e.touches.length < 2) pinchStart = null;
+    if (e.touches.length === 1 && zoom.scale > 1) {
+      zoom.dragging = true;
+      touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    } else {
+      touchPanStart = null;
+      zoom.dragging = false;
+      if (zoom.scale <= 1) zoom.offset = { x: 0, y: 0 };
+    }
+    render();
+  });
+
+  wrap.addEventListener('touchcancel', () => {
+    pinchStart = null;
+    touchPanStart = null;
+    zoom.dragging = false;
+    render();
+  });
+
+  // Keep the browser's own page pinch from kicking in when a second finger lands outside the strip.
+  const blockNativePinch = (e) => {
+    if (e.touches && e.touches.length < 2) return;
+    e.preventDefault();
+  };
+  v.addEventListener('touchstart', blockNativePinch, { passive: false });
+  v.addEventListener('touchmove', blockNativePinch, { passive: false });
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach((name) => {
+    v.addEventListener(name, (e) => e.preventDefault(), { passive: false });
+  });
 }
 
 export function initViewer() {
   const v = $('#viewer');
+  const wrap = $('#viewerWrap');
   const img = $('#viewerImg');
-  $('#vIn').onclick = () => zoomAt(1.25);
-  $('#vOut').onclick = () => zoomAt(0.8);
+  $('#vIn').onclick = () => zoomBy(0.2);
+  $('#vOut').onclick = () => zoomBy(-0.2);
+  $('#vReset').onclick = resetZoom;
+  $('#vSlider').oninput = (e) => setScale(Number(e.target.value) / 100);
   $('#vClose').onclick = closeViewer;
-  v.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    zoomAt(e.deltaY < 0 ? 1.12 : 0.89, e.clientX, e.clientY);
-  }, { passive: false });
-  v.addEventListener('dblclick', (e) => {
-    zoomAt(view.scale > view.min * 1.5 ? view.min / view.scale : 2.2, e.clientX, e.clientY);
+  $('#vFav').onclick = () => {
+    toggleFav(view.strip);
+    syncFav();
+  };
+  $('#viewerStage').addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) closeViewer();
   });
-  v.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.viewer-bar')) return;
-    if (e.target === v) {
-      closeViewer();
-      return;
-    }
-    view.drag = { x: e.clientX - view.x, y: e.clientY - view.y };
-    img.classList.add('dragging');
-    v.setPointerCapture(e.pointerId);
-  });
-  v.addEventListener('pointermove', (e) => {
-    if (view.drag) setView(view.scale, e.clientX - view.drag.x, e.clientY - view.drag.y);
-  });
-  v.addEventListener('pointerup', () => {
-    view.drag = null;
-    img.classList.remove('dragging');
-  });
+  bindMouse(v, wrap, img);
+  bindTouch(v, wrap);
 }
