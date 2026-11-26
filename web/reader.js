@@ -1,9 +1,18 @@
 import { badgeUrl, fetchStrip, imageUrl } from './api.js';
 import { addComic, openLibrary } from './library.js';
-import { comicTitle, faceHtml, isFav, ownTitle, paint, paintFav, plateOf, state } from './state.js';
-import { $, $$, esc, formatDate, isOpen, motion, pick, reduceMotion } from './util.js';
+import {
+  comicTitle, faceHtml, isFav, ownTitle, paint, paintFav, plateOf, state, stripLabel,
+} from './state.js';
+import {
+  $, $$, currentView, esc, formatDate, isOpen, linkedStrip, motion, pick, reduceMotion, SITE_TITLE,
+  stripPath,
+} from './util.js';
 
-const STARTERS = ['garfield', 'peanuts', 'calvinandhobbes', 'xkcd', 'dilbert', 'pearlsbeforeswine'];
+const STARTERS = [
+  'garfield', 'peanuts', 'calvinandhobbes', 'xkcd', 'dilbert', 'phd',
+  'pearlsbeforeswine', 'foxtrot', 'nonsequitur', 'doonesbury', 'getfuzzy', 'babyblues',
+  'forbetterorforworse', 'boondocks', 'phoebe-and-her-unicorn', 'breaking-cat-news',
+];
 const SLOW_MS = 3500;
 const UPSCALE = 1.5;
 
@@ -125,6 +134,7 @@ async function present(ep, promise, date) {
     if (token !== state.token) return;
     state.strip = strip;
     showStrip(strip);
+    syncUrl();
     prefetchNext();
   } catch {
     if (token !== state.token) return;
@@ -178,20 +188,76 @@ export function renderStage() {
     setStageMode('empty');
     wipeTo(null);
     renderStarters();
+    syncUrl();
     return;
   }
   if (!state.stageEp || !state.selected.includes(state.stageEp)) shuffle();
+  syncUrl();
+}
+
+// Replacing rather than pushing keeps Back meaning "leave the reader", not "previous strip".
+function syncUrl() {
+  if (currentView() !== 'read' || (state.stageEp && !state.strip)) return;
+  const { strip } = state;
+  const path = strip ? stripPath(strip) : '/';
+  if (location.pathname !== path) history.replaceState(null, '', path);
+  document.title = strip
+    ? `${comicTitle(strip.endpoint)} · ${stripLabel(strip, 'short')} | panels`
+    : SITE_TITLE;
+}
+
+const isShowing = ({ ep, date }) => (state.strip
+  ? state.strip.endpoint === ep && state.strip.date === date
+  : state.lastRequest?.ep === ep && state.lastRequest.date === date);
+
+export function showRead() {
+  const linked = linkedStrip();
+  if (!linked || !state.byEp.has(linked.ep)) {
+    renderStage();
+    return;
+  }
+  if (isShowing(linked)) syncUrl();
+  else read(linked.ep, linked.date);
+}
+
+const picks = new Set();
+
+function syncStartButton() {
+  const btn = $('#startBtn');
+  const n = picks.size;
+  btn.disabled = !n;
+  btn.textContent = n ? `Start with ${n === 1 ? '1 comic' : `${n} comics`}` : 'Start reading';
+}
+
+export function commitPicks() {
+  picks.forEach(addComic);
+  picks.clear();
+}
+
+function startReading() {
+  if (!picks.size) return;
+  commitPicks();
+  renderStage();
 }
 
 function renderStarters() {
+  picks.clear();
   $('#starters').replaceChildren(...STARTERS.filter((ep) => state.byEp.has(ep)).map((ep) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'starter';
-    b.innerHTML = `${faceHtml(ep)}${esc(comicTitle(ep))}`;
-    b.onclick = () => { addComic(ep); read(ep); };
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = `${faceHtml(ep)}${esc(comicTitle(ep))}<svg class="i starter-check"><use href="#i-check"/></svg>`;
+    b.onclick = () => {
+      if (picks.has(ep)) picks.delete(ep);
+      else picks.add(ep);
+      b.setAttribute('aria-pressed', String(picks.has(ep)));
+      syncStartButton();
+    };
     return b;
   }));
+  $('#startBtn').onclick = startReading;
+  syncStartButton();
 }
 
 export function syncFavButton() {

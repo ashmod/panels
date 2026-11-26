@@ -80,7 +80,7 @@ function fillPost(el, strip) {
   const favBtn = $('[data-fav]', actions);
   favBtn.onclick = () => toggleFav(strip);
   const downloadBtn = $('[data-download]', actions);
-  downloadBtn.hidden = shareSaves;
+  downloadBtn.hidden = shareSaves();
   downloadBtn.onclick = () => downloadStrip(strip);
   const shareBtn = $('[data-share]', actions);
   paintShare(shareBtn);

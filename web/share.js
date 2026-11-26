@@ -1,6 +1,6 @@
 import { imageUrl } from './api.js';
-import { favKey } from './state.js';
-import { $ } from './util.js';
+import { comicTitle, favKey, stripLabel } from './state.js';
+import { $, stripPath } from './util.js';
 
 const EXT = {
   'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif', 'image/webp': 'webp',
@@ -13,11 +13,23 @@ const canShareFiles = Boolean(navigator.canShare?.({ files: [probe] }));
 const canCopyImage = Boolean(navigator.clipboard?.write && window.ClipboardItem
   && (ClipboardItem.supports?.('image/png') ?? true));
 
-const MODE = canShareFiles ? 'share' : canCopyImage ? 'copy' : null;
-const LABEL = { share: 'Share strip', copy: 'Copy strip' };
+const FILE_MODE = canShareFiles ? 'share' : canCopyImage ? 'copy' : null;
+const LINK_MODE = navigator.share ? 'shareLink' : navigator.clipboard?.writeText ? 'copyLink' : null;
+const LABEL = {
+  share: 'Share strip', copy: 'Copy strip', shareLink: 'Share link', copyLink: 'Copy link',
+};
+const coarse = matchMedia('(pointer: coarse)');
+
+let mode = FILE_MODE;
+
+// A public instance can hand out links that preview the strip. Self-hosted copies usually sit on
+// localhost or a home network, where a link means nothing to whoever receives it.
+export function shareLinks() {
+  mode = LINK_MODE;
+}
 
 // Touch share sheets already offer "Save Image", so a separate download button is redundant there.
-export const shareSaves = MODE === 'share' && matchMedia('(pointer: coarse)').matches;
+export const shareSaves = () => mode === 'share' && coarse.matches;
 
 const files = new Map();
 let toastTimer;
@@ -55,13 +67,12 @@ export function stripFile(strip) {
 
 // Safari only lets the share sheet open right after a tap, so the file has to be ready before it.
 export const warmShare = (strip) => {
-  if (MODE === 'share') stripFile(strip);
+  if (mode === 'share') stripFile(strip);
 };
 
 export function paintShare(btn) {
-  btn.hidden = !MODE;
-  if (!MODE) return;
-  btn.setAttribute('aria-label', LABEL[MODE]);
+  btn.hidden = !mode;
+  if (mode) btn.setAttribute('aria-label', LABEL[mode]);
 }
 
 export async function downloadStrip(strip) {
@@ -90,8 +101,30 @@ async function asPng(file) {
   });
 }
 
+async function shareLink(strip) {
+  const url = new URL(stripPath(strip, 'strip'), location.origin).href;
+  if (mode === 'copyLink') {
+    try {
+      await navigator.clipboard.writeText(url);
+      toast('Link copied to the clipboard.');
+    } catch {
+      toast('Couldn\'t copy the link.');
+    }
+    return;
+  }
+  try {
+    await navigator.share({ title: `${comicTitle(strip.endpoint)}, ${stripLabel(strip, 'long')}`, url });
+  } catch (err) {
+    if (err.name !== 'AbortError') toast('Couldn\'t share this strip.');
+  }
+}
+
 export async function shareStrip(strip) {
-  if (MODE === 'copy') {
+  if (mode === 'shareLink' || mode === 'copyLink') {
+    await shareLink(strip);
+    return;
+  }
+  if (mode === 'copy') {
     try {
       // Browsers only take PNG on the clipboard. Passing the promise keeps the click's permission alive.
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': stripFile(strip).then(asPng) })]);

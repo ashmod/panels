@@ -5,6 +5,7 @@ import { clearComics, closeLibrary, feelingLucky, openLibrary, setQuery, toggleF
 import { readLatest, renderCast, shuffle, showBootError, step } from './reader.js';
 import { initRouter, route } from './router.js';
 import { initScroller } from './scroller.js';
+import { paintShare, shareLinks } from './share.js';
 import { persist, state } from './state.js';
 import { closeViewer, initViewer, openViewer, zoomBy } from './viewer.js';
 import { $, $$, currentView, isOpen } from './util.js';
@@ -93,10 +94,16 @@ function bind() {
 async function boot() {
   applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
   bind();
-  const [comics, plates] = await Promise.all([
+  const [comics, plates, meta] = await Promise.all([
     getJson('/api/comics').catch(() => null),
     getJson('/plates.json').catch(() => ({})),
+    // Only the public demo serves /api/meta; anywhere else this fails and sharing stays image-first.
+    getJson('/api/meta').catch(() => null),
   ]);
+  if (meta?.demoMode) {
+    shareLinks();
+    paintShare($('#vShare'));
+  }
   if (!comics) {
     showBootError();
     return;

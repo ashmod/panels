@@ -23,5 +23,20 @@ export function currentView() {
   const path = location.pathname.replace(/\/+$/, '');
   if (path === '/feed') return 'feed';
   if (path === '/favorites') return 'favorites';
+  if (path.startsWith('/strip/')) return 'strip';
   return 'read';
+}
+
+export const SITE_TITLE = 'panels by shehab';
+
+export const stripPath = (s, view = 'read') => `/${view}/${enc(s.endpoint)}/${enc(s.date)}`;
+
+export function linkedStrip() {
+  const m = location.pathname.match(/^\/(?:read|strip)\/([^/]+)\/([^/]+)\/?$/);
+  if (!m) return null;
+  try {
+    return { ep: decodeURIComponent(m[1]), date: decodeURIComponent(m[2]) };
+  } catch {
+    return null;
+  }
 }

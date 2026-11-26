@@ -94,7 +94,10 @@
         <div class="stage-empty" id="stageEmpty" hidden>
           <h1 class="letter">Pick a few comics!</h1>
           <div class="starters" id="starters"></div>
-          <button class="btn btn-primary" type="button" data-action="library">Browse all comics</button>
+          <div class="starter-actions">
+            <button class="btn btn-primary" id="startBtn" type="button" disabled>Start reading</button>
+            <button class="btn" type="button" data-action="library">Browse all comics</button>
+          </div>
         </div>
 
         <div class="stage-head" id="stageHead">
@@ -167,6 +170,35 @@
         <h2 class="letter">Strips you favorite end up here.</h2>
         <p>Press <kbd>F</kbd> or the heart while reading, or import a favorites file.</p>
       </div>
+    </section>
+
+    <section class="wrap view-strip" id="viewStrip" aria-label="Shared strip" hidden>
+      <div class="shared-peek" aria-hidden="true"><img id="sharedPeek" alt="" draggable="false"></div>
+      <article class="shared plate" id="shared">
+        <header class="shared-head">
+          <div>
+            <h1 class="letter" id="sharedTitle"></h1>
+            <p class="strip-sub" id="sharedSub"></p>
+          </div>
+          <time class="shared-date" id="sharedDate"></time>
+        </header>
+        <div class="shared-strip">
+          <img id="sharedImg" alt="" draggable="false" hidden>
+          <div class="dots" id="sharedDots"></div>
+          <div class="shared-status" id="sharedStatus" hidden>
+            <span>This strip didn't load.</span>
+            <small>It may not exist, or its source didn't respond. Try again in a moment.</small>
+          </div>
+        </div>
+        <footer class="shared-foot" id="sharedFoot" hidden>
+          <div class="foot-start">
+            <button class="btn btn-round" id="sharedFav" type="button" aria-pressed="false" aria-label="Add to favorites"><svg class="i"><use href="#i-heart"/></svg></button>
+            <button class="btn btn-round" id="sharedDownload" type="button" aria-label="Download strip"><svg class="i"><use href="#i-download"/></svg></button>
+            <button class="btn btn-round" id="sharedShare" type="button" aria-label="Share strip"><svg class="i"><use href="#i-share"/></svg></button>
+          </div>
+          <button class="btn btn-primary" id="sharedRead" type="button"><span id="sharedReadLabel"></span><svg class="i"><use href="#i-right"/></svg></button>
+        </footer>
+      </article>
     </section>
   </main>
 </div>

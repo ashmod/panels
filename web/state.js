@@ -7,7 +7,6 @@ export const KEYS = {
   theme: 'panels_theme',
 };
 
-const DEFAULT_PICKS = ['garfield', 'peanuts', 'calvinandhobbes', 'pickles', 'xkcd'];
 const NEUTRAL = [222, 0.06];
 
 function readList(key) {
@@ -23,7 +22,7 @@ export const state = {
   comics: [],
   byEp: new Map(),
   plates: {},
-  selected: readList(KEYS.selected) ?? DEFAULT_PICKS,
+  selected: readList(KEYS.selected) ?? [],
   favorites: readList(KEYS.favorites) ?? [],
   strip: null,
   stageEp: null,

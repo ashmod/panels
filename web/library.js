@@ -1,6 +1,6 @@
 import { badgeUrl, fetchRecommendations } from './api.js';
 import { renderFeedFilter, resetFeed } from './feed.js';
-import { renderCast, renderStage } from './reader.js';
+import { commitPicks, renderCast, renderStage } from './reader.js';
 import { comicTitle, faceHtml, paint, persist, plateStyle, state, tagLabel } from './state.js';
 import { $, $$, currentView, esc, isOpen, motion, pick, reduceMotion } from './util.js';
 
@@ -46,6 +46,8 @@ export function openLibrary() {
   lastFocus = document.activeElement;
   document.body.classList.add('library-open');
   $('#app').inert = true;
+  // Picks made on the starter screen carry into the library instead of vanishing when it closes.
+  commitPicks();
   renderChips();
   renderLetters();
   renderTiles();

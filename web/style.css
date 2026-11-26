@@ -159,6 +159,7 @@ svg.i-fill { fill: currentColor; stroke: none; }
   }
   .nav:has([data-view="feed"][aria-current]) { --at: 1; }
   .nav:has([data-view="favorites"][aria-current]) { --at: 2; }
+  .nav:not(:has([aria-current]))::before { opacity: 0; }
   .nav a, .nav a:hover, .nav a[aria-current="page"] {
     width: var(--tab); height: var(--tab); padding: 0; justify-content: center; background: none;
   }
@@ -350,6 +351,18 @@ kbd {
 }
 .starter:hover { background: #fff; }
 .starter .face { width: 44px; height: 44px; }
+.starter-check {
+  width: 0; margin-left: -8px; opacity: 0;
+  transition: width 0.2s var(--ease-out), margin-left 0.2s var(--ease-out), opacity 0.2s;
+}
+.starter[aria-pressed="true"] { background: #000; color: #fff; }
+.starter[aria-pressed="true"]:hover { background: #262626; }
+.starter[aria-pressed="true"] .starter-check { width: 18px; margin-left: 0; opacity: 1; }
+.starter-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.starter-actions .btn-primary:disabled { background: #000; }
+/* The picker can outgrow the reader's fixed height; clip (not hidden) keeps the sticky start button working. */
+.view-read:has(#stageEmpty:not([hidden])) { height: auto; min-height: calc(100dvh - var(--bar-h)); }
+.stage:has(#stageEmpty:not([hidden])) { overflow: clip; }
 
 /* shared list views */
 
@@ -588,6 +601,35 @@ kbd {
 .sheet-foot span { color: var(--ink-soft); font-weight: 600; }
 .sheet-foot .btn-primary { margin-left: auto; padding: 0 28px; }
 
+/* shared strip */
+
+.view-strip { --w: calc(1000px + 2 * var(--gutter)); padding-block: 12px 80px; }
+.shared-peek {
+  width: var(--cast-w); height: calc(var(--cast-w) * 0.9); overflow: hidden;
+  margin-left: clamp(20px, 3.4vw, 44px);
+}
+.shared-peek img { display: block; width: 100%; margin-top: 6px; }
+[data-theme="dark"] .shared-peek img {
+  filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 -1.5px 0 #fff);
+}
+.shared {
+  display: flex; flex-direction: column; gap: clamp(16px, 2.4vw, 26px);
+  padding: clamp(20px, 3vw, 34px) clamp(20px, 3.4vw, 44px) clamp(18px, 2.4vw, 28px);
+}
+.shared-head { display: flex; align-items: flex-start; gap: 8px 24px; flex-wrap: wrap; }
+.shared-head .letter { font-size: var(--step-4); }
+.shared-date { margin-left: auto; padding-top: 8px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.shared-strip { display: grid; place-items: center; min-height: 120px; }
+.shared-strip img { display: block; max-width: 100%; max-height: 72vh; cursor: zoom-in; background: #fff; }
+.shared-strip .dots { width: 100%; aspect-ratio: 3.2 / 1; }
+.shared-status {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 32px 0; text-align: center;
+  font-family: var(--font-letter); font-size: var(--step-1); font-weight: 600;
+  font-variation-settings: "INFM" 50, "BNCE" 15;
+}
+.shared-status small { font: 400 var(--step-0)/1.5 var(--font-ui); color: var(--plate-ink-soft); }
+.shared-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
 /* viewer */
 
 .viewer {
@@ -688,6 +730,25 @@ kbd {
   .post-head { gap: 10px; }
   .post-actions { gap: 0; margin-right: -8px; }
   .post-actions .btn-round { width: 36px; }
+  .starters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .starter {
+    position: relative; min-width: 0; height: auto; min-height: 48px;
+    padding: 4px 8px 4px 3px; border-radius: 26px; gap: 6px;
+    font-size: 0.8125rem; line-height: 1.15; text-align: left;
+  }
+  .starter .face { width: 38px; height: 38px; }
+  .starter-check, .starter[aria-pressed="true"] .starter-check {
+    position: absolute; left: 27px; bottom: 3px; width: 18px; height: 18px; margin: 0; padding: 3px;
+    border-radius: 50%; background: #000; color: #fff; stroke-width: 3; box-shadow: 0 0 0 1.5px #fff;
+  }
+  .starter-actions {
+    position: sticky; bottom: 0; z-index: 1; width: 100%;
+    margin-block: -12px calc(clamp(18px, 2.4vw, 28px) * -1); padding-block: 12px max(16px, env(safe-area-inset-bottom));
+    background: oklch(var(--plate-l) min(var(--c), var(--plate-cmax)) var(--h));
+  }
+  .shared-head .letter { font-size: var(--step-3); }
+  .shared-date { margin-left: 0; padding-top: 0; }
+  #sharedRead { flex: 1 0 100%; }
   .list-tools { margin-left: 0; }
 }
 
