@@ -18,11 +18,13 @@ const MIN_REQUEST_INTERVAL: Duration = Duration::from_secs(1);
 static STATE: Mutex<State> = Mutex::const_new(State {
     helper: None,
     last_request: None,
+    in_flight: false,
 });
 
 struct State {
     helper: Option<Helper>,
     last_request: Option<Instant>,
+    in_flight: bool,
 }
 
 struct Helper {
@@ -88,12 +90,20 @@ pub async fn fetch_page(url: &str) -> Result<PageFetch> {
     if let Some(last) = state.last_request {
         tokio::time::sleep_until(last + MIN_REQUEST_INTERVAL).await;
     }
+    // A caller dropped mid-request (client gone, or an outer timeout) leaves its reply unread in
+    // the pipe, where the next request would read it as its own, so start from a fresh helper.
+    if state.in_flight {
+        warn!("previous GoComics browser request was abandoned, restarting the helper");
+        state.helper = None;
+        state.in_flight = false;
+    }
     if state.helper.is_none() {
         state.helper = Some(Helper::spawn()?);
     }
+    state.in_flight = true;
     let helper = state.helper.as_mut().expect("helper was just started");
-
     let result = timeout(REQUEST_TIMEOUT, helper.request(url)).await;
+    state.in_flight = false;
     state.last_request = Some(Instant::now());
     let line = match result {
         Ok(Ok(line)) => line,
