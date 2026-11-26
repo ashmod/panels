@@ -1,5 +1,6 @@
 import { imageUrl } from './api.js';
 import { toggleFav } from './favorites.js';
+import { downloadStrip, paintShare, shareStrip, warmShare } from './share.js';
 import { comicTitle, favKey, isFav, paintFav, state } from './state.js';
 import { $, formatDate, isOpen } from './util.js';
 
@@ -56,6 +57,7 @@ export function openViewer(strip = state.strip) {
   img.src = imageUrl(strip);
   resetZoom();
   syncFav();
+  warmShare(strip);
   $('#viewer').hidden = false;
   $('#app').inert = true;
   $('#viewer').focus();
@@ -193,6 +195,9 @@ export function initViewer() {
     toggleFav(view.strip);
     syncFav();
   };
+  $('#vDownload').onclick = () => downloadStrip(view.strip);
+  paintShare($('#vShare'));
+  $('#vShare').onclick = () => shareStrip(view.strip);
   $('#viewerStage').addEventListener('click', (e) => {
     if (!wrap.contains(e.target)) closeViewer();
   });

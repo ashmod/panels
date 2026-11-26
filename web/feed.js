@@ -2,6 +2,9 @@ import { fetchRandom, imageUrl } from './api.js';
 import { toggleFav } from './favorites.js';
 import { read } from './reader.js';
 import { navigate } from './router.js';
+import {
+  downloadStrip, paintShare, shareSaves, shareStrip, warmShare,
+} from './share.js';
 import { comicTitle, faceHtml, favKey, isFav, paintFav, state, stripLabel } from './state.js';
 import { openViewer } from './viewer.js';
 import { $, currentView, esc, formatDate } from './util.js';
@@ -71,9 +74,18 @@ function fillPost(el, strip) {
   const actions = $('.post-actions', el);
   actions.innerHTML = `
     <button class="btn btn-round" type="button" data-fav="${esc(favKey(strip))}"><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="btn btn-round" type="button" data-download aria-label="Download strip"><svg class="i"><use href="#i-download"/></svg></button>
+    <button class="btn btn-round" type="button" data-share><svg class="i"><use href="#i-share"/></svg></button>
     <button class="btn btn-round" type="button" data-read aria-label="Open in the reader"><svg class="i"><use href="#i-right"/></svg></button>`;
   const favBtn = $('[data-fav]', actions);
   favBtn.onclick = () => toggleFav(strip);
+  const downloadBtn = $('[data-download]', actions);
+  downloadBtn.hidden = shareSaves;
+  downloadBtn.onclick = () => downloadStrip(strip);
+  const shareBtn = $('[data-share]', actions);
+  paintShare(shareBtn);
+  shareBtn.onpointerdown = () => warmShare(strip);
+  shareBtn.onclick = () => shareStrip(strip);
   $('[data-read]', actions).onclick = () => {
     navigate('/');
     read(strip.endpoint, strip.date);

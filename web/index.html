@@ -55,6 +55,7 @@
   <symbol id="i-latest" viewBox="0 0 24 24"><path d="M6 5l7 7-7 7M17 5v14"/></symbol>
   <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.1" fill="currentColor"/><circle cx="15" cy="15" r="1.1" fill="currentColor"/><circle cx="15" cy="9" r="1.1" fill="currentColor"/><circle cx="9" cy="15" r="1.1" fill="currentColor"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="17.5" cy="5.5" r="2.75"/><circle cx="6.5" cy="12" r="2.75"/><circle cx="17.5" cy="18.5" r="2.75"/><path d="M8.9 10.6l6.2-3.7M8.9 13.4l6.2 3.7"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19h14"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></symbol>
@@ -232,7 +233,10 @@
     <button class="icon-btn" id="vReset" type="button" aria-label="Reset zoom"><svg class="i"><use href="#i-reset"/></svg></button>
     <span class="viewer-sep" aria-hidden="true"></span>
     <button class="icon-btn" id="vFav" type="button" aria-pressed="false" aria-label="Add to favorites"><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="icon-btn" id="vDownload" type="button" aria-label="Download strip"><svg class="i"><use href="#i-download"/></svg></button>
+    <button class="icon-btn" id="vShare" type="button" aria-label="Share strip"><svg class="i"><use href="#i-share"/></svg></button>
   </div>
 </div>
+<p class="toast" id="toast" role="status"></p>
 </body>
 </html>

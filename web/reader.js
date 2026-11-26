@@ -217,10 +217,22 @@ export function renderCast() {
   markCast();
 }
 
+// scrollIntoView would also scroll the cast vertically while a new member is still sliding up from
+// below, leaving every figure lifted, so only the horizontal position is adjusted.
+function revealInCast(b) {
+  const cast = $('#cast');
+  const start = b.offsetLeft;
+  const end = start + b.offsetWidth;
+  let left = cast.scrollLeft;
+  if (start < left) left = start;
+  else if (end > left + cast.clientWidth) left = end - cast.clientWidth;
+  if (left !== cast.scrollLeft) cast.scrollTo({ left, behavior: motion() });
+}
+
 function markCast() {
   $$('.cast-member[data-ep]').forEach((b) => {
     if (b.dataset.ep !== state.stageEp) return b.removeAttribute('aria-current');
     b.setAttribute('aria-current', 'true');
-    b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: motion() });
+    revealInCast(b);
   });
 }
