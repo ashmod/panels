@@ -663,6 +663,14 @@ kbd {
   box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08), 0 18px 50px rgb(0 0 0 / 0.22);
 }
 .viewer img.dragging { transition: none; }
+@media (hover: none) and (pointer: coarse) {
+  .viewer {
+    background: color-mix(in oklab, var(--board) 94%, transparent);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .viewer img { box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08); }
+}
 .viewer-close {
   position: absolute; top: max(14px, env(safe-area-inset-top)); right: 14px; z-index: 2;
   border-radius: 999px; background: #000; color: #fff;
